@@ -1,0 +1,9 @@
+superuser:
+username: superuser
+password: 123456
+email: yoan_ivanov1@abv.bg
+
+1. Install Python
+2. Create a virtual environment
+3. pip install django
+4. pip install Pillow
