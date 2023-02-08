@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+
+{% block title %}Вход{% endblock %}
+
+{% block content %}
+{% if page == 'login' %}
+<div class="container-fluid d-flex justify-content-center mt-5">
+    <div class="d-grid bg-sec rounded">
+        <div>
+            <h2 class="text-center text-font">Вход</h2>
+            <form class="form-control text-left bg-sec border-sec" method="POST" action="">
+                {% csrf_token %}
+
+                <div class="form_group">
+                    <label class="text-font mb-1">Потребителско име:</label>
+                    <br>
+                    <input class="form-control bg-bg" name="username" type="username" />
+                </div>
+                <br>
+                <div class="form_group">
+                    <label class="text-font mb-1">Парола:</label>
+                    <br>
+                    <input class="form-control bg-bg" name="password" type="password" />
+                </div>
+
+                <div class="text-center my-3">
+                    <button class="btn btn-font" type="submit">Вход</button>
+                </div>
+            </form>
+        </div>
+
+        <div class="text-center bg-main mt-3 py-0 rounded-bottom">
+            <small class="text-font mb-0">Нямате профил?</small>
+            <br>
+            <a class="text-decoration-none text-font link-bg" href="{% url 'register' %}">Регистрирайте се</a>
+        </div>
+    </div>
+</div>
+
+{% else %}
+<div class="container-fluid d-flex justify-content-center my-5">
+    <div class="d-grid bg-sec rounded">
+        <h2 class="text-center text-font">Регистрация</h2>
+        <form class="form-control text-left bg-sec border-sec" method="POST" action="">
+            {% csrf_token %}
+
+            {% for field in form %}
+            <div class="form_group mb-1">
+                <label class="text-font mb-1">{{field.label}}</label>
+                {{field}}
+            </div>
+            {% endfor %}
+
+            <div class="text-center my-3">
+                <button class="btn btn-font text-font" type="submit">Регистрация</button>
+            </div>
+        </form>
+
+        <div class="text-center bg-main mt-3 py-0 rounded-bottom">
+            <small class="text-font mb-0">Вече имате профил?</small>
+            <br>
+            <a class="text-decoration-none text-font link-bg" href="{% url 'login' %}">Вход</a>
+        </div>
+    </div>
+</div>
+{% endif %}
+</main>
+{% endblock %}

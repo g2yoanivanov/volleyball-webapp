@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block title %}Начало-VolleyballApp{% endblock %}
+
+{% block content %}
+<header class="text-font text-center mt-5">
+    <h1>Билети за всички волейболни мачове</h1>
+    <h2>на едно място</h2>
+    <div class="col col-md-6 mx-auto">
+        <div class="w-75 text-center m-auto">
+            <form class="input-group mb-3" method="GET" action="">
+                <input type="text" autocomplete="off" name="q" class="form-control"
+                    placeholder="Въведете турнир, мач, име на играч и др.">
+                <div class="input-group-append">
+                    <button class="btn btn-main rounded-right" type="submit">Търси</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</header>
+<main>
+    
+</main>
+{% endblock %}

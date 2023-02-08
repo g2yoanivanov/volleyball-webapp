@@ -1,0 +1,203 @@
+{% extends 'base.html' %}
+
+{% block title %}Админстрация | VolleyballApp {% endblock %}
+
+{% block content %}
+<main class="container-fluid text-font w-75 mt-5 h-100">
+    <section class="row border-main rounded bg-sec my-5 align-items-center justify-content-center d-flex">
+        <h3 class="text-center mt-3 mb-0">Администрация</h3>
+        <h5 class="h6 text-center mb-5">Служител: {{request.user}}</h5>
+        <!--Users-->
+        {% if request.user.is_superuser %}
+        <article class="row d-flex align-items-center text-center">
+            <hr class="mt-0 mb-2" style="color: var(--main-color)">
+            <div class="col-8 d-flex align-items-center justify-content-start text-center">
+                <span>Потребители</span>
+            </div>
+            <div class="col-2 d-flex align-items-center justify-content-end">
+                <a class="text-decoration-none text-font link-bg" href="{% url 'register' %}">
+                    <span>Добави</span>
+                </a>
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" class="" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd"
+                        d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2Z" />
+                </svg>
+
+            </div>
+            <div class="col-2 d-flex align-items-center justify-content-start">
+                <span>Виж всички</span>
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="mx-1"
+                    viewBox="0 0 16 16">
+                    <path
+                        d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8zM1.173 8a13.133 13.133 0 0 1 1.66-2.043C4.12 4.668 5.88 3.5 8 3.5c2.12 0 3.879 1.168 5.168 2.457A13.133 13.133 0 0 1 14.828 8c-.058.087-.122.183-.195.288-.335.48-.83 1.12-1.465 1.755C11.879 11.332 10.119 12.5 8 12.5c-2.12 0-3.879-1.168-5.168-2.457A13.134 13.134 0 0 1 1.172 8z" />
+                    <path d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5zM4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0z" />
+                </svg>
+            </div>
+            <hr class="mt-2 mb-0" style="color: var(--main-color)">
+        </article>
+        {% endif %}
+
+        <!--Tournaments-->
+        <article class="row d-flex align-items-center text-center">
+            <hr class="mt-0 mb-2" style="color: var(--main-color)">
+            <div class="col-8 d-flex align-items-center justify-content-start text-center">
+                <span>Турнири</span>
+            </div>
+            <div class="col-2 d-flex align-items-center justify-content-end">
+                <a class="text-decoration-none text-font link-bg" href="{% url 'create-tournament' %}">
+                    <span>Добави</span>
+                </a>
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" class="" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd"
+                        d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2Z" />
+                </svg>
+            </div>
+            <div class="col-2 d-flex align-items-center justify-content-start">
+                <span>Виж всички</span>
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="mx-1"
+                    viewBox="0 0 16 16">
+                    <path
+                        d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8zM1.173 8a13.133 13.133 0 0 1 1.66-2.043C4.12 4.668 5.88 3.5 8 3.5c2.12 0 3.879 1.168 5.168 2.457A13.133 13.133 0 0 1 14.828 8c-.058.087-.122.183-.195.288-.335.48-.83 1.12-1.465 1.755C11.879 11.332 10.119 12.5 8 12.5c-2.12 0-3.879-1.168-5.168-2.457A13.134 13.134 0 0 1 1.172 8z" />
+                    <path d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5zM4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0z" />
+                </svg>
+            </div>
+            <hr class="mt-2 mb-0" style="color: var(--main-color)">
+        </article>
+
+        <!--Matches-->
+        <article class="row d-flex align-items-center text-center">
+            <hr class="mt-0 mb-2" style="color: var(--main-color)">
+            <div class="col-8 d-flex align-items-center justify-content-start text-center">
+                <span>Мачове</span>
+            </div>
+            <div class="col-2 d-flex align-items-center justify-content-end">
+                <a class="text-decoration-none text-font link-bg" href="{% url 'create-fixture' %}">
+                    <span>Добави</span>
+                </a>
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" class="" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd"
+                        d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2Z" />
+                </svg>
+            </div>
+            <div class="col-2 d-flex align-items-center justify-content-start">
+                <span>Виж всички</span>
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="mx-1"
+                    viewBox="0 0 16 16">
+                    <path
+                        d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8zM1.173 8a13.133 13.133 0 0 1 1.66-2.043C4.12 4.668 5.88 3.5 8 3.5c2.12 0 3.879 1.168 5.168 2.457A13.133 13.133 0 0 1 14.828 8c-.058.087-.122.183-.195.288-.335.48-.83 1.12-1.465 1.755C11.879 11.332 10.119 12.5 8 12.5c-2.12 0-3.879-1.168-5.168-2.457A13.134 13.134 0 0 1 1.172 8z" />
+                    <path d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5zM4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0z" />
+                </svg>
+            </div>
+            <hr class="mt-2 mb-0" style="color: var(--main-color)">
+        </article>
+
+        <!--Players-->
+        <article class="row d-flex align-items-center text-center">
+            <hr class="mt-0 mb-2" style="color: var(--main-color)">
+            <div class="col-8 d-flex align-items-center justify-content-start text-center">
+                <span>Играчи</span>
+            </div>
+            <div class="col-2 d-flex align-items-center justify-content-end">
+                <a class="text-decoration-none text-font link-bg" href="{% url 'create-player' %}">
+                    <span>Добави</span>
+                </a>
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" class="" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd"
+                        d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2Z" />
+                </svg>
+            </div>
+            <div class="col-2 d-flex align-items-center justify-content-start">
+                <span>Виж всички</span>
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="mx-1"
+                    viewBox="0 0 16 16">
+                    <path
+                        d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8zM1.173 8a13.133 13.133 0 0 1 1.66-2.043C4.12 4.668 5.88 3.5 8 3.5c2.12 0 3.879 1.168 5.168 2.457A13.133 13.133 0 0 1 14.828 8c-.058.087-.122.183-.195.288-.335.48-.83 1.12-1.465 1.755C11.879 11.332 10.119 12.5 8 12.5c-2.12 0-3.879-1.168-5.168-2.457A13.134 13.134 0 0 1 1.172 8z" />
+                    <path d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5zM4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0z" />
+                </svg>
+            </div>
+            <hr class="mt-2 mb-0" style="color: var(--main-color)">
+        </article>
+
+        <!--Teams-->
+        <article class="row d-flex align-items-center text-center">
+            <hr class="mt-0 mb-2" style="color: var(--main-color)">
+            <div class="col-8 d-flex align-items-center justify-content-start text-center">
+                <span>Отбори</span>
+            </div>
+            <div class="col-2 d-flex align-items-center justify-content-end">
+                <a class="text-decoration-none text-font link-bg" href="{% url 'create-team' %}">
+                    <span>Добави</span>
+                </a>
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" class="" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd"
+                        d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2Z" />
+                </svg>
+            </div>
+            <div class="col-2 d-flex align-items-center justify-content-start">
+                <span>Виж всички</span>
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="mx-1"
+                    viewBox="0 0 16 16">
+                    <path
+                        d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8zM1.173 8a13.133 13.133 0 0 1 1.66-2.043C4.12 4.668 5.88 3.5 8 3.5c2.12 0 3.879 1.168 5.168 2.457A13.133 13.133 0 0 1 14.828 8c-.058.087-.122.183-.195.288-.335.48-.83 1.12-1.465 1.755C11.879 11.332 10.119 12.5 8 12.5c-2.12 0-3.879-1.168-5.168-2.457A13.134 13.134 0 0 1 1.172 8z" />
+                    <path d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5zM4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0z" />
+                </svg>
+            </div>
+            <hr class="mt-2 mb-0" style="color: var(--main-color)">
+        </article>
+
+        <!--Halls-->
+        <article class="row d-flex align-items-center text-center">
+            <hr class="mt-0 mb-2" style="color: var(--main-color)">
+            <div class="col-8 d-flex align-items-center justify-content-start text-center">
+                <span>Зали</span>
+            </div>
+            <div class="col-2 d-flex align-items-center justify-content-end">
+                <a class="text-decoration-none text-font link-bg" href="{% url 'create-hall' %}">
+                    <span>Добави</span>
+                </a>
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" class="" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd"
+                        d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2Z" />
+                </svg>
+            </div>
+            <div class="col-2 d-flex align-items-center justify-content-start">
+                <span>Виж всички</span>
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="mx-1"
+                    viewBox="0 0 16 16">
+                    <path
+                        d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8zM1.173 8a13.133 13.133 0 0 1 1.66-2.043C4.12 4.668 5.88 3.5 8 3.5c2.12 0 3.879 1.168 5.168 2.457A13.133 13.133 0 0 1 14.828 8c-.058.087-.122.183-.195.288-.335.48-.83 1.12-1.465 1.755C11.879 11.332 10.119 12.5 8 12.5c-2.12 0-3.879-1.168-5.168-2.457A13.134 13.134 0 0 1 1.172 8z" />
+                    <path d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5zM4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0z" />
+                </svg>
+            </div>
+            <hr class="mt-2 mb-0" style="color: var(--main-color)">
+        </article>
+
+        <!--Referees-->
+        <article class="row d-flex align-items-center text-center">
+            <hr class="mt-0 mb-2" style="color: var(--main-color)">
+            <div class="col-8 d-flex align-items-center justify-content-start text-center">
+                <span>Съдии</span>
+            </div>
+            <div class="col-2 d-flex align-items-center justify-content-end">
+                <a class="text-decoration-none text-font link-bg" href="{% url 'create-referee' %}">
+                    <span>Добави</span>
+                </a>
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" class="" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd"
+                        d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2Z" />
+                </svg>
+            </div>
+            <div class="col-2 d-flex align-items-center justify-content-start">
+                <span>Виж всички</span>
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="mx-1"
+                    viewBox="0 0 16 16">
+                    <path
+                        d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8zM1.173 8a13.133 13.133 0 0 1 1.66-2.043C4.12 4.668 5.88 3.5 8 3.5c2.12 0 3.879 1.168 5.168 2.457A13.133 13.133 0 0 1 14.828 8c-.058.087-.122.183-.195.288-.335.48-.83 1.12-1.465 1.755C11.879 11.332 10.119 12.5 8 12.5c-2.12 0-3.879-1.168-5.168-2.457A13.134 13.134 0 0 1 1.172 8z" />
+                    <path d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5zM4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0z" />
+                </svg>
+            </div>
+            <hr class="mt-2 mb-0" style="color: var(--main-color)">
+        </article>
+    </section>
+</main>
+{% endblock %}

@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    {{web_title}}
+{% endblock %}
+
+{% block content %}
+
+<main>
+    <div class="container-fluid d-flex justify-content-center mt-5">
+        <div class="d-grid bg-sec rounded">
+            <div>
+                {% if title == 'create'%}
+                <h2 class="text-center text-font">Създаване</h2>
+                {% else %}
+                <h2 class="text-center text-font">Редактиране</h2>
+                {% endif %}
+                <form class="form-control text-left bg-sec border-sec" method="POST" action="" enctype="multipart/form-data">
+                    {% csrf_token %}
+
+                    {% for field in form %}
+                    <div class="d-grid my-4 h-75 form-group">
+                        <label for="">{{field.label}}</label>
+                        {{field}}
+                    </div>
+                    {% endfor %}
+
+                    <a class="btn btn-main" href="{{request.META.HTTP_REFERER}}">Отказ</a>
+                    {% if title == 'create' %}
+                    <button class="btn btn-font" type="submit">Създай</button>
+                    {% else %}
+                    <button class="btn btn-font" type="submit">Редактирай</button>
+                    {% endif %}
+                </form>
+            </div>
+        </div>
+    </div>
+</main>
+{% endblock %}

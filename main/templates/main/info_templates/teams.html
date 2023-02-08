@@ -1,0 +1,147 @@
+{% extends 'base.html' %}
+
+{% block title %}Отбори-VolleyballApp{% endblock %}
+
+{% block content %}
+<header class="text-font text-center mt-5">
+    <h1>Отбори</h1>
+    <div class="col col-md-6 mx-auto">
+        <div class="w-75 text-center m-auto">
+            <form class=" mb-3" method="GET" action="">
+                <div class="input-group">
+                    <input type="text" autocomplete="off" name="q" class="form-control"
+                        placeholder="Въведете име на отбор">
+                    <div class="input-group-append">
+                        <button class="btn btn-main rounded-right" type="submit">Търси</button>
+                    </div>
+                </div>
+
+                <div class="row d-none d-lg-flex mt-3">
+                    <div class="col-6 d-flex align-items-center justify-content-end">
+                        <span class="">Подреди по:</span>
+                        <select class="form-control form-control-sm w-50 h-50" name="sort_by"
+                            onchange="this.form.submit()">
+                            <option value="name" {% if request.GET.sort_by == "name" %}selected{% endif %}>
+                                Азбучен ред
+                            </option>
+                            <option value="newest" {% if request.GET.sort_by == "newest" %}selected{% endif %}>
+                                Най-нови
+                            </option>
+                            <option value="oldest" {% if request.GET.sort_by == "oldest" %}selected{% endif %}>
+                                Най-стари
+                            </option>
+                            <option value="location" {% if request.GET.sort_by == "location" %}selected{% endif %}>
+                                Локация
+                            </option>
+                        </select>
+                    </div>
+                    <div class="col-6 d-flex align-items-center">
+                        <span class="">Покажи по:</span>
+                        <select class="form-control form-control-sm w-50 h-50" name="show"
+                            onchange="this.form.submit()">
+                            <option value="18" {% if request.GET.show == "18" %}selected{% endif %}>18 на страница
+                            </option>
+                            <option value="30" {% if request.GET.show == "30" %}selected{% endif %}>30 на страница
+                            </option>
+                            <option value="60" {% if request.GET.show == "60" %}selected{% endif %}>60 на страница
+                            </option>
+                        </select>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    {% if request.user.is_staff %}
+    <a class="btn btn-main text-decoration-none link-main" href="{% url 'create-team' %}">Добави</a>
+    {% endif %}
+</header>
+<main class="container-fluid text-font w-75 mt-5 h-100">
+    <div class="row d-flex">
+        {% for team in teams %}
+        <div class="col-sm-12 col-md-6 col-lg-4 my-2">
+            <div class="card bg-main text-center">
+                <img class="card-img-top bg-sec" width="150px" height="350px" src="{{team.picture.url}}" alt="Отбор" />
+                <hr class="m-0">
+                <div class="card-body position-relative">
+                    <h5 class="card-title">
+                        {{team.name}}</a>
+                    </h5>
+                    <small>Треньор:</small>
+                    <small>{{team.coach}}</small>
+
+                    <div>
+                        <a class="btn btn-font mt-3 text-decoration-none text-font link-font"
+                            href="{% url 'team_info' team.id %}">Детайли</a>
+                    </div>
+
+                    {% if request.user.is_staff %}
+                    <a href="{% url 'edit-team' team.id %}">
+                        <div class="position-absolute top-0 pt-1 px-1 start-0">
+                            <svg enable-background="new 0 0 24 24" height="23" viewBox="0 0 23 23" width="23"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <title>edit</title>
+                                <g>
+                                    <path
+                                        d="m23.5 22h-15c-.276 0-.5-.224-.5-.5s.224-.5.5-.5h15c.276 0 .5.224.5.5s-.224.5-.5.5z" />
+                                </g>
+                                <g>
+                                    <g>
+                                        <path
+                                            d="m2.5 22c-.131 0-.259-.052-.354-.146-.123-.123-.173-.3-.133-.468l1.09-4.625c.021-.09.067-.173.133-.239l14.143-14.143c.565-.566 1.554-.566 2.121 0l2.121 2.121c.283.283.439.66.439 1.061s-.156.778-.439 1.061l-14.142 14.141c-.065.066-.148.112-.239.133l-4.625 1.09c-.038.01-.077.014-.115.014zm1.544-4.873-.872 3.7 3.7-.872 14.042-14.041c.095-.095.146-.22.146-.354 0-.133-.052-.259-.146-.354l-2.121-2.121c-.19-.189-.518-.189-.707 0zm3.081 3.283h.01z" />
+                                    </g>
+                                    <g>
+                                        <path
+                                            d="m17.889 10.146c-.128 0-.256-.049-.354-.146l-3.535-3.536c-.195-.195-.195-.512 0-.707s.512-.195.707 0l3.536 3.536c.195.195.195.512 0 .707-.098.098-.226.146-.354.146z" />
+                                    </g>
+                                </g>
+                            </svg>
+                        </div>
+                    </a>
+
+                    <a href="{% url 'delete-team' team.id %}">
+                        <div class="text-right position-absolute top-0 end-0 pt-1 px-1">
+                            <svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="25" height="25"
+                                viewBox="0 0 32 32">
+                                <title>remove</title>
+                                <path
+                                    d="M27.314 6.019l-1.333-1.333-9.98 9.981-9.981-9.981-1.333 1.333 9.981 9.981-9.981 9.98 1.333 1.333 9.981-9.98 9.98 9.98 1.333-1.333-9.98-9.98 9.98-9.981z">
+                                </path>
+                            </svg>
+                        </div>
+                    </a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+    <!--Paginator-->
+    <div class="text-center my-3">
+        {% if teams.has_previous %}
+        <a class="text-decoration-none link-main text-font"
+            href="?page=1&sort_by={{ request.GET.sort_by }}&show={{ request.GET.show }}">
+            <small>&laquo;</small>
+        </a>
+        <a class="text-decoration-none link-main text-font"
+            href="?page={{teams.previous_page_number}}&sort_by={{ request.GET.sort_by }}&show={{ request.GET.show }}">
+            <small>{{teams.previous_page_number}}</small>
+        </a>
+        {% endif %}
+
+        <small class="text-main">{{teams.number}}</small>
+
+        {% if teams.has_next %}
+        <a class="text-decoration-none link-main text-font"
+            href="?page={{teams.next_page_number}}&sort_by={{ request.GET.sort_by }}&show={{ request.GET.show }}">
+            <small>{{teams.next_page_number}}</small>
+        </a>
+        <a class="text-decoration-none link-main text-font"
+            href="?page={{teams.paginator.num_pages}}&sort_by={{ request.GET.sort_by }}&show={{ request.GET.show }}">
+            <small>&raquo;</small>
+        </a>
+        {% endif %}
+    </div>
+</main>
+{% endblock %}

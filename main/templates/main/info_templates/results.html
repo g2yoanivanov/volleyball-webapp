@@ -1,0 +1,116 @@
+{% extends 'base.html' %}
+
+{% block title %}Мачове-VolleyballApp{% endblock %}
+
+{% block content %}
+<header class="text-font text-center mt-5">
+    <h1>Резултати</h1>
+    <div class="col col-md-6 mx-auto">
+        <div class="w-75 text-center m-auto">
+            <form class="mb-3" method="GET" action="">
+                <div class="input-group">
+                    <input type="text" autocomplete="off" name="q" class="form-control" placeholder="Въведете име на отбор или турнир">
+                    <div class="input-group-append">
+                        <button class="btn btn-main rounded-right" type="submit">Търси</button>
+                    </div>
+                </div>
+
+                <div class="row d-none d-lg-flex mt-3">
+                    <div class="col-6 d-flex align-items-center justify-content-end">
+                        <span class="">Подреди по:</span>
+                        <select class="form-control form-control-sm w-50 h-50" name="sort_by" onchange="this.form.submit()">
+                            <option value="newest" {% if request.GET.sort_by == "newest" %}selected{% endif %}>
+                                Най-нови
+                            </option>
+                            <option value="oldest" {% if request.GET.sort_by == "oldest" %}selected{% endif %}>
+                                Най-стари
+                            </option>
+                        </select>
+                    </div>
+                    <div class="col-6 d-flex align-items-center">
+                        <span class="">Покажи по:</span>
+                        <select class="form-control form-control-sm w-50 h-50" name="show" onchange="this.form.submit()">
+                            <option value="18" {% if request.GET.show == "18" %}selected{% endif %}>18 на страница</option>
+                            <option value="30" {% if request.GET.show == "30" %}selected{% endif %}>30 на страница</option>
+                            <option value="60" {% if request.GET.show == "60" %}selected{% endif %}>60 на страница</option>
+                        </select>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</header>
+<main class="container-fluid w-75 mt-5 h-100">
+    {% for match in matches %}
+    {% if now > match.date %}
+    <a href="{% url 'match-info' match.id %}" class="text-decoration-none text-font link-font">
+        <section class="row bg-sec my-3 rounded border-main p-1 d-none d-lg-flex d-xl-flex">
+            <div class="col-lg-6 d-flex align-items-center justify-content-center text-center">
+                <div class="d-flex align-items-center justify-content-center text-center">
+                    <span>{{match.team1.name}}</span>
+                    <img src="{{match.team1.picture.url}}" width="50px" height="50px">
+                </div>
+                <div class="mx-3 text-center d-flex align-items-center justify-content-center">
+                    {{match.date|date:"d.m.y"}}
+                </div>
+                <div class="d-flex align-items-center justify-content-center text-center">
+                    <img src="{{match.team2.picture.url}}" width="50px" height="50px">
+                    <span>{{match.team2.name}}</span>
+                </div>
+            </div>
+            <div class="col-lg-4 d-flex align-items-center justify-content-center text-center">
+                {{match.tournament.name}}, {{match.tournament.hall.name}}
+            </div>
+            <div class="col-lg-2 d-flex align-items-center justify-content-center text-center">
+                {{match.team1_points}} - {{match.team2_points}}
+            </div>
+        </section>
+    </a>
+
+    <section class="row bg-sec my-3 rounded border-main p-1 d-lg-none d-xl-none justify-content-around">
+        <div class="row">
+            <div class="col-6 rounded text-center">
+                <span class="text-truncate" title="{{match.team1.name}}">{{match.team1.name}}</span>
+                <img class="card-img-top img-fluid" src="{{match.team1.picture.url}}">
+            </div>
+            <div class="col-6 rounded text-center">
+                <span class="text-truncate" title="{{match.team2.name}}">{{match.team2.name}}</span>
+                <img class="card-img-top img-fluid" src="{{match.team2.picture.url}}">
+            </div>
+        </div>
+        <div class="card-body text-center mt-1">
+            <p class="card-text mb-0">Дата: {{match.date|date:"d.m.y (H:i)"}}</p>
+            <p class="card-text mb-0">Турнир: {{match.tournament.name}}</p>
+            <p class="card-text mb-2">Резултат: {{match.team1_points}} - {{match.team2_points}}</p>
+            <div>
+                <a href="{% url 'match-info' match.id %}" class="btn btn-font">Детайли</a>   
+            </div>
+        </div>
+    </section>
+    {% endif %}
+    {% endfor %}
+
+    <!--Paginator-->
+    <div class="text-center my-3">
+        {% if matches.has_previous %}
+        <a class="text-decoration-none link-main text-font" href="?page=1&sort_by={{ request.GET.sort_by }}&show={{ request.GET.show }}">
+            <small>&laquo;</small>
+        </a>
+        <a class="text-decoration-none link-main text-font" href="?page={{matches.previous_page_number}}&sort_by={{ request.GET.sort_by }}&show={{ request.GET.show }}">
+            <small>{{matches.previous_page_number}}</small>
+        </a>
+        {% endif %}
+
+        <small class="text-main">{{matches.number}}</small>
+
+        {% if matches.has_next %}
+        <a class="text-decoration-none link-main text-font" href="?page={{matches.next_page_number}}&sort_by={{ request.GET.sort_by }}&show={{ request.GET.show }}">
+            <small>{{matches.next_page_number}}</small>
+        </a>
+        <a class="text-decoration-none link-main text-font" href="?page={{matches.paginator.num_pages}}&sort_by={{ request.GET.sort_by }}&show={{ request.GET.show }}">
+            <small>&raquo;</small>
+        </a>
+        {% endif %}
+    </div>
+</main>
+{% endblock %}

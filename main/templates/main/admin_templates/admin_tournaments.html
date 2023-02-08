@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+
+{% block title %}Админстрация | VolleyballApp {% endblock %}
+
+{% block content %}
+<main class="container-fluid text-font w-75 mt-5 h-100">
+    <section class="row border-main rounded bg-sec my-5 align-items-center justify-content-center d-flex">
+        <h3 class="text-center mt-3 mb-0">Администрация</h3>
+        <h5 class="h6 text-center mb-5">Служител: {{request.user}}</h5>

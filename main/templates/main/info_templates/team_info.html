@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+
+{% block title %} {{team.name}} {% endblock %}
+
+{% block content %}
+<main class="container-fluid">
+    <div class="row mt-5 mx-3 mw-100 h-100">
+        <div class="col-lg-4 bg-sec text-center border-main rounded">
+            <h2 class="pt-2">{{team.name}}</h2>
+            <hr class="mt-0" style="color: var(--main-color)">
+            <img width="300px" height="300px" src="{{team.picture.url}}" />
+        </div>
+        <div class="col-lg-8 bg-sec text-left border-main rounded pt-3">
+            <h5 class="h6">Основан: {{team.founded_in|date:"d.m.Y"}}</h5>
+            <h5 class="h6">Град: {{team.location}}</h5>
+            <h5 class="h6">Треньор: {{team.coach}}</h5>
+            <h5 class="h6">Спечелени турнири:</h5>
+            {% for tournament in won_tournaments %}
+            {% if not forloop.last %}
+            <small>{{tournament.name}} ({{tournament.opening_date|date:"d.m.y"}}),</small>
+            {% else %}
+            <small>{{tournament.name}} ({{tournament.opening_date|date:"d.m.y"}})</small>
+            {% endif %}
+            {% endfor %}
+            <hr style="color: var(--main-color)">
+            <h5 class="h6">Описание:</h5>
+            <p class="text-justify">{{team.description|safe}}</p>
+        </div>
+    </div>
+
+    <div class="row bg-sec border-main mx-3 mt-5 rounded d-flex">
+        <h2 class="mb-3 text-center pt-3">Играчи</h2>
+        {% for player in players %}
+        <div class="col-sm-6 col-md-4 col-lg-3 my-2">
+            <div class="card bg-main text-center">
+                <img class="card-img-top" width="100px" height="350px" src="{{player.photo.url}}"
+                    alt="Card image cap" />
+                <hr class="m-0">
+                <div class="card-body position-relative">
+                    <h5 class="card-title">
+                        <a class="text-decoration-none text-font link-sec"
+                            href="{% url 'player_info' player.id %}">{{player.first_name}}
+                            {{player.last_name}}</a>
+                    </h5>
+                    <small>Позиция:</small>
+                    <small>{{player.get_position_display}}</small>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</main>
+{% endblock %}

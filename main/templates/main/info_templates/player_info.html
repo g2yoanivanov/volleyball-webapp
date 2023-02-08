@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block title %}{{player.name}}{% endblock %}
+
+{% block content %}
+<main class="container-fluid">
+    <div class="row mt-5 mx-3 mw-100 h-100">
+        <div class="col-lg-4 bg-sec text-center border-main rounded">
+            <h2 class="pt-2">{{player.first_name}} {{player.last_name}}</h2>
+            <hr class="mt-0" style="color: var(--main-color)">
+            <img class="mb-3 rounded" width="250px" height="320px" src="{{player.photo.url}}" />
+        </div>
+        <div class="col-lg-8 bg-sec text-left border-main rounded pt-3">
+            <h5 class="h6">Години: {{player.age}}</h5>
+            <h5 class="h6">Националност: {{player.nationality}}</h5>
+            <h5 class="h6">Ръст: {{player.height}}m</h5>
+            <h5 class="h6">Отбор: <a href="{% url 'team_info' player.team.id %}"
+                    class="text-decoration-none text-font link-bg">{{player.team}}</a></h5>
+            <h5 class="h6">Позиция: {{player.get_position_display}}</h5>
+
+            <hr style="color: var(--main-color)">
+            <h5 class="h6">Биография:</h5>
+            <p class="text-justify">{{player.description|safe}}</p>
+        </div>
+    </div>
+</main>
+
+{% endblock %}
