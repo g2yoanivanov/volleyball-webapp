@@ -12,8 +12,10 @@
             <div>
                 {% if title == 'create'%}
                 <h2 class="text-center text-font">Създаване</h2>
-                {% else %}
+                {% elif title == 'edit' %}
                 <h2 class="text-center text-font">Редактиране</h2>
+                {% else %}
+                <h2 class="text-center text-font">Детайли</h2>
                 {% endif %}
                 <form class="form-control text-left bg-sec border-sec" method="POST" action="" enctype="multipart/form-data">
                     {% csrf_token %}

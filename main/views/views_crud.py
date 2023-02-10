@@ -38,7 +38,7 @@ def edit_tournament(request, pk):
     title = "edit"
     web_title = "Редактиране на турнир"
 
-    tournament = Match.objects.get(id=pk)
+    tournament = Tournament.objects.get(id=pk)
     form = TournamentForm(instance=tournament)
 
     if not request.user.is_staff:

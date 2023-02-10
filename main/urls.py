@@ -5,6 +5,13 @@ urlpatterns = [
     path('', views.index, name='index'),
 
     path('myadmin/', views.myadmin, name='myadmin'),
+    path('myadmin/users/', views.admin_users, name='admin_users'),
+    path('myadmin/tournaments/', views.admin_tournaments, name='admin_tournaments'),
+    path('myadmin/matches/', views.admin_matches, name='admin_matches'),
+    path('myadmin/teams/', views.admin_teams, name='admin_teams'),
+    path('myadmin/players/', views.admin_players, name='admin_players'),
+    path('myadmin/halls/', views.admin_halls, name='admin_halls'),
+    path('myadmin/referees/', views.admin_referees, name='admin_referees'),
 
     path('login/', views.login_page, name='login'),
     path('logout/', views.logout_user, name='logout'),
@@ -17,8 +24,8 @@ urlpatterns = [
     path('halls/', views.halls, name='halls'),
     path('fixtures/', views.fixtures, name='fixtures'),
     path('results/', views.results, name='results'),
-    path('match-info/<str:pk>/', views.match_info, name='match-info'),
 
+    path('match-info/<str:pk>/', views.match_info, name='match-info'),
     path('tournaments/<str:pk>/', views.tournament_info, name='tournament_info'),
     path('teams/<str:pk>/', views.team_info, name='team_info'),
     path('players/<str:pk>/', views.player_info, name='player_info'),

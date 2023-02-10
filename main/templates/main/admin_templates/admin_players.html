@@ -8,15 +8,15 @@
         <h3 class="text-center mt-3 mb-0">Администрация</h3>
         <h5 class="h6 text-center mb-5">Служител: {{request.user}}</h5>
 
-        {% for tournament in tournaments %}
+        {% for player in players %}
         <article class="row d-flex align-items-center text-center">
             <hr class="mt-0 mb-2" style="color: var(--main-color)">
             <div class="col-8 d-flex align-items-center justify-content-start text-center">
-                <span>{{tournament}}</span>
+                <span>{{player}} - {{player.get_position_display}}</span>
             </div>
             <div class="col-2 d-flex align-items-center justify-content-end">
                 <a class="text-decoration-none text-font link-bg"
-                    href="{% url 'edit-tournament' tournament.id %}">
+                    href="{% url 'edit-player' player.id %}">
                     <span>Детайли</span>
                 </a>
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="mx-1"
@@ -29,7 +29,7 @@
             </div>
             <div class="col-2 d-flex align-items-center justify-content-start">
                 <a class="text-decoration-none text-font link-bg"
-                    href="{% url 'delete-tournament' tournament.id %}">
+                    href="{% url 'delete-player' player.id %}">
                     <span>Изтриване</span>
                 </a>
                 <svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 16 16">
