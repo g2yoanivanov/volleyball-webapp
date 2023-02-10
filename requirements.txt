@@ -1,6 +1,6 @@
 superuser:
-username: superuser
-password: 123456
+username: g2yaon
+password: yoyoyo123
 email: yoan_ivanov1@abv.bg
 
 1. Install Python
