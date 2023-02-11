@@ -20,6 +20,20 @@ def myadmin(request):
     return render(request, "main/admin_templates/myadmin.html")
 
 
+def add_staff(request, pk):
+    user = User.objects.get(id=pk)
+    user.is_staff = True
+    user.save()
+    return redirect("admin_users")
+
+
+def remove_staff(request, pk):
+    user = User.objects.get(id=pk)
+    user.is_staff = False
+    user.save()
+    return redirect("admin_users")
+
+
 @staff_member_required
 def admin_users(request):
     users = User.objects.all()

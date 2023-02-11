@@ -13,6 +13,9 @@ urlpatterns = [
     path('myadmin/halls/', views.admin_halls, name='admin_halls'),
     path('myadmin/referees/', views.admin_referees, name='admin_referees'),
 
+    path('myadmin/users/add-staff-role/<str:pk>/', views.add_staff, name='add_staff'),
+    path('myadmin/users/remove-staff-role/<str:pk>/', views.remove_staff, name='remove_staff'),
+
     path('login/', views.login_page, name='login'),
     path('logout/', views.logout_user, name='logout'),
     path('register/', views.register_page, name='register'),
