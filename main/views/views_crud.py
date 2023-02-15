@@ -1,17 +1,11 @@
-from django.contrib import messages
-from django.contrib.auth import authenticate, login, logout
-from django.contrib.auth.models import User
-from django.contrib.auth.decorators import login_required
-from django.contrib.admin.views.decorators import staff_member_required
 from django.utils import timezone
-from django.core.paginator import Paginator
-from django.db.models import Q, Model
+from django.contrib import messages
+from django.contrib.admin.views.decorators import staff_member_required
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 
 import random
 
-from main.models import *
 from main.forms import *
 
 
@@ -200,24 +194,42 @@ def delete_team(request, pk):
 def create_player(request):
     title = "create"
     web_title = "Създаване на играч"
+
+    now = timezone.now()
+
+    teams = Team.objects.all()
     form = PlayerForm()
 
     if request.method == "POST":
-        form = PlayerForm(request.POST, request.FILES)
-        if form.is_valid():
-            form.save()
-            return redirect("players")
-        else:
-            messages.error(request, "Възникна грешка при създаването на играч")
+        team_name = request.POST.get('team')
+        team = Team.objects.get(name = team_name)
 
-    context = {"form": form, "title": title, "web_title": web_title}
-    return render(request, "main/form_templates/creation_form.html", context)
+        photo = request.FILES.get('photo')
+
+        Player.objects.create(
+            first_name = request.POST.get('first_name'),
+            last_name = request.POST.get('last_name'),
+            birth_date = request.POST.get('birth_date'),
+            height = request.POST.get('height'),
+            nationality = request.POST.get('nationality'),
+            position = request.POST.get('position'),
+            team = team,
+            photo = photo,
+            description = request.POST.get('description')
+        )
+
+        return redirect("players")
+
+    context = {"form": form, "title": title, "web_title": web_title, "teams": teams, "now": now}
+    return render(request, "main/form_templates/player_form.html", context)
 
 
 @staff_member_required
 def edit_player(request, pk):
     title = "edit"
     web_title = "Редактиране на играч"
+
+    teams = Team.objects.all()
 
     player = Player.objects.get(id=pk)
     form = PlayerForm(instance=player)
@@ -226,16 +238,39 @@ def edit_player(request, pk):
         return HttpResponse("Нямате достъп до тази страница!")
 
     if request.method == "POST":
-        form = PlayerForm(request.POST, request.FILES, instance=player)
-        if form.is_valid():
-            form.save()
-            return redirect("players")
+        team_name = request.POST.get('team')
+        team = Team.objects.get(name = team_name)
 
+        photo = request.FILES.get('photo')
+
+        if photo:
+            player = Player.objects.update(
+                first_name = request.POST.get('first_name'),
+                last_name = request.POST.get('last_name'),
+                birth_date = request.POST.get('birth_date'),
+                height = request.POST.get('height'),
+                nationality = request.POST.get('nationality'),
+                position = request.POST.get('position'),
+                team = team,
+                photo = photo,
+                description = request.POST.get('description')
+            )
         else:
-            messages.error(request, "Възникна грешка при редактирането на играча!")
+            player = Player.objects.update(
+                first_name = request.POST.get('first_name'),
+                last_name = request.POST.get('last_name'),
+                birth_date = request.POST.get('birth_date'),
+                height = request.POST.get('height'),
+                nationality = request.POST.get('nationality'),
+                position = request.POST.get('position'),
+                team = team,
+                description = request.POST.get('description')
+            )
 
-    context = {"title": title, "form": form, "web_title": web_title}
-    return render(request, "main/form_templates/creation_form.html", context)
+        return redirect("players")
+
+    context = {"title": title, "form": form, "web_title": web_title, "teams": teams}
+    return render(request, "main/form_templates/player_form.html", context)
 
 
 @staff_member_required
