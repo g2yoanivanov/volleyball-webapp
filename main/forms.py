@@ -64,7 +64,7 @@ class HallForm(ModelForm):
             "name": forms.TextInput(attrs={"class": "form-control bg-bg"}),
             "location": forms.TextInput(attrs={"class": "form-control bg-bg"}),
             "max_seats": forms.NumberInput(attrs={"class": "form-control bg-bg"}),
-            "picture": forms.ClearableFileInput(attrs={"class": "form-control bg-bg"}),
+            "picture": forms.FileInput(attrs={"class": "form-control bg-bg"}),
         }
 
 
@@ -87,7 +87,7 @@ class RefereeForm(ModelForm):
             "birth_date": forms.DateInput(attrs={"class": "form-control bg-bg"}),
             "nationality": forms.TextInput(attrs={"class": "form-control bg-bg"}),
             "experience": forms.NumberInput(attrs={"class": "form-control bg-bg"}),
-            "photo": forms.ClearableFileInput(attrs={"class": "form-control bg-bg"}),
+            "photo": forms.FileInput(attrs={"class": "form-control bg-bg"}),
             "description": forms.Textarea(attrs={"class": "form-control bg-bg"}),
         }
 
@@ -127,8 +127,8 @@ class PlayerForm(ModelForm):
             "last_name": forms.TextInput(attrs={"class": "form-control bg-bg"}),
             "birth_date": forms.DateInput(attrs={"class": "form-control bg-bg"}),
             "nationality": forms.TextInput(attrs={"class": "form-control bg-bg"}),
-            "height": forms.NumberInput(attrs={"class": "form-control bg-bg"}),
-            "photo": forms.ClearableFileInput(attrs={"class": "form-control bg-bg"}),
+            "height": forms.NumberInput(attrs={"class": "form-control bg-bg", "min": "1", "max": "3"}),
+            "photo": forms.FileInput(attrs={"class": "form-control bg-bg"}),
             "description": forms.Textarea(attrs={"class": "form-control bg-bg"}),
         }
 

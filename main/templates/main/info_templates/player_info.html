@@ -11,7 +11,7 @@
             <img class="mb-3 rounded" width="250px" height="320px" src="{{player.photo.url}}" />
         </div>
         <div class="col-lg-8 bg-sec text-left border-main rounded pt-3">
-            <h5 class="h6">Години: {{player.age}}</h5>
+            <h5 class="h6">Дата на раждане: {{player.birth_date|date:"d.m.Y"}}</h5>
             <h5 class="h6">Националност: {{player.nationality}}</h5>
             <h5 class="h6">Ръст: {{player.height}}m</h5>
             <h5 class="h6">Отбор: <a href="{% url 'team_info' player.team.id %}"

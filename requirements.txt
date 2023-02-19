@@ -1,9 +1,9 @@
 superuser:
-username: g2yaon
-password: yoyoyo123
-email: yoan_ivanov1@abv.bg
+-username: g2yaon
+-password: yoyoyo123
 
 1. Install Python
 2. Create a virtual environment
 3. pip install django
 4. pip install Pillow
+5. pip install qrcode

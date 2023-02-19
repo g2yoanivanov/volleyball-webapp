@@ -8,7 +8,7 @@ import random
 
 from main.forms import *
 
-
+# region TOURNAMENTS
 @staff_member_required
 def create_tournament(request):
     title = "create"
@@ -66,6 +66,9 @@ def delete_tournament(request, pk):
     return render(request, "main/form_templates/delete.html", context)
 
 
+# endregion
+
+# region MATCHES
 @staff_member_required
 def create_fixture(request):
     title = "create"
@@ -131,6 +134,9 @@ def delete_fixture(request, pk):
     return render(request, "main/form_templates/delete.html", context)
 
 
+# endregion
+
+# region TEAMS
 @staff_member_required
 def create_team(request):
     title = "create"
@@ -190,37 +196,48 @@ def delete_team(request, pk):
     return render(request, "main/form_templates/delete.html", context)
 
 
+# endregion
+
+# region PLAYERS
 @staff_member_required
 def create_player(request):
     title = "create"
     web_title = "Създаване на играч"
-
     now = timezone.now()
 
     teams = Team.objects.all()
     form = PlayerForm()
 
     if request.method == "POST":
-        team_name = request.POST.get('team')
-        team = Team.objects.get(name = team_name)
+        team_name = request.POST.get("team")
+        team = Team.objects.get(name=team_name).exists()
+        photo = request.FILES.get("photo")
 
-        photo = request.FILES.get('photo')
+        if team:
+            Player.objects.create(
+                first_name=request.POST.get("first_name"),
+                last_name=request.POST.get("last_name"),
+                birth_date=request.POST.get("birth_date"),
+                height=request.POST.get("height"),
+                nationality=request.POST.get("nationality"),
+                position=request.POST.get("position"),
+                team=team,
+                photo=photo,
+                description=request.POST.get("description"),
+            )
 
-        Player.objects.create(
-            first_name = request.POST.get('first_name'),
-            last_name = request.POST.get('last_name'),
-            birth_date = request.POST.get('birth_date'),
-            height = request.POST.get('height'),
-            nationality = request.POST.get('nationality'),
-            position = request.POST.get('position'),
-            team = team,
-            photo = photo,
-            description = request.POST.get('description')
-        )
+            return redirect("players")
 
-        return redirect("players")
+        else:
+            messages.error(request, "Въведеният отбор не съществува!")
 
-    context = {"form": form, "title": title, "web_title": web_title, "teams": teams, "now": now}
+    context = {
+        "form": form,
+        "title": title,
+        "web_title": web_title,
+        "teams": teams,
+        "now": now,
+    }
     return render(request, "main/form_templates/player_form.html", context)
 
 
@@ -228,6 +245,7 @@ def create_player(request):
 def edit_player(request, pk):
     title = "edit"
     web_title = "Редактиране на играч"
+    now = timezone.now()
 
     teams = Team.objects.all()
 
@@ -238,38 +256,49 @@ def edit_player(request, pk):
         return HttpResponse("Нямате достъп до тази страница!")
 
     if request.method == "POST":
-        team_name = request.POST.get('team')
-        team = Team.objects.get(name = team_name)
+        team_name = request.POST.get("team")
+        team = Team.objects.get(name=team_name).exists()
 
-        photo = request.FILES.get('photo')
+        photo = request.FILES.get("photo")
 
-        if photo:
-            player = Player.objects.update(
-                first_name = request.POST.get('first_name'),
-                last_name = request.POST.get('last_name'),
-                birth_date = request.POST.get('birth_date'),
-                height = request.POST.get('height'),
-                nationality = request.POST.get('nationality'),
-                position = request.POST.get('position'),
-                team = team,
-                photo = photo,
-                description = request.POST.get('description')
-            )
+        if team:
+            if photo:
+                player = Player.objects.update(
+                    first_name=request.POST.get("first_name"),
+                    last_name=request.POST.get("last_name"),
+                    birth_date=request.POST.get("birth_date"),
+                    height=request.POST.get("height"),
+                    nationality=request.POST.get("nationality"),
+                    position=request.POST.get("position"),
+                    team=team,
+                    photo=photo,
+                    description=request.POST.get("description"),
+                )
+            else:
+                player = Player.objects.update(
+                    first_name=request.POST.get("first_name"),
+                    last_name=request.POST.get("last_name"),
+                    birth_date=request.POST.get("birth_date"),
+                    height=request.POST.get("height"),
+                    nationality=request.POST.get("nationality"),
+                    position=request.POST.get("position"),
+                    team=team,
+                    description=request.POST.get("description"),
+                )
+
+            return redirect("players")
+    
         else:
-            player = Player.objects.update(
-                first_name = request.POST.get('first_name'),
-                last_name = request.POST.get('last_name'),
-                birth_date = request.POST.get('birth_date'),
-                height = request.POST.get('height'),
-                nationality = request.POST.get('nationality'),
-                position = request.POST.get('position'),
-                team = team,
-                description = request.POST.get('description')
-            )
+            messages.error(request, "Въведеният отбор не съществува!")
 
-        return redirect("players")
-
-    context = {"title": title, "form": form, "web_title": web_title, "teams": teams}
+    context = {
+        "title": title,
+        "form": form,
+        "web_title": web_title,
+        "teams": teams,
+        "player": player,
+        "now": now,
+    }
     return render(request, "main/form_templates/player_form.html", context)
 
 
@@ -288,8 +317,9 @@ def delete_player(request, pk):
 
     context = {"obj": player}
     return render(request, "main/form_templates/delete.html", context)
+# endregion
 
-
+# region REFEREES
 @staff_member_required
 def create_referee(request):
     title = "create"
@@ -347,8 +377,9 @@ def delete_referee(request, pk):
 
     context = {"obj": referee}
     return render(request, "main/form_templates/delete.html", context)
+# endregion
 
-
+# region HALLS
 @staff_member_required
 def create_hall(request):
     title = "create"
@@ -406,3 +437,4 @@ def delete_hall(request, pk):
 
     context = {"obj": hall}
     return render(request, "main/form_templates/delete.html", context)
+# endregion
