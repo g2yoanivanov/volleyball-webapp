@@ -76,23 +76,59 @@ def create_fixture(request):
     form = MatchForm()
 
     prices = [10, 20, 25, 30, 35]
+    now = timezone.now()
+
+    teams = Team.objects.all()
+    referees = Referee.objects.all()
+    tournaments = Tournament.objects.all()
 
     if request.method == "POST":
-        form = MatchForm(request.POST, request.FILES)
-        if form.is_valid():
-            fixture = form.save()
+        team1_name = request.POST.get("team1")
+        team1 = Team.objects.get(name=team1_name).exists()
+
+        team2_name = request.POST.get("team2")
+        team2 = Team.objects.get(name=team2_name).exists()
+
+        tournament_name = request.POST.get("tournament")
+        tournament = Tournament.objects.get(name=tournament_name).exists()
+
+        ref_name = request.POST.get("referee")
+        referee = Referee.objects.get(name=ref_name).exists()
+
+        if team1 and team2 and tournament and referee:
+            fixture = Match.objects.create(
+                team1 = team1,
+                team2 = team2,
+                tournament = tournament,
+                date = request.POST.get("birth_date"),
+                referee = referee,
+            )
+
             hall = fixture.tournament.hall
             price = random.choice(prices)
             quantity = fixture.tournament.hall.max_seats
-            ticket = Ticket.objects.create(
-                match=fixture, hall=hall, price=price, quantity=quantity
+            Ticket.objects.create(
+                match=fixture,
+                hall=hall,
+                price=price,
+                quantity=quantity
             )
             return redirect("fixtures")
+        
         else:
-            messages.error(request, "Възникна грешка при създаването на мач")
+            messages.error(request, "Възникна грешка при създаването на мач! Проверете: 'Отбор 1', 'Отбор 2', 'Турнир', 'Съдия'")
 
-    context = {"form": form, "title": title, "web_title": web_title}
-    return render(request, "main/form_templates/creation_form.html", context)
+
+    context = {
+        "form": form,
+        "title": title,
+        "web_title": web_title,
+        "now": now,
+        "teams": teams,
+        "tournaments": tournaments,
+        "referees": referees,
+    }
+    return render(request, "main/form_templates/match_form.html", context)
 
 
 @staff_member_required
@@ -103,20 +139,49 @@ def edit_fixture(request, pk):
     fixture = Match.objects.get(id=pk)
     form = MatchForm(instance=fixture)
 
+    teams = Team.objects.all()
+    referees = Referee.objects.all()
+    tournaments = Tournament.objects.all()
+
     if not request.user.is_staff:
         return HttpResponse("Нямате достъп до тази страница!")
 
     if request.method == "POST":
-        form = MatchForm(request.POST, request.FILES, instance=fixture)
-        if form.is_valid():
-            form.save()
+        team1_name = request.POST.get("team1")
+        team1 = Team.objects.get(name=team1_name).exists()
+
+        team2_name = request.POST.get("team2")
+        team2 = Team.objects.get(name=team2_name).exists()
+
+        tournament_name = request.POST.get("tournament")
+        tournament = Tournament.objects.get(name=tournament_name).exists()
+
+        ref_name = request.POST.get("referee").split(' ')
+        referee = Referee.objects.get(first_name=ref_name[0]).exists()
+
+        if team1 and team2 and tournament and referee and team1 is not team2:
+            fixture = Match.objects.update(
+                team1 = team1,
+                team2 = team2,
+                tournament = tournament,
+                date = request.POST.get("birth_date"),
+                referee = referee,
+            )
+
             return redirect("fixtures")
-
+        
         else:
-            messages.error(request, "Възникна грешка при редактирането на мача!")
+            messages.error(request, "Възникна грешка при създаването на мач! Проверете: 'Отбор 1', 'Отбор 2', 'Турнир', 'Съдия'")
 
-    context = {"title": title, "form": form, "web_title": web_title}
-    return render(request, "main/form_templates/creation_form.html", context)
+    context = {
+        "title": title,
+        "form": form,
+        "web_title": web_title,
+        "teams": teams,
+        "tournaments": tournaments,
+        "referees": referees,
+    }
+    return render(request, "main/form_templates/match_form.html", context)
 
 
 @staff_member_required
@@ -210,10 +275,10 @@ def create_player(request):
 
     if request.method == "POST":
         team_name = request.POST.get("team")
-        team = Team.objects.get(name=team_name).exists()
+        team = Team.objects.get(name=team_name)
         photo = request.FILES.get("photo")
 
-        if team:
+        try:
             Player.objects.create(
                 first_name=request.POST.get("first_name"),
                 last_name=request.POST.get("last_name"),
@@ -228,7 +293,7 @@ def create_player(request):
 
             return redirect("players")
 
-        else:
+        except:
             messages.error(request, "Въведеният отбор не съществува!")
 
     context = {
@@ -287,7 +352,7 @@ def edit_player(request, pk):
                 )
 
             return redirect("players")
-    
+
         else:
             messages.error(request, "Въведеният отбор не съществува!")
 
@@ -317,6 +382,8 @@ def delete_player(request, pk):
 
     context = {"obj": player}
     return render(request, "main/form_templates/delete.html", context)
+
+
 # endregion
 
 # region REFEREES
@@ -377,6 +444,8 @@ def delete_referee(request, pk):
 
     context = {"obj": referee}
     return render(request, "main/form_templates/delete.html", context)
+
+
 # endregion
 
 # region HALLS
@@ -437,4 +506,6 @@ def delete_hall(request, pk):
 
     context = {"obj": hall}
     return render(request, "main/form_templates/delete.html", context)
+
+
 # endregion

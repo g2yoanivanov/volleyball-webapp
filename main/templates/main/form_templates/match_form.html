@@ -1,0 +1,110 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+{% block title %}{{web_title}}{% endblock %}
+
+{% block content %}
+<main>
+    <div class="container-fluid d-flex justify-content-center my-5">
+        <div class="d-grid bg-sec rounded">
+            <div>
+                {% if title == 'create'%}
+                <h2 class="text-center text-font">Създаване</h2>
+                {% elif title == 'edit' %}
+                <h2 class="text-center text-font">Редактиране</h2>
+                {% else %}
+                <h2 class="text-center text-font">Детайли</h2>
+                {% endif %}
+                <form class="form-control text-left bg-sec border-sec" method="POST" action=""
+                    enctype="multipart/form-data">
+                    {% csrf_token %}
+
+                    <div class="d-flex justify-content-center my-2 row">
+                        <div class="col-lg-6">
+                            <label for="team1_name">Отбор 1*</label>
+                            <input class="form-control bg-bg" required type="text" value="{{match.team1.name}}"
+                                name="team1" list="team-1-list" autocomplete="off" />
+                            <datalist id="team-1-list">
+                                <select id="team1_name">
+                                    {% for team in teams %}
+                                    <option value="{{team.name}}">{{team.name}}</option>
+                                    {% endfor %}
+                                </select>
+                            </datalist>
+                        </div>
+
+                        <div class="col-lg-6">
+                            <label for="team2_name">Отбор 2*</label>
+                            <input class="form-control bg-bg" required type="text" value="{{match.team2.name}}"
+                                name="team2" list="team-2-list" autocomplete="off" />
+                            <datalist id="team-2-list">
+                                <select id="team2_name">
+                                    {% for team in teams %}
+                                    <option value="{{team.name}}">{{team.name}}</option>
+                                    {% endfor %}
+                                </select>
+                            </datalist>
+                        </div>
+                    </div>
+
+                    <div class="d-flex justify-content-center my-2 row">
+                        <div class="col-lg-6">
+                            <label for="birth_date">Дата*</label>
+                            <input class="form-control bg-bg" type="date" required name="date"
+                                value="{{player.birth_date|date:'Y-m-d'}}" min="{{now|date:'Y-m-d'}}" max="2027-12-31">
+                        </div>
+                        <div class="col-lg-6">
+                            <label for="tournament_name">Турнир*</label>
+                            <input class="form-control bg-bg" required type="text" value="{{match.tournament.name}}"
+                                name="tournament" list="torunament-list" autocomplete="off" />
+                            <datalist id="tournament-list">
+                                <select id="tournament_name">
+                                    {% for tournament in tournaments %}
+                                    <option value="{{tournament.name}}">{{tournament.name}}</option>
+                                    {% endfor %}
+                                </select>
+                            </datalist>
+                        </div>
+                    </div>
+
+                    <div class="d-flex justify-content-center my-2 row">
+                        <div class="col-lg-6">
+                            <label for="referee_name">Съдия*</label>
+                            <input class="form-control bg-bg" required type="text"
+                                value="{{match.referee.first_name}} {{match.referee.last_name}}" name="referee"
+                                list="referee-list" autocomplete="off" />
+                            <datalist id="referee-list">
+                                <select id="referee_name">
+                                    {% for referee in referees %}
+                                    <option value="{{referee.name}}">{{referee.first_name}} {{referee.last_name}}</option>
+                                    {% endfor %}
+                                </select>
+                            </datalist>
+                        </div>
+                    </div>
+
+                    {% if title == 'edit' %}
+                    <div class="d-flex justify-content-center my-2 row">
+                        <div class="col-lg-6">
+                            {{form.team1_points|as_crispy_field}}
+                        </div>
+                        <div class="col-lg-6">
+                            {{form.team2_points|as_crispy_field}}
+                        </div>
+                    </div>
+                    {% endif %}
+
+                    <div class="mt-3">
+                        <a class="btn btn-main" href="{{request.META.HTTP_REFERER}}">Отказ</a>
+                        {% if title == 'create' %}
+                        <button class="btn btn-font" type="submit">Създай</button>
+                        {% else %}
+                        <button class="btn btn-font" type="submit">Редактирай</button>
+                        {% endif %}
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</main>
+{% endblock %}

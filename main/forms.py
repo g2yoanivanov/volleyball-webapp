@@ -82,13 +82,13 @@ class RefereeForm(ModelForm):
             "description": "Описание",
         }
         widgets = {
-            "first_name": forms.TextInput(attrs={"class": "form-control bg-bg"}),
-            "last_name": forms.TextInput(attrs={"class": "form-control bg-bg"}),
+            "first_name": forms.TextInput(attrs={"class": "form-control bg-bg", "autocomplete": "off"}),
+            "last_name": forms.TextInput(attrs={"class": "form-control bg-bg", "autocomplete": "off"}),
             "birth_date": forms.DateInput(attrs={"class": "form-control bg-bg"}),
-            "nationality": forms.TextInput(attrs={"class": "form-control bg-bg"}),
+            "nationality": forms.TextInput(attrs={"class": "form-control bg-bg", "autocomplete": "off"}),
             "experience": forms.NumberInput(attrs={"class": "form-control bg-bg"}),
             "photo": forms.FileInput(attrs={"class": "form-control bg-bg"}),
-            "description": forms.Textarea(attrs={"class": "form-control bg-bg"}),
+            "description": forms.Textarea(attrs={"class": "form-control bg-bg", "autocomplete": "off"}),
         }
 
 
@@ -123,13 +123,13 @@ class PlayerForm(ModelForm):
             "description": "Описание",
         }
         widgets = {
-            "first_name": forms.TextInput(attrs={"class": "form-control bg-bg"}),
-            "last_name": forms.TextInput(attrs={"class": "form-control bg-bg"}),
+            "first_name": forms.TextInput(attrs={"class": "form-control bg-bg", "autocomplete": "off"}),
+            "last_name": forms.TextInput(attrs={"class": "form-control bg-bg", "autocomplete": "off"}),
             "birth_date": forms.DateInput(attrs={"class": "form-control bg-bg"}),
-            "nationality": forms.TextInput(attrs={"class": "form-control bg-bg"}),
-            "height": forms.NumberInput(attrs={"class": "form-control bg-bg", "min": "1", "max": "3"}),
+            "nationality": forms.TextInput(attrs={"class": "form-control bg-bg", "autocomplete": "off"}),
+            "height": forms.NumberInput(attrs={"class": "form-control bg-bg", "min": "1", "max": "3", "autocomplete": "off"}),
             "photo": forms.FileInput(attrs={"class": "form-control bg-bg"}),
-            "description": forms.Textarea(attrs={"class": "form-control bg-bg"}),
+            "description": forms.Textarea(attrs={"class": "form-control bg-bg", "autocomplete": "off"}),
         }
 
 

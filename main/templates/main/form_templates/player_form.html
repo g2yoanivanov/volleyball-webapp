@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load crispy_forms_tags %}
 
 {% block title %}{{web_title}}{% endblock %}
 
@@ -20,45 +21,39 @@
 
                     <div class="d-flex justify-content-center my-2 row">
                         <div class="col-lg-6">
-                            <label for="first_name">Име</label>
-                            {{form.first_name}}
+                            {{form.first_name|as_crispy_field}}
                         </div>
                         <div class="col-lg-6">
-                            <label for="last_name">Фамилия</label>
-                            {{form.last_name}}
+                            {{form.last_name|as_crispy_field}}
                         </div>
                     </div>
 
                     <div class="d-flex justify-content-center my-2 row">
                         <div class="col-lg-6">
-                            <label for="birth_date">Рожденна дата</label>
+                            <label for="birth_date">Рожденна дата*</label>
                             <input class="form-control bg-bg" type="date" required name="birth_date"
                                 value="{{player.birth_date|date:'Y-m-d'}}" min="1960-01-01" max="{{now|date:'Y-m-d'}}">
                         </div>
                         <div class="col-lg-6">
-                            <label for="height">Височина</label>
-                            {{form.height}}
+                            {{form.height|as_crispy_field}}
                         </div>
                     </div>
 
                     <div class="d-flex justify-content-center my-2 row">
                         <div class="col-lg-6">
-                            <label for="nationality">Националност</label>
-                            {{form.nationality}}
+                            {{form.nationality|as_crispy_field}}
                         </div>
                         <div class="col-lg-6">
-                            <label for="photo">Снимка</label>
-                            {{form.photo}}
+                            {{form.photo|as_crispy_field}}
                         </div>
                     </div>
 
                     <div class="d-flex justify-content-center my-2 row">
                         <div class="col-lg-6">
-                            <label for="position">Позиция</label>
-                            {{form.position}}
+                            {{form.position|as_crispy_field}}
                         </div>
                         <div class="col-lg-6">
-                            <label for="team_name">Отбор</label>
+                            <label for="team_name">Отбор*</label>
                             <input class="form-control bg-bg" required type="text" value="{{player.team.name}}"
                                 name="team" list="team-list" autocomplete="off" />
                             <datalist id="team-list">
@@ -72,8 +67,7 @@
                     </div>
 
                     <div>
-                        <label for="description">Описание</label>
-                        {{form.description}}
+                        {{form.description|as_crispy_field}}
                     </div>
 
                     <div class="mt-3">
