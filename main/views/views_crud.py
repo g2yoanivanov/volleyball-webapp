@@ -83,41 +83,47 @@ def create_fixture(request):
     tournaments = Tournament.objects.all()
 
     if request.method == "POST":
-        team1_name = request.POST.get("team1")
-        team1 = Team.objects.get(name=team1_name).exists()
+        try:
+            team1_name = request.POST.get("team1")
+            team1 = Team.objects.get(name=team1_name)
 
-        team2_name = request.POST.get("team2")
-        team2 = Team.objects.get(name=team2_name).exists()
+            team2_name = request.POST.get("team2")
+            team2 = Team.objects.get(name=team2_name)
 
-        tournament_name = request.POST.get("tournament")
-        tournament = Tournament.objects.get(name=tournament_name).exists()
+            tournament_name = request.POST.get("tournament")
+            tournament = Tournament.objects.get(name=tournament_name)
 
-        ref_name = request.POST.get("referee")
-        referee = Referee.objects.get(name=ref_name).exists()
-
-        if team1 and team2 and tournament and referee:
-            fixture = Match.objects.create(
-                team1 = team1,
-                team2 = team2,
-                tournament = tournament,
-                date = request.POST.get("birth_date"),
-                referee = referee,
+            ref_name = request.POST.get("referee").split(" ")
+            referee_first_name = ref_name[0]
+            referee_last_name = ref_name[1]
+            referee = Referee.objects.get(
+                first_name=referee_first_name, last_name=referee_last_name
             )
 
-            hall = fixture.tournament.hall
-            price = random.choice(prices)
-            quantity = fixture.tournament.hall.max_seats
-            Ticket.objects.create(
-                match=fixture,
-                hall=hall,
-                price=price,
-                quantity=quantity
-            )
-            return redirect("fixtures")
-        
-        else:
-            messages.error(request, "Възникна грешка при създаването на мач! Проверете: 'Отбор 1', 'Отбор 2', 'Турнир', 'Съдия'")
+            if team1 is not team2:
+                fixture = Match.objects.create(
+                    team1=team1,
+                    team2=team2,
+                    tournament=tournament,
+                    date=request.POST.get("date"),
+                    referee=referee,
+                )
 
+                hall = fixture.tournament.hall
+                price = random.choice(prices)
+                quantity = fixture.tournament.hall.max_seats
+                Ticket.objects.create(
+                    match=fixture, hall=hall, price=price, quantity=quantity
+                )
+                return redirect("fixtures")
+            else:
+                messages.error(request, "Двата отбора в мача трябва да са различни!")
+
+        except:
+            messages.error(
+                request,
+                "Възникна грешка при създаването на мач! Проверете: 'Отбор 1', 'Отбор 2', 'Турнир', 'Съдия'",
+            )
 
     context = {
         "form": form,
@@ -135,6 +141,7 @@ def create_fixture(request):
 def edit_fixture(request, pk):
     title = "edit"
     web_title = "Редактиране на мач"
+    now = timezone.now()
 
     fixture = Match.objects.get(id=pk)
     form = MatchForm(instance=fixture)
@@ -147,39 +154,68 @@ def edit_fixture(request, pk):
         return HttpResponse("Нямате достъп до тази страница!")
 
     if request.method == "POST":
+        # try:
         team1_name = request.POST.get("team1")
-        team1 = Team.objects.get(name=team1_name).exists()
+        team1 = Team.objects.get(name=team1_name)
 
         team2_name = request.POST.get("team2")
-        team2 = Team.objects.get(name=team2_name).exists()
+        team2 = Team.objects.get(name=team2_name)
 
         tournament_name = request.POST.get("tournament")
-        tournament = Tournament.objects.get(name=tournament_name).exists()
+        tournament = Tournament.objects.get(name=tournament_name)
 
-        ref_name = request.POST.get("referee").split(' ')
-        referee = Referee.objects.get(first_name=ref_name[0]).exists()
+        ref_name = request.POST.get("referee").split(" ")
+        referee_first_name = ref_name[0]
+        referee_last_name = ref_name[1]
+        referee = Referee.objects.get(
+            first_name=referee_first_name, last_name=referee_last_name
+        )
 
-        if team1 and team2 and tournament and referee and team1 is not team2:
+        team1_points = request.POST.get("team1_points")
+        team2_points = request.POST.get("team2_points")
+
+        date = request.POST.get("date")
+
+        if (
+            ((team1_points == 25 and int(team2_points) > 0 and int(team2_points) < 24)
+            or (team2_points == 25 and int(team1_points) > 0 and int(team1_points) < 24)
+            or (int(team1_points) > 25 and int(team2_points) > 25 and int(team1_points) - int(team2_points) == 2)
+            or (int(team1_points) > 25 and int(team2_points) > 25 and int(team2_points) - int(team1_points) == 2))
+            and date < now
+        ):
             fixture = Match.objects.update(
-                team1 = team1,
-                team2 = team2,
-                tournament = tournament,
-                date = request.POST.get("birth_date"),
-                referee = referee,
+                team1=team1,
+                team2=team2,
+                tournament=tournament,
+                date=date,
+                referee=referee,
+                team1_points=team1_points,
+                team2_points=team2_points,
             )
 
-            return redirect("fixtures")
-        
         else:
-            messages.error(request, "Възникна грешка при създаването на мач! Проверете: 'Отбор 1', 'Отбор 2', 'Турнир', 'Съдия'")
+            fixture = Match.objects.update(
+                team1=team1,
+                team2=team2,
+                tournament=tournament,
+                date=request.POST.get("birth_date"),
+                referee=referee,
+            )
+
+        return redirect("fixtures")
+
+    # except:
+    # messages.error(request, "Възникна грешка при създаването на мач! Проверете: 'Отбор 1', 'Отбор 2', 'Турнир', 'Съдия'")
 
     context = {
         "title": title,
         "form": form,
         "web_title": web_title,
+        "now": now,
         "teams": teams,
         "tournaments": tournaments,
         "referees": referees,
+        "match": fixture,
     }
     return render(request, "main/form_templates/match_form.html", context)
 
@@ -274,11 +310,11 @@ def create_player(request):
     form = PlayerForm()
 
     if request.method == "POST":
-        team_name = request.POST.get("team")
-        team = Team.objects.get(name=team_name)
-        photo = request.FILES.get("photo")
-
         try:
+            team_name = request.POST.get("team")
+            team = Team.objects.get(name=team_name)
+            photo = request.FILES.get("photo")
+
             Player.objects.create(
                 first_name=request.POST.get("first_name"),
                 last_name=request.POST.get("last_name"),
@@ -321,12 +357,12 @@ def edit_player(request, pk):
         return HttpResponse("Нямате достъп до тази страница!")
 
     if request.method == "POST":
-        team_name = request.POST.get("team")
-        team = Team.objects.get(name=team_name).exists()
+        try:
+            team_name = request.POST.get("team")
+            team = Team.objects.get(name=team_name)
 
-        photo = request.FILES.get("photo")
+            photo = request.FILES.get("photo")
 
-        if team:
             if photo:
                 player = Player.objects.update(
                     first_name=request.POST.get("first_name"),
@@ -353,7 +389,7 @@ def edit_player(request, pk):
 
             return redirect("players")
 
-        else:
+        except:
             messages.error(request, "Въведеният отбор не съществува!")
 
     context = {

@@ -50,19 +50,18 @@
                     <div class="d-flex justify-content-center my-2 row">
                         <div class="col-lg-6">
                             <label for="birth_date">Дата*</label>
-                            <input class="form-control bg-bg" type="date" required name="date"
-                                value="{{player.birth_date|date:'Y-m-d'}}" min="{{now|date:'Y-m-d'}}" max="2027-12-31">
+                            <input class="form-control bg-bg" type="datetime-local" required name="date"
+                                value="{{match.date|date:'Y-m-d\TH:i'}}" min="{{now|date:'Y-m-d\TH:i'}}"
+                                max="2027-12-31T23:59">
                         </div>
                         <div class="col-lg-6">
                             <label for="tournament_name">Турнир*</label>
                             <input class="form-control bg-bg" required type="text" value="{{match.tournament.name}}"
-                                name="tournament" list="torunament-list" autocomplete="off" />
+                                name="tournament" list="tournament-list" autocomplete="off" />
                             <datalist id="tournament-list">
-                                <select id="tournament_name">
-                                    {% for tournament in tournaments %}
-                                    <option value="{{tournament.name}}">{{tournament.name}}</option>
-                                    {% endfor %}
-                                </select>
+                                {% for tournament in tournaments %}
+                                <option value="{{tournament.name}}">{{tournament.name}}</option>
+                                {% endfor %}
                             </datalist>
                         </div>
                     </div>
@@ -74,11 +73,10 @@
                                 value="{{match.referee.first_name}} {{match.referee.last_name}}" name="referee"
                                 list="referee-list" autocomplete="off" />
                             <datalist id="referee-list">
-                                <select id="referee_name">
-                                    {% for referee in referees %}
-                                    <option value="{{referee.name}}">{{referee.first_name}} {{referee.last_name}}</option>
-                                    {% endfor %}
-                                </select>
+                                {% for referee in referees %}
+                                <option value="{{referee.first_name}} {{referee.last_name}}">{{referee.first_name}}
+                                    {{referee.last_name}}</option>
+                                {% endfor %}
                             </datalist>
                         </div>
                     </div>
