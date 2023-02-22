@@ -138,7 +138,7 @@ def create_fixture(request):
 
 
 @staff_member_required
-def edit_fixture(request, pk):
+async def edit_fixture(request, pk):
     title = "edit"
     web_title = "Редактиране на мач"
     now = timezone.now()
@@ -171,34 +171,50 @@ def edit_fixture(request, pk):
             first_name=referee_first_name, last_name=referee_last_name
         )
 
-        team1_points = request.POST.get("team1_points")
-        team2_points = request.POST.get("team2_points")
-
         date = request.POST.get("date")
 
-        if (
-            ((team1_points == 25 and int(team2_points) > 0 and int(team2_points) < 24)
-            or (team2_points == 25 and int(team1_points) > 0 and int(team1_points) < 24)
-            or (int(team1_points) > 25 and int(team2_points) > 25 and int(team1_points) - int(team2_points) == 2)
-            or (int(team1_points) > 25 and int(team2_points) > 25 and int(team2_points) - int(team1_points) == 2))
-            and date < now
-        ):
-            fixture = Match.objects.update(
-                team1=team1,
-                team2=team2,
-                tournament=tournament,
-                date=date,
-                referee=referee,
-                team1_points=team1_points,
-                team2_points=team2_points,
-            )
+        team1_points = int(request.POST.get("team1_points"))
+        team2_points = int(request.POST.get("team2_points"))
+
+        team1_won_with_25 = False
+        team2_won_with_25 = False
+        team1_won_more_25 = False
+        team2_won_more_25 = False
+
+        if team1_points and team2_points:
+            if team1_points == 25 and 0 <= team2_points < 24:
+                team1_won_with_25 = True
+
+            elif team2_points == 25 and 0 <= team1_points < 24:
+                team2_won_with_25 = True
+            
+            elif team1_points > 25 and team2_points > 25 and team1_points - team2_points == 2:
+                team1_won_more_25 = True
+
+            elif team1_points > 25 and team2_points > 25 and team2_points - team1_points == 2:
+                team2_won_more_25 = True
+
+        if team1_points and team2_points:
+            if team1_won_with_25 or team2_won_with_25 or team1_won_more_25 or team2_won_more_25:
+                fixture = Match.objects.update(
+                    team1=team1,
+                    team2=team2,
+                    tournament=tournament,
+                    date=date,
+                    referee=referee,
+                    team1_points=team1_points,
+                    team2_points=team2_points,
+                )
+
+            else:
+                messages.error(request, "Въведен е невалиден резултат!")
 
         else:
             fixture = Match.objects.update(
                 team1=team1,
                 team2=team2,
                 tournament=tournament,
-                date=request.POST.get("birth_date"),
+                date=request.POST.get("date"),
                 referee=referee,
             )
 

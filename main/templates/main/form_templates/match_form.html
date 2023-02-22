@@ -81,7 +81,7 @@
                         </div>
                     </div>
 
-                    {% if title == 'edit' %}
+                    {% if title == 'edit' and now > match.date %}
                     <div class="d-flex justify-content-center my-2 row">
                         <div class="col-lg-6">
                             {{form.team1_points|as_crispy_field}}

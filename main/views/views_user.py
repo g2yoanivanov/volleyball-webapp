@@ -30,7 +30,7 @@ def login_page(request):
 
     context = {"page": page}
 
-    return render(request, "main/login_register.html", context)
+    return render(request, "main/form_templates/login_register.html", context)
 
 
 def logout_user(request):
@@ -57,4 +57,4 @@ def register_page(request):
 
     context = {"form": form}
 
-    return render(request, "main/login_register.html", context)
+    return render(request, "main/form_templates/login_register.html", context)
