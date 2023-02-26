@@ -42,10 +42,10 @@ class MyUserCreationForm(UserCreationForm):
             "birth_date": "Дата на раждане",
         }
         widgets = {
-            "username": forms.TextInput(attrs={"class": "form-control bg-bg"}),
-            "email": forms.TextInput(attrs={"class": "form-control bg-bg"}),
-            "first_name": forms.TextInput(attrs={"class": "form-control bg-bg"}),
-            "last_name": forms.TextInput(attrs={"class": "form-control bg-bg"}),
+            "username": forms.TextInput(attrs={"class": "form-control bg-bg", "autocomplete": "off"}),
+            "email": forms.TextInput(attrs={"class": "form-control bg-bg", "autocomplete": "email"}),
+            "first_name": forms.TextInput(attrs={"class": "form-control bg-bg", "autocomplete": "off"}),
+            "last_name": forms.TextInput(attrs={"class": "form-control bg-bg", "autocomplete": "off"}),
             "birth_date": forms.DateInput(attrs={"class": "form-control bg-bg"}),
         }
 
@@ -61,8 +61,8 @@ class HallForm(ModelForm):
             "picture": "Снимка",
         }
         widgets = {
-            "name": forms.TextInput(attrs={"class": "form-control bg-bg"}),
-            "location": forms.TextInput(attrs={"class": "form-control bg-bg"}),
+            "name": forms.TextInput(attrs={"class": "form-control bg-bg", "autocomplete": "off"}),
+            "location": forms.TextInput(attrs={"class": "form-control bg-bg", "autocomplete": "off"}),
             "max_seats": forms.NumberInput(attrs={"class": "form-control bg-bg"}),
             "picture": forms.FileInput(attrs={"class": "form-control bg-bg"}),
         }
@@ -146,10 +146,10 @@ class TeamForm(ModelForm):
             "description": "Описание",
         }
         widgets = {
-            "name": forms.TextInput(attrs={"class": "form-control bg-bg"}),
-            "coach": forms.TextInput(attrs={"class": "form-control bg-bg"}),
+            "name": forms.TextInput(attrs={"class": "form-control bg-bg", "autocomplete": "off"}),
+            "coach": forms.TextInput(attrs={"class": "form-control bg-bg", "autocomplete": "off"}),
             "founded_in": forms.DateInput(attrs={"class": "form-control bg-bg"}),
-            "location": forms.TextInput(attrs={"class": "form-control bg-bg"}),
+            "location": forms.TextInput(attrs={"class": "form-control bg-bg", "autocomplete": "off"}),
             "picture": forms.ClearableFileInput(attrs={"class": "form-control bg-bg"}),
             "description": forms.Textarea(attrs={"class": "form-control bg-bg"}),
         }
@@ -232,7 +232,7 @@ class TournamentForm(forms.ModelForm):
         }
 
         widgets = {
-            "name": forms.TextInput(attrs={"class": "form-control bg-bg"}),
+            "name": forms.TextInput(attrs={"class": "form-control bg-bg", "autocomplete": "off"}),
             "prize_pool": forms.NumberInput(attrs={"class": "form-control bg-bg"}),
             "opening_date": forms.DateTimeInput(attrs={"class": "form-control bg-bg"}),
             "closing_date": forms.DateTimeInput(attrs={"class": "form-control bg-bg"}),

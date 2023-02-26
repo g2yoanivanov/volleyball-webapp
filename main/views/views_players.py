@@ -38,13 +38,13 @@ def players(request):
         get_players = get_players.order_by("team", "first_name", "last_name")
 
     elif sort_by == "youngest":
-        get_players = get_players.order_by("age")
+        get_players = get_players.order_by("-birth_date")
 
     elif sort_by == "oldest":
-        get_players.order_by("-age")
+       get_players = get_players.order_by("birth_date")
 
     elif sort_by == "position":
-        get_players.order_by("position")
+        get_players = get_players.order_by("position")
         
 
     show = request.GET.get("show")
@@ -132,29 +132,28 @@ def edit_player(request, pk):
             photo = request.FILES.get("photo")
 
             if photo:
-                player = Player.objects.update(
-                    first_name=request.POST.get("first_name"),
-                    last_name=request.POST.get("last_name"),
-                    birth_date=request.POST.get("birth_date"),
-                    height=request.POST.get("height"),
-                    nationality=request.POST.get("nationality"),
-                    position=request.POST.get("position"),
-                    team=team,
-                    photo=photo,
-                    description=request.POST.get("description"),
-                )
-            else:
-                player = Player.objects.update(
-                    first_name=request.POST.get("first_name"),
-                    last_name=request.POST.get("last_name"),
-                    birth_date=request.POST.get("birth_date"),
-                    height=request.POST.get("height"),
-                    nationality=request.POST.get("nationality"),
-                    position=request.POST.get("position"),
-                    team=team,
-                    description=request.POST.get("description"),
-                )
+                player.first_name=request.POST.get("first_name")
+                player.last_name=request.POST.get("last_name")
+                player.birth_date=request.POST.get("birth_date")
+                player.height=request.POST.get("height")
+                player.nationality=request.POST.get("nationality")
+                player.position=request.POST.get("position")
+                player.team=team
+                player.photo = photo
+                player.description=request.POST.get("description")
+                player.save()
 
+            else:
+                player.first_name=request.POST.get("first_name")
+                player.last_name=request.POST.get("last_name")
+                player.birth_date=request.POST.get("birth_date")
+                player.height=request.POST.get("height")
+                player.nationality=request.POST.get("nationality")
+                player.position=request.POST.get("position")
+                player.team=team
+                player.description=request.POST.get("description")
+                player.save()
+                
             return redirect("players")
 
         except:

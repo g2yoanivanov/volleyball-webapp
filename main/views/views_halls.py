@@ -13,21 +13,21 @@ from main.forms import *
 def halls(request):
     q = request.GET.get("q") if request.GET.get("q") != None else ""
 
+    get_halls = Hall.objects.filter(
+            Q(name__icontains=q) 
+            | Q(location__icontains=q)
+        )
+
     sort_by = request.GET.get("sort_by")
+
     if sort_by == "name":
-        get_halls = Hall.objects.filter(
-            Q(name__icontains=q) | Q(location__icontains=q)
-        ).order_by("name")
+        get_halls = get_halls.order_by("name")
+
     elif sort_by == "seats":
-        get_halls = Hall.objects.filter(
-            Q(name__icontains=q) | Q(location__icontains=q)
-        ).order_by("max_seats")
+        get_halls = get_halls.order_by("max_seats")
+        
     elif sort_by == "location":
-        get_halls = Hall.objects.filter(
-            Q(name__icontains=q) | Q(location__icontains=q)
-        ).order_by("location")
-    else:
-        get_halls = Hall.objects.filter(Q(name__icontains=q) | Q(location__icontains=q))
+        get_halls = get_halls.order_by("location")
 
     show = request.GET.get("show")
     if show == "18":
@@ -58,15 +58,23 @@ def create_hall(request):
     form = HallForm()
 
     if request.method == "POST":
-        form = HallForm(request.POST, request.FILES)
-        if form.is_valid():
-            form.save()
+        try:
+            picture = request.FILES.get("picture")
+
+            Hall.objects.create(
+                name=request.POST.get("name"),
+                location=request.POST.get("location"),
+                max_seats=request.POST.get("max_seats"),
+                picture=picture,
+            )
+
             return redirect("halls")
-        else:
-            messages.error(request, "Възникна грешка при създаването на зала")
+
+        except:
+            messages.error(request, "Възникна грешка при създаването на зала!")
 
     context = {"form": form, "title": title, "web_title": web_title}
-    return render(request, "main/form_templates/creation_form.html", context)
+    return render(request, "main/form_templates/hall_form.html", context)
 
 
 # Update
@@ -82,16 +90,29 @@ def edit_hall(request, pk):
         return HttpResponse("Нямате достъп до тази страница!")
 
     if request.method == "POST":
-        form = HallForm(request.POST, request.FILES, instance=hall)
-        if form.is_valid():
-            form.save()
+        try:
+            picture = request.FILES.get("picture")
+
+            if picture: 
+                hall.name=request.POST.get("name")
+                hall.location=request.POST.get("location")
+                hall.max_seats=request.POST.get("max_seats")
+                hall.picture=picture
+                hall.save()
+            
+            else:
+                hall.name=request.POST.get("name")
+                hall.location=request.POST.get("location")
+                hall.max_seats=request.POST.get("max_seats")
+                hall.save()
+            
             return redirect("halls")
 
-        else:
-            messages.error(request, "Възникна грешка при редактирането на залата!")
+        except:
+            messages.error(request, "Възникна грешка при създаването на зала!")
 
     context = {"title": title, "form": form, "web_title": web_title}
-    return render(request, "main/form_templates/creation_form.html", context)
+    return render(request, "main/form_templates/hall_form.html", context)
 
 
 # Delete

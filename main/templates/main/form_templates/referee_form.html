@@ -32,37 +32,19 @@
                         <div class="col-lg-6">
                             <label for="birth_date">Рожденна дата*</label>
                             <input class="form-control bg-bg" type="date" required name="birth_date"
-                                value="{{player.birth_date|date:'Y-m-d'}}" min="1960-01-01" max="{{now|date:'Y-m-d'}}">
+                                value="{{referee.birth_date|date:'Y-m-d'}}" min="1920-01-01" max="{{now|date:'Y-m-d'}}">
                         </div>
-                        <div class="col-lg-6">
-                            {{form.height|as_crispy_field}}
-                        </div>
-                    </div>
-
-                    <div class="d-flex justify-content-center my-2 row">
                         <div class="col-lg-6">
                             {{form.nationality|as_crispy_field}}
                         </div>
-                        <div class="col-lg-6">
-                            {{form.photo|as_crispy_field}}
-                        </div>
                     </div>
 
                     <div class="d-flex justify-content-center my-2 row">
                         <div class="col-lg-6">
-                            {{form.position|as_crispy_field}}
+                            {{form.experience|as_crispy_field}}
                         </div>
                         <div class="col-lg-6">
-                            <label for="team_name">Отбор*</label>
-                            <input class="form-control bg-bg" required type="text" value="{{player.team.name}}"
-                                name="team" list="team-list" autocomplete="off" />
-                            <datalist id="team-list">
-                                <select id="team_name">
-                                    {% for team in teams %}
-                                    <option value="{{team.name}}">{{team.name}}</option>
-                                    {% endfor %}
-                                </select>
-                            </datalist>
+                            {{form.photo|as_crispy_field}}
                         </div>
                     </div>
 

@@ -31,31 +31,22 @@ def tournament_info(request, pk):
 def tournaments(request):
     q = request.GET.get("q") if request.GET.get("q") != None else ""
 
-    sort_by = request.GET.get("sort_by")
-    if sort_by == "newest":
-        get_tournaments = Tournament.objects.filter(
-            Q(name__icontains=q)
-            | Q(hall__name__icontains=q)
-            | Q(hall__location__icontains=q)
-        ).order_by("-opening_date")
-    elif sort_by == "oldest":
-        get_tournaments = Tournament.objects.filter(
-            Q(name__icontains=q)
-            | Q(hall__name__icontains=q)
-            | Q(hall__location__icontains=q)
-        ).order_by("opening_date")
-    elif sort_by == "hall":
-        get_tournaments = Tournament.objects.filter(
-            Q(name__icontains=q)
-            | Q(hall__name__icontains=q)
-            | Q(hall__location__icontains=q)
-        ).order_by("hall", "-opening_date")
-    else:
-        get_tournaments = Tournament.objects.filter(
+    get_tournaments = Tournament.objects.filter(
             Q(name__icontains=q)
             | Q(hall__name__icontains=q)
             | Q(hall__location__icontains=q)
         )
+
+    sort_by = request.GET.get("sort_by")
+
+    if sort_by == "newest":
+        get_tournaments = get_tournaments.order_by("-opening_date")
+
+    elif sort_by == "oldest":
+        get_tournaments.order_by("opening_date")
+
+    elif sort_by == "hall":
+        get_tournaments.order_by("hall", "-opening_date")
 
     show = request.GET.get("show")
     if show == "18":

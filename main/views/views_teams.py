@@ -24,25 +24,23 @@ def team_info(request, pk):
 def teams(request):
     q = request.GET.get("q") if request.GET.get("q") != None else ""
 
+    get_teams = Team.objects.filter(
+            Q(name__icontains=q) | Q(location__icontains=q)
+        )
+
     sort_by = request.GET.get("sort_by")
+
     if sort_by == "name":
-        get_teams = Team.objects.filter(
-            Q(name__icontains=q) | Q(location__icontains=q)
-        ).order_by("name")
+        get_teams = get_teams.order_by("name")
+        
     elif sort_by == "newest":
-        get_teams = Team.objects.filter(
-            Q(name__icontains=q) | Q(location__icontains=q)
-        ).order_by("-founded_in")
+        get_teams = get_teams.order_by("-founded_in")
+
     elif sort_by == "oldest":
-        get_teams = Team.objects.filter(
-            Q(name__icontains=q) | Q(location__icontains=q)
-        ).order_by("founded_in")
+        get_teams = get_teams.order_by("founded_in")
+
     elif sort_by == "location":
-        get_teams = Team.objects.filter(
-            Q(name__icontains=q) | Q(location__icontains=q)
-        ).order_by("location", "-founded_in")
-    else:
-        get_teams = Team.objects.filter(Q(name__icontains=q) | Q(location__icontains=q))
+        get_teams = get_teams.order_by("location", "-founded_in")
 
     show = request.GET.get("show")
     if show == "18":

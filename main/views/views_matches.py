@@ -29,25 +29,19 @@ def match_info(request, pk):
 def results(request):
     q = request.GET.get("q") if request.GET.get("q") != None else ""
 
-    sort_by = request.GET.get("sort_by")
-    if sort_by == "newest":
-        get_matches = Match.objects.filter(
-            Q(team1__name__icontains=q)
-            | Q(team2__name__icontains=q)
-            | Q(tournament__name__icontains=q)
-        ).order_by("-date")
-    elif sort_by == "oldest":
-        get_matches = Match.objects.filter(
-            Q(team1__name__icontains=q)
-            | Q(team2__name__icontains=q)
-            | Q(tournament__name__icontains=q)
-        ).order_by("date")
-    else:
-        get_matches = Match.objects.filter(
+    get_matches = Match.objects.filter(
             Q(team1__name__icontains=q)
             | Q(team2__name__icontains=q)
             | Q(tournament__name__icontains=q)
         )
+
+    sort_by = request.GET.get("sort_by")
+
+    if sort_by == "newest":
+        get_matches = get_matches.order_by("-date")
+
+    elif sort_by == "oldest":
+        get_matches = get_matches.order_by("date")
 
     show = request.GET.get("show")
     if show == "18":
@@ -74,25 +68,19 @@ def results(request):
 def fixtures(request):
     q = request.GET.get("q") if request.GET.get("q") != None else ""
 
-    sort_by = request.GET.get("sort_by")
-    if sort_by == "newest":
-        get_matches = Match.objects.filter(
-            Q(team1__name__icontains=q)
-            | Q(team2__name__icontains=q)
-            | Q(tournament__name__icontains=q)
-        ).order_by("-date")
-    elif sort_by == "oldest":
-        get_matches = Match.objects.filter(
-            Q(team1__name__icontains=q)
-            | Q(team2__name__icontains=q)
-            | Q(tournament__name__icontains=q)
-        ).order_by("date")
-    else:
-        get_matches = Match.objects.filter(
+    get_matches = Match.objects.filter(
             Q(team1__name__icontains=q)
             | Q(team2__name__icontains=q)
             | Q(tournament__name__icontains=q)
         )
+
+    sort_by = request.GET.get("sort_by")
+
+    if sort_by == "newest":
+        get_matches = get_matches.order_by("-date")
+
+    elif sort_by == "oldest":
+        get_matches = get_matches.order_by("date")
 
     show = request.GET.get("show")
     if show == "18":
@@ -202,74 +190,72 @@ async def edit_fixture(request, pk):
         return HttpResponse("Нямате достъп до тази страница!")
 
     if request.method == "POST":
-        # try:
-        team1_name = request.POST.get("team1")
-        team1 = Team.objects.get(name=team1_name)
+        try:
+            team1_name = request.POST.get("team1")
+            team1 = Team.objects.get(name=team1_name)
 
-        team2_name = request.POST.get("team2")
-        team2 = Team.objects.get(name=team2_name)
+            team2_name = request.POST.get("team2")
+            team2 = Team.objects.get(name=team2_name)
 
-        tournament_name = request.POST.get("tournament")
-        tournament = Tournament.objects.get(name=tournament_name)
+            tournament_name = request.POST.get("tournament")
+            tournament = Tournament.objects.get(name=tournament_name)
 
-        ref_name = request.POST.get("referee").split(" ")
-        referee_first_name = ref_name[0]
-        referee_last_name = ref_name[1]
-        referee = Referee.objects.get(
-            first_name=referee_first_name, last_name=referee_last_name
-        )
-
-        date = request.POST.get("date")
-
-        team1_points = int(request.POST.get("team1_points"))
-        team2_points = int(request.POST.get("team2_points"))
-
-        team1_won_with_25 = False
-        team2_won_with_25 = False
-        team1_won_more_25 = False
-        team2_won_more_25 = False
-
-        if team1_points and team2_points:
-            if team1_points == 25 and 0 <= team2_points < 24:
-                team1_won_with_25 = True
-
-            elif team2_points == 25 and 0 <= team1_points < 24:
-                team2_won_with_25 = True
-            
-            elif team1_points > 25 and team2_points > 25 and team1_points - team2_points == 2:
-                team1_won_more_25 = True
-
-            elif team1_points > 25 and team2_points > 25 and team2_points - team1_points == 2:
-                team2_won_more_25 = True
-
-        if team1_points and team2_points:
-            if team1_won_with_25 or team2_won_with_25 or team1_won_more_25 or team2_won_more_25:
-                fixture = Match.objects.update(
-                    team1=team1,
-                    team2=team2,
-                    tournament=tournament,
-                    date=date,
-                    referee=referee,
-                    team1_points=team1_points,
-                    team2_points=team2_points,
-                )
-
-            else:
-                messages.error(request, "Въведен е невалиден резултат!")
-
-        else:
-            fixture = Match.objects.update(
-                team1=team1,
-                team2=team2,
-                tournament=tournament,
-                date=request.POST.get("date"),
-                referee=referee,
+            ref_name = request.POST.get("referee").split(" ")
+            referee_first_name = ref_name[0]
+            referee_last_name = ref_name[1]
+            referee = Referee.objects.get(
+                first_name=referee_first_name, last_name=referee_last_name
             )
 
-        return redirect("fixtures")
+            date = request.POST.get("date")
 
-    # except:
-    # messages.error(request, "Възникна грешка при създаването на мач! Проверете: 'Отбор 1', 'Отбор 2', 'Турнир', 'Съдия'")
+            team1_points = int(request.POST.get("team1_points"))
+            team2_points = int(request.POST.get("team2_points"))
+
+            team1_won_with_25 = False
+            team2_won_with_25 = False
+            team1_won_more_25 = False
+            team2_won_more_25 = False
+
+            if team1_points and team2_points:
+                if team1_points == 25 and 0 <= team2_points < 24:
+                    team1_won_with_25 = True
+
+                elif team2_points == 25 and 0 <= team1_points < 24:
+                    team2_won_with_25 = True
+                
+                elif team1_points > 25 and team2_points > 25 and team1_points - team2_points == 2:
+                    team1_won_more_25 = True
+
+                elif team1_points > 25 and team2_points > 25 and team2_points - team1_points == 2:
+                    team2_won_more_25 = True
+
+            if team1_points and team2_points:
+                if team1_won_with_25 or team2_won_with_25 or team1_won_more_25 or team2_won_more_25:
+                    fixture.team1=team1
+                    fixture.team2=team2
+                    fixture.tournament=tournament
+                    fixture.date=date
+                    fixture.referee=referee
+                    fixture.team1_points=team1_points
+                    fixture.team2_points=team2_points
+                    fixture.save()
+
+                else:
+                    messages.error(request, "Въведен е невалиден резултат!")
+
+            else:
+                fixture.team1=team1
+                fixture.team2=team2
+                fixture.tournament=tournament
+                fixture.date=request.POST.get("date")
+                fixture.referee=referee
+                fixture.save()
+
+            return redirect("fixtures")
+
+        except:
+            messages.error(request, "Възникна грешка при създаването на мач! Проверете: 'Отбор 1', 'Отбор 2', 'Турнир', 'Съдия'")
 
     context = {
         "title": title,

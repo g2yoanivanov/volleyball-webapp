@@ -15,23 +15,19 @@ def referees(request):
 
     now = timezone.now()
 
-    sort_by = request.GET.get("sort_by")
-    if sort_by == "name":
-        get_referees = Referee.objects.filter(
-            Q(first_name__icontains=q) | Q(last_name__icontains=q)
-        ).order_by("first_name", "last_name")
-    elif sort_by == "nationality":
-        get_referees = Referee.objects.filter(
-            Q(first_name__icontains=q) | Q(last_name__icontains=q)
-        ).order_by("nationality")
-    elif sort_by == "experience":
-        get_referees = Referee.objects.filter(
-            Q(first_name__icontains=q) | Q(last_name__icontains=q)
-        ).order_by("-experience")
-    else:
-        get_referees = Referee.objects.filter(
+    get_referees = Referee.objects.filter(
             Q(first_name__icontains=q) | Q(last_name__icontains=q)
         )
+
+    sort_by = request.GET.get("sort_by")
+    if sort_by == "name":
+       get_referees = get_referees.order_by("first_name", "last_name")
+       
+    elif sort_by == "nationality":
+        get_referees = get_referees.order_by("nationality")
+
+    elif sort_by == "experience":
+        get_referees = get_referees.order_by("-experience")
 
     show = request.GET.get("show")
     if show == "18":
@@ -57,18 +53,41 @@ def referees(request):
 def create_referee(request):
     title = "create"
     web_title = "Създаване на съдия"
+    now = timezone.now()
+
     form = RefereeForm()
 
     if request.method == "POST":
-        form = RefereeForm(request.POST, request.FILES)
-        if form.is_valid():
-            form.save()
-            return redirect("referees")
-        else:
-            messages.error(request, "Възникна грешка при създаването на зала")
+        try:
+            photo = request.FILES.get("photo")
 
-    context = {"form": form, "title": title, "web_title": web_title}
-    return render(request, "main/form_templates/creation_form.html", context)
+            if photo:
+                Referee.objects.create(
+                    first_name=request.POST.get("first_name"),
+                    last_name=request.POST.get("last_name"),
+                    birth_date=request.POST.get("birth_date"),
+                    experience=request.POST.get("experience"),
+                    nationality=request.POST.get("nationality"),
+                    photo=photo,
+                    description=request.POST.get("description"),
+                )
+            else:
+                Referee.objects.create(
+                    first_name=request.POST.get("first_name"),
+                    last_name=request.POST.get("last_name"),
+                    birth_date=request.POST.get("birth_date"),
+                    experience=request.POST.get("experience"),
+                    nationality=request.POST.get("nationality"),
+                    description=request.POST.get("description"),
+                )
+
+            return redirect("referees")
+
+        except:
+            messages.error(request, "Възникна грешка при създаването на съдия!")
+
+    context = {"form": form, "title": title, "web_title": web_title, "now": now}
+    return render(request, "main/form_templates/referee_form.html", context)
 
 
 # Update
@@ -76,6 +95,7 @@ def create_referee(request):
 def edit_referee(request, pk):
     title = "edit"
     web_title = "Редактиране на съдия"
+    now = timezone.now()
 
     referee = Referee.objects.get(id=pk)
     form = RefereeForm(instance=referee)
@@ -84,16 +104,36 @@ def edit_referee(request, pk):
         return HttpResponse("Нямате достъп до тази страница!")
 
     if request.method == "POST":
-        form = RefereeForm(request.POST, request.FILES, instance=referee)
-        if form.is_valid():
-            form.save()
+        try:
+
+            photo = request.FILES.get("photo")
+
+            if photo:
+                referee.first_name=request.POST.get("first_name")
+                referee.last_name=request.POST.get("last_name")
+                referee.birth_date=request.POST.get("birth_date")
+                referee.experience=request.POST.get("experience")
+                referee.nationality=request.POST.get("nationality")
+                referee.photo=photo
+                referee.description=request.POST.get("description")
+                referee.save()
+
+            else:
+                referee.first_name=request.POST.get("first_name")
+                referee.last_name=request.POST.get("last_name")
+                referee.birth_date=request.POST.get("birth_date")
+                referee.experience=request.POST.get("experience")
+                referee.nationality=request.POST.get("nationality")
+                referee.description=request.POST.get("description")
+                referee.save()
+
             return redirect("referees")
 
-        else:
-            messages.error(request, "Възникна грешка при редактирането на залата!")
+        except:
+            messages.error(request, "Възникна грешка при създаването на съдия!")
 
-    context = {"title": title, "form": form, "web_title": web_title}
-    return render(request, "main/form_templates/creation_form.html", context)
+    context = {"title": title, "form": form, "web_title": web_title, "now": now, "referee": referee}
+    return render(request, "main/form_templates/referee_form.html", context)
 
 
 # Delete
