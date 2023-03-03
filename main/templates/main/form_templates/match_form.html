@@ -51,7 +51,8 @@
                         <div class="col-lg-6">
                             <label for="birth_date">Дата*</label>
                             <input class="form-control bg-bg" type="datetime-local" required name="date"
-                                value="{{match.date|date:'Y-m-d\TH:i'}}" min="{{now|date:'Y-m-d\TH:i'}}"
+                                value="{{match.date|date:'Y-m-d\TH:i'}}" 
+                                {% if title == "create"%} min="{{now|date:'Y-m-d\TH:i'}}" {% endif %} 
                                 max="2027-12-31T23:59">
                         </div>
                         <div class="col-lg-6">

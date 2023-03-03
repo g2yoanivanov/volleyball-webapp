@@ -150,7 +150,7 @@ class TeamForm(ModelForm):
             "coach": forms.TextInput(attrs={"class": "form-control bg-bg", "autocomplete": "off"}),
             "founded_in": forms.DateInput(attrs={"class": "form-control bg-bg"}),
             "location": forms.TextInput(attrs={"class": "form-control bg-bg", "autocomplete": "off"}),
-            "picture": forms.ClearableFileInput(attrs={"class": "form-control bg-bg"}),
+            "picture": forms.FileInput(attrs={"class": "form-control bg-bg"}),
             "description": forms.Textarea(attrs={"class": "form-control bg-bg"}),
         }
 

@@ -74,18 +74,51 @@ def tournaments(request):
 def create_tournament(request):
     title = "create"
     web_title = "Създаване на турнир"
+
+    teams = Team.objects.all()
+    referees = Referee.objects.all()
+    halls = Hall.objects.all()
+
     form = TournamentForm()
 
     if request.method == "POST":
-        form = TournamentForm(request.POST, request.FILES)
-        if form.is_valid():
-            form.save()
-            return redirect("tournaments")
-        else:
-            messages.error(request, "Възникна грешка при създаването на турнир")
+        try:
+            selected_teams_names = request.POST.getlist("selected_teams")
+            selected_teams = Team.objects.filter(name__in=selected_teams_names)
 
-    context = {"form": form, "title": title, "web_title": web_title}
-    return render(request, "main/form_templates/creation_form.html", context)
+            selected_referees_ids = request.POST.getlist("selected_referees")
+            selected_referees = Referee.objects.filter(id__in=selected_referees_ids)
+
+            hall_name = request.POST.get("hall")
+            hall = Hall.objects.get(name=hall_name)
+
+            tournament=Tournament.objects.create(
+                name=request.POST.get("name"),
+                hall=hall,
+                opening_date=request.POST.get("opening_date"),
+                closing_date=request.POST.get("closing_date"), 
+                prize_pool=request.POST.get("prize_pool"),
+                description=request.POST.get("description")  
+            )
+            tournament.teams.set(selected_teams)
+            tournament.referees.set(selected_referees)
+
+            return redirect("tournaments")
+        
+        except Exception as e:
+            messages.error(request, '{}'.format(str(e)))
+            
+
+    context = {
+            "form": form,
+            "title": title, 
+            "web_title": web_title, 
+            "teams": teams, 
+            "referees": referees,
+            "halls": halls
+        }
+    
+    return render(request, "main/form_templates/tournament_form.html", context)
 
 
 # Update
@@ -94,6 +127,10 @@ def edit_tournament(request, pk):
     title = "edit"
     web_title = "Редактиране на турнир"
 
+    teams = Team.objects.all()
+    referees = Referee.objects.all()
+    halls = Hall.objects.all()
+
     tournament = Tournament.objects.get(id=pk)
     form = TournamentForm(instance=tournament)
 
@@ -101,16 +138,39 @@ def edit_tournament(request, pk):
         return HttpResponse("Нямате достъп до тази страница!")
 
     if request.method == "POST":
-        form = TournamentForm(request.POST, request.FILES, instance=tournament)
-        if form.is_valid():
-            form.save()
-            return redirect("tournaments")
+        selected_teams_names = request.POST.getlist("selected_teams")
+        selected_teams = Team.objects.filter(name__in=selected_teams_names)
 
-        else:
-            messages.error(request, "Възникна грешка при редактирането на турнира!")
+        selected_referees_ids = request.POST.getlist("selected_referees")
+        selected_referees = Referee.objects.filter(id__in=selected_referees_ids)
 
-    context = {"title": title, "form": form, "web_title": web_title}
-    return render(request, "main/form_templates/creation_form.html", context)
+        hall_name = request.POST.get("hall")
+        hall = Hall.objects.get(name=hall_name)
+        
+        tournament.name=request.POST.get("name")
+        tournament.hall=hall
+        tournament.opening_date=request.POST.get("opening_date")
+        tournament.closing_date=request.POST.get("closing_date")
+        tournament.prize_pool=request.POST.get("prize_pool")
+        tournament.description=request.POST.get("description")  
+
+        tournament.save()
+
+        tournament.teams.set(selected_teams)
+        tournament.referees.set(selected_referees)
+        return redirect("tournaments")
+
+
+    context = {
+            "title": title, 
+            "form": form, 
+            "web_title": web_title,
+            "tournament": tournament,
+            "teams": teams,
+            "halls": halls,
+            "referees": referees
+        }
+    return render(request, "main/form_templates/tournament_form.html", context)
 
 
 # Delete

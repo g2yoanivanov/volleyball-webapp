@@ -69,15 +69,25 @@ def create_team(request):
     form = TeamForm()
 
     if request.method == "POST":
-        form = TeamForm(request.POST, request.FILES)
-        if form.is_valid():
-            form.save()
+        try:
+            picture = request.FILES.get("picture")
+
+            Hall.objects.create(
+                name=request.POST.get("name"),
+                coach=request.POST.get("coach"),
+                location=request.POST.get("location"),
+                founded_in=request.POST.get("founded_in"),
+                picture=picture,
+                description=request.POST.get("description"),
+            )
+
             return redirect("teams")
-        else:
-            messages.error(request, "Възникна грешка при създаването на отбор")
+
+        except:
+            messages.error(request, "Възникна грешка при създаването на отбор!")
 
     context = {"form": form, "title": title, "web_title": web_title}
-    return render(request, "main/form_templates/creation_form.html", context)
+    return render(request, "main/form_templates/team_form.html", context)
 
 
 # Update
@@ -85,6 +95,7 @@ def create_team(request):
 def edit_team(request, pk):
     title = "edit"
     web_title = "Редактиране на отбор"
+    now = timezone.now()
 
     team = Team.objects.get(id=pk)
     form = TeamForm(instance=team)
@@ -93,16 +104,33 @@ def edit_team(request, pk):
         return HttpResponse("Нямате достъп до тази страница!")
 
     if request.method == "POST":
-        form = TeamForm(request.POST, request.FILES, instance=team)
-        if form.is_valid():
-            form.save()
+        try:
+            picture = request.FILES.get("picture")
+
+            if picture: 
+                team.name=request.POST.get("name")
+                team.location=request.POST.get("location")
+                team.coach=request.POST.get("coach")
+                team.founded_in=request.POST.get("founded_in")
+                team.description=request.POST.get("description")
+                team.picture=picture
+                team.save()
+            
+            else:
+                team.name=request.POST.get("name")
+                team.location=request.POST.get("location")
+                team.coach=request.POST.get("coach")
+                team.founded_in=request.POST.get("founded_in")
+                team.description=request.POST.get("description")
+                team.save()
+            
             return redirect("teams")
 
-        else:
-            messages.error(request, "Възникна грешка при редактирането на отбора!")
+        except:
+            messages.error(request, "Възникна грешка при създаването на отбор!")
 
-    context = {"title": title, "form": form, "web_title": web_title}
-    return render(request, "main/form_templates/creation_form.html", context)
+    context = {"title": title, "form": form, "web_title": web_title, "team": team, "now": now}
+    return render(request, "main/form_templates/team_form.html", context)
 
 
 # Delete

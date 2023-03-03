@@ -174,7 +174,7 @@ def create_fixture(request):
 
 # Update
 @staff_member_required
-async def edit_fixture(request, pk):
+def edit_fixture(request, pk):
     title = "edit"
     web_title = "Редактиране на мач"
     now = timezone.now()
@@ -267,6 +267,7 @@ async def edit_fixture(request, pk):
         "referees": referees,
         "match": fixture,
     }
+
     return render(request, "main/form_templates/match_form.html", context)
 
 
