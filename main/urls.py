@@ -19,6 +19,7 @@ urlpatterns = [
     path('login/', views.login_page, name='login'),
     path('logout/', views.logout_user, name='logout'),
     path('register/', views.register_page, name='register'),
+    path('buy-ticket/<str:pk>/', views.buy_ticket, name="buy_ticket"),
 
     path('tournaments/', views.tournaments, name='tournaments'),
     path('teams/', views.teams, name='teams'),

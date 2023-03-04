@@ -1,0 +1,72 @@
+{% extends 'base.html' %}
+
+{% block title %}Билет{% endblock %}
+
+{% block content %}
+
+<div class="container-fluid w-75 mt-5 h-100">
+    <div class="row">
+        <div class="col-lg-8">
+            <h2 class="text-center">Билет за:</h2>
+            <div class="row">
+                <div class="col-lg-6 text-center">
+                    <h4 class="pt-2">{{match.team1.name}}</h4>
+                    <hr class="mt-0" style="color: var(--main-color)">
+                    <img width="150px" height="150px" src="{{match.team1.picture.url}}" />
+                </div>
+                <div class="col-lg-6 text-center">
+                    <h4 class="pt-2">{{match.team2.name}}</h4>
+                    <hr class="mt-0" style="color: var(--main-color)">
+                    <img width="150px" height="150px" src="{{match.team2.picture.url}}" />
+                </div>
+            </div>
+            <h5 class="text-center h6">Дата: {{match.date|date:"d.m.Y H:i"}}</h5>
+            <h5 class="text-center h6">Зала: {{match.tournament.hall}}</h5>
+            <h5 class="text-center h6">Цена: {{match.ticket_set.first.price}}$</h5>
+        </div>
+        <div class="col-lg-4">
+            <div id="paypal-button-container"></div>
+        </div>
+    </div>
+
+</div>
+
+
+<!-- Include the PayPal JavaScript SDK -->
+<script
+    src="https://www.paypal.com/sdk/js?client-id=AXBkjm5M-qJkI-F7v5UTTaiaCmD08eUqMCtRmlMxfx3WeZ0xmuL0HG9xbZgIuSCU42-bEZOPHT5Uj2Z5&currency=USD&locale=bg_BG"></script>
+
+<script>
+    var total = '{{match.ticket_set.first.price}}'
+
+    // Render the PayPal button into #paypal-button-container
+    paypal.Buttons({
+
+        style: {
+            color: 'blue',
+            shape: 'rect',
+            height: 50
+        },
+
+        // Call your server to set up the transaction
+        createOrder: function (data, actions) {
+            return actions.order.create({
+                purchase_units: [{
+                    amount: {
+                        value: total
+                    }
+                }]
+            });
+        },
+
+        // Call your server to finalize the transaction
+        onApprove: function (data, actions) {
+            return actions.order.capture().then(function (details) {
+                alert('Transaction completed by' + details.payer.name.given_name + '!');
+            });
+        }
+
+    }).render('#paypal-button-container');
+</script>
+
+{% endblock %}

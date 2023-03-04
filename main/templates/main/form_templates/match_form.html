@@ -21,64 +21,55 @@
 
                     <div class="d-flex justify-content-center my-2 row">
                         <div class="col-lg-6">
-                            <label for="team1_name">Отбор 1*</label>
-                            <input class="form-control bg-bg" required type="text" value="{{match.team1.name}}"
-                                name="team1" list="team-1-list" autocomplete="off" />
-                            <datalist id="team-1-list">
-                                <select id="team1_name">
-                                    {% for team in teams %}
-                                    <option value="{{team.name}}">{{team.name}}</option>
-                                    {% endfor %}
-                                </select>
-                            </datalist>
+                            <label for="birth_date">Дата*</label>
+                            <input class="form-control bg-bg" type="datetime-local" required name="date"
+                                value="{{match.date|date:'Y-m-d\TH:i'}}" {% if title == "create" %}
+                                min="{{now|date:'Y-m-d\TH:i'}}" {% endif %} max="2027-12-31T23:59">
                         </div>
-
                         <div class="col-lg-6">
-                            <label for="team2_name">Отбор 2*</label>
-                            <input class="form-control bg-bg" required type="text" value="{{match.team2.name}}"
-                                name="team2" list="team-2-list" autocomplete="off" />
-                            <datalist id="team-2-list">
-                                <select id="team2_name">
-                                    {% for team in teams %}
-                                    <option value="{{team.name}}">{{team.name}}</option>
-                                    {% endfor %}
-                                </select>
-                            </datalist>
+                            <label for="tournament_name">Турнир*</label>
+                            <select name="tournament" class="form-control selectpicker" data-live-search="true"
+                                data-none-selected-text="Изберете турнир" data-style="bg-bg">
+                                {% for tournament in tournaments%}
+                                <option value="{{tournament.name}}">{{tournament.name}}</option>
+                                {% endfor %}
+                            </select>
                         </div>
                     </div>
 
                     <div class="d-flex justify-content-center my-2 row">
                         <div class="col-lg-6">
-                            <label for="birth_date">Дата*</label>
-                            <input class="form-control bg-bg" type="datetime-local" required name="date"
-                                value="{{match.date|date:'Y-m-d\TH:i'}}" 
-                                {% if title == "create"%} min="{{now|date:'Y-m-d\TH:i'}}" {% endif %} 
-                                max="2027-12-31T23:59">
-                        </div>
-                        <div class="col-lg-6">
-                            <label for="tournament_name">Турнир*</label>
-                            <input class="form-control bg-bg" required type="text" value="{{match.tournament.name}}"
-                                name="tournament" list="tournament-list" autocomplete="off" />
-                            <datalist id="tournament-list">
-                                {% for tournament in tournaments %}
-                                <option value="{{tournament.name}}">{{tournament.name}}</option>
+                            <label for="team1_name">Отбор 1*</label>
+                            <select name="team1" class="form-control selectpicker" data-live-search="true"
+                                data-none-selected-text="Изберете отбор" data-style="bg-bg">
+                                {% for team in teams %}
+                                <option value="{{ team.name }}" {% if match.team1 == team %}selected{% endif %}>{{ team.name }}</option>
                                 {% endfor %}
-                            </datalist>
+                            </select>
+                        </div>
+
+                        <div class="col-lg-6">
+                            <label for="team2_name">Отбор 2*</label>
+                            <select name="team2" class="form-control selectpicker" data-live-search="true"
+                                data-none-selected-text="Изберете отбор" data-style="bg-bg">
+                                {% for team in teams %}
+                                <option value="{{ team.name }}" {% if match.team2 == team %}selected{% endif %}>{{ team.name }}</option>
+                                {% endfor %}
+                            </select>
                         </div>
                     </div>
 
                     <div class="d-flex justify-content-center my-2 row">
                         <div class="col-lg-6">
                             <label for="referee_name">Съдия*</label>
-                            <input class="form-control bg-bg" required type="text"
-                                value="{{match.referee.first_name}} {{match.referee.last_name}}" name="referee"
-                                list="referee-list" autocomplete="off" />
-                            <datalist id="referee-list">
+                            <select name="referee" class="form-control selectpicker" data-live-search="true"
+                                data-none-selected-text="Изберете отбор" data-style="bg-bg">
                                 {% for referee in referees %}
-                                <option value="{{referee.first_name}} {{referee.last_name}}">{{referee.first_name}}
-                                    {{referee.last_name}}</option>
+                                <option value="{{referee.first_name}} {{referee.last_name}}">
+                                    {{referee.first_name}} {{referee.last_name}}
+                                </option>
                                 {% endfor %}
-                            </datalist>
+                            </select>
                         </div>
                     </div>
 

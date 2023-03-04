@@ -146,15 +146,28 @@ def edit_tournament(request, pk):
 
         hall_name = request.POST.get("hall")
         hall = Hall.objects.get(name=hall_name)
-        
-        tournament.name=request.POST.get("name")
-        tournament.hall=hall
-        tournament.opening_date=request.POST.get("opening_date")
-        tournament.closing_date=request.POST.get("closing_date")
-        tournament.prize_pool=request.POST.get("prize_pool")
-        tournament.description=request.POST.get("description")  
 
-        tournament.save()
+        winner_name = request.POST.get("winner")
+        winner = Team.objects.get(name=winner_name)
+        
+        if winner:
+            tournament.name=request.POST.get("name")
+            tournament.hall=hall
+            tournament.opening_date=request.POST.get("opening_date")
+            tournament.closing_date=request.POST.get("closing_date")
+            tournament.prize_pool=request.POST.get("prize_pool")
+            tournament.description=request.POST.get("description")
+            tournament.save()
+        
+        else:
+            tournament.name=request.POST.get("name")
+            tournament.hall=hall
+            tournament.opening_date=request.POST.get("opening_date")
+            tournament.closing_date=request.POST.get("closing_date")
+            tournament.prize_pool=request.POST.get("prize_pool")
+            tournament.winner=winner
+            tournament.description=request.POST.get("description")
+            tournament.save()
 
         tournament.teams.set(selected_teams)
         tournament.referees.set(selected_referees)

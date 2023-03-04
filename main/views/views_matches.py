@@ -135,7 +135,7 @@ def create_fixture(request):
                 first_name=referee_first_name, last_name=referee_last_name
             )
 
-            if team1 is not team2:
+            if team1 != team2:
                 fixture = Match.objects.create(
                     team1=team1,
                     team2=team2,
@@ -154,11 +154,8 @@ def create_fixture(request):
             else:
                 messages.error(request, "Двата отбора в мача трябва да са различни!")
 
-        except:
-            messages.error(
-                request,
-                "Възникна грешка при създаването на мач! Проверете: 'Отбор 1', 'Отбор 2', 'Турнир', 'Съдия'",
-            )
+        except Exception as e:
+            messages.error(request, '{}'.format(str(e)))
 
     context = {
         "form": form,
@@ -281,6 +278,9 @@ def delete_fixture(request, pk):
 
     if request.method == "POST":
         fixture.delete()
+        if fixture.ticket.qr_code:
+            fixture.ticket.qr_code.storage.delete(fixture.ticket.qr_code.path)
+        fixture.ticket.delete()
         return redirect("fixtures")
 
     context = {"obj": fixture}

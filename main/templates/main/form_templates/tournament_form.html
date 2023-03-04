@@ -44,8 +44,8 @@
                         <div class="col-lg-6">
                             <label for="closing_date">Дата на закриване</label>
                             <input class="form-control bg-bg" type="datetime-local" required name="closing_date"
-                                value="{{tournament.closing_date|date:'Y-m-d\TH:i'}}" min="{{now|date:'Y-m-d\TH:i'}}"
-                                max="2028-01-02T23:59">
+                                value="{{tournament.closing_date|date:'Y-m-d\TH:i'}}"
+                                min="{{tournament.opening_date|date:'Y-m-d\TH:i'}}" max="2028-01-02T23:59">
                         </div>
                     </div>
 
@@ -58,7 +58,12 @@
                         {% if tournament.closing_date > now %}
                         <div class="col-lg-6">
                             <label for="nationality">Победител</label>
-                            {{form.winner}}
+                            <select name="winner" class="form-control selectpicker" data-live-search="true"
+                                data-none-selected-text="Изберете победител" data-style="bg-bg">
+                                {% for team in teams %}
+                                <option value="{{ team.name }}" {% if tournament.winner == team %}selected{% endif %}>{{ team.name }}</option>
+                                {% endfor %}
+                            </select>
                         </div>
                         {% endif %}
                     </div>
@@ -71,11 +76,11 @@
                                 data-live-search="true" data-none-selected-text="Изберете отбори" data-style="bg-bg"
                                 data-selected-text-format="count>1" data-count-selected-text="Избрани отбори:{0}">
                                 {% for team in teams %}
-                                    {% if team in tournament.teams.all %}
-                                        <option value="{{team.name}}" selected>{{team.name}}</option>
-                                    {% else %}
-                                        <option value="{{team.name}}">{{team.name}}</option>
-                                    {% endif %}
+                                {% if team in tournament.teams.all %}
+                                <option value="{{team.name}}" selected>{{team.name}}</option>
+                                {% else %}
+                                <option value="{{team.name}}">{{team.name}}</option>
+                                {% endif %}
                                 {% endfor %}
                             </select>
                         </div>
@@ -87,10 +92,11 @@
                                 data-selected-text-format="count>1" data-count-selected-text="Избрани съдии:{0}">
                                 {% for referee in referees %}
                                 {% if referee in tournament.referees.all %}
-                                        <option value="{{referee.id}}" selected>{{referee.first_name}} {{referee.last_name}}</option>
-                                    {% else %}
-                                        <option value="{{referee.id}}">{{referee.first_name}} {{referee.last_name}}</option>
-                                    {% endif %}
+                                <option value="{{referee.id}}" selected>{{referee.first_name}} {{referee.last_name}}
+                                </option>
+                                {% else %}
+                                <option value="{{referee.id}}">{{referee.first_name}} {{referee.last_name}}</option>
+                                {% endif %}
                                 {% endfor %}
                             </select>
                         </div>

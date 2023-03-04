@@ -23,7 +23,7 @@
                     {% if now > match.date %}
                     <h4 class="text-bg">{{match.team1_points}} - {{match.team2_points}}</h4>
                     {% elif match.date > now %}
-                    <a class="btn btn-font my-3 text-decoration-none text-font link-font" href="#">Билети</a>
+                    <a class="btn btn-font my-3 text-decoration-none text-font link-font" href="{% url 'buy_ticket' match.id %}">Билети</a>
                     {% endif %}
                 </div>
                 <div class="col-lg-12 text-left">
@@ -104,7 +104,7 @@
             <p>Резултат: <span>{{match.team1_points}} - {{match.team2_points}}</span></p>
             {% else %}
             <div class="text-center mt-2">
-                <a href="#" class="btn btn-font">Билети</a>
+                <a href="{% url 'buy_ticket' match.id %}" class="btn btn-font">Билети</a>
             </div>
             {% endif %}
         </div>

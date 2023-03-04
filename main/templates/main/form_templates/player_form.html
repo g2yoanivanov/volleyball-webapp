@@ -54,15 +54,12 @@
                         </div>
                         <div class="col-lg-6">
                             <label for="team_name">Отбор*</label>
-                            <input class="form-control bg-bg" required type="text" value="{{player.team.name}}"
-                                name="team" list="team-list" autocomplete="off" />
-                            <datalist id="team-list">
-                                <select id="team_name">
-                                    {% for team in teams %}
-                                    <option value="{{team.name}}">{{team.name}}</option>
-                                    {% endfor %}
-                                </select>
-                            </datalist>
+                            <select name="team" class="form-control selectpicker" data-live-search="true"
+                                data-none-selected-text="Изберете отбор" data-style="bg-bg">
+                                {% for team in teams %}
+                                <option value="{{ team.name }}" {% if player.team == team %}selected{% endif %}>{{ team.name }}</option>
+                                {% endfor %}
+                            </select>
                         </div>
                     </div>
 

@@ -7,3 +7,7 @@ superuser:
 3. pip install django
 4. pip install Pillow
 5. pip install qrcode
+
+sandbox.paypal.com
+business acc: bizyoan@gmail.com
+personal acc: personalyoan@gmail.com

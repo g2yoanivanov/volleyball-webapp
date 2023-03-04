@@ -101,7 +101,7 @@ class PlayerForm(ModelForm):
         ("MB", "Център"),
     )
     position = forms.ChoiceField(
-        choices=POSITIONS, widget=forms.Select(attrs={"class": "form-control bg-bg"}),
+        choices=POSITIONS, widget=forms.Select(attrs={"class": "form-control bg-bg selectpicker", "data-style": "bg-bg"}),
         label = "Позиция"
     )
     team = forms.ModelChoiceField(

@@ -99,7 +99,7 @@
                         <p>Резултат: <span class="text-bg">{{match.team1_points}} - {{match.team2_points}}</span></p>
                         {% else %}
                         <div class="text-center my-2">
-                            <a href="#" class="btn btn-font">Билети</a>
+                            <a href="{% url 'buy_ticket' match.id %}" class="btn btn-font">Билети</a>
                         </div>
                         {% endif %}
                         <div>

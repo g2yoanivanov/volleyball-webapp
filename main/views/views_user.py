@@ -97,3 +97,11 @@ def register_page(request):
     context = {"form": form}
 
     return render(request, "main/form_templates/login_register.html", context)
+
+
+def buy_ticket(request, pk):
+    fixture = Match.objects.get(id=pk)
+
+    context = {"match": fixture}
+
+    return render(request, "main/buy_ticket.html", context)

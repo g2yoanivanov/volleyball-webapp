@@ -97,7 +97,7 @@
             <p class="card-text mb-2">Турнир: {{match.tournament.name}}</p>
             <div>
                 <a href="{% url 'match-info' match.id %}" class="btn btn-font">Детайли</a>
-                <a href="#" class="btn btn-font">Билети</a>    
+                <a href="{% url 'buy_ticket' match.id %}" class="btn btn-font">Билети</a>    
             </div>
         </div>
     </section>
