@@ -4,9 +4,9 @@
 
 {% block content %}
 
-<div class="container-fluid w-75 mt-5 h-100">
+<div class="container-fluid w-75 mt-5 h-100 bg-sec rounded p-3">
     <div class="row">
-        <div class="col-lg-8">
+        <div class="col-lg-7 border-main rounded p-2">
             <h2 class="text-center">Билет за:</h2>
             <div class="row">
                 <div class="col-lg-6 text-center">
@@ -24,8 +24,12 @@
             <h5 class="text-center h6">Зала: {{match.tournament.hall}}</h5>
             <h5 class="text-center h6">Цена: {{match.ticket_set.first.price}}$</h5>
         </div>
-        <div class="col-lg-4">
-            <div id="paypal-button-container"></div>
+        <div class="col-lg-1"></div>
+        <div class="col-lg-4 border-main rounded p-2">
+            <div class="row d-flex align-items-center">
+                    <h3 class="text-center">Метод на заплащане:</h3>
+                    <div id="paypal-button-container" class="mt-5">
+            </div>
         </div>
     </div>
 
@@ -43,7 +47,7 @@
     paypal.Buttons({
 
         style: {
-            color: 'blue',
+            color: 'gold',
             shape: 'rect',
             height: 50
         },

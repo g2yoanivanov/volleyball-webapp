@@ -13,13 +13,13 @@ from main.forms import *
 def tournament_info(request, pk):
     tournament = Tournament.objects.get(id=pk)
     referees = Referee.objects.filter(tournaments__in=[tournament])
-    matches = Match.objects.filter(tournament=tournament)
+    teams = Team.objects.filter(tournaments__in=[tournament])
 
     now = timezone.now()
 
     context = {
         "tournament": tournament,
-        "matches": matches,
+        "teams": teams,
         "referees": referees,
         "now": now,
     }
@@ -126,62 +126,73 @@ def create_tournament(request):
 def edit_tournament(request, pk):
     title = "edit"
     web_title = "Редактиране на турнир"
-
-    teams = Team.objects.all()
-    referees = Referee.objects.all()
-    halls = Hall.objects.all()
+    now = timezone.now()
 
     tournament = Tournament.objects.get(id=pk)
     form = TournamentForm(instance=tournament)
+
+    teams_in_tournament = Team.objects.filter(tournaments__in=[tournament])
+    teams = Team.objects.all()
+    referees = Referee.objects.all()
+    halls = Hall.objects.all()
 
     if not request.user.is_staff:
         return HttpResponse("Нямате достъп до тази страница!")
 
     if request.method == "POST":
-        selected_teams_names = request.POST.getlist("selected_teams")
-        selected_teams = Team.objects.filter(name__in=selected_teams_names)
+        try:
+            selected_teams_names = request.POST.getlist("selected_teams")
+            selected_teams = Team.objects.filter(name__in=selected_teams_names)
 
-        selected_referees_ids = request.POST.getlist("selected_referees")
-        selected_referees = Referee.objects.filter(id__in=selected_referees_ids)
+            selected_referees_ids = request.POST.getlist("selected_referees")
+            selected_referees = Referee.objects.filter(id__in=selected_referees_ids)
 
-        hall_name = request.POST.get("hall")
-        hall = Hall.objects.get(name=hall_name)
+            hall_name = request.POST.get("hall")
+            hall = Hall.objects.get(name=hall_name)
 
-        winner_name = request.POST.get("winner")
-        winner = Team.objects.get(name=winner_name)
+            winner_name = request.POST.get("winner")
+            if winner_name is not None:
+                winner = Team.objects.get(name=winner_name)
+            else:
+                winner = None
+            
+            if winner is not None:
+                tournament.name=request.POST.get("name")
+                tournament.hall=hall
+                tournament.opening_date=request.POST.get("opening_date")
+                tournament.closing_date=request.POST.get("closing_date")
+                tournament.prize_pool=request.POST.get("prize_pool")
+                tournament.description=request.POST.get("description")
+                tournament.winner = winner
+                tournament.save()
+            
+            else:
+                tournament.name=request.POST.get("name")
+                tournament.hall=hall
+                tournament.opening_date=request.POST.get("opening_date")
+                tournament.closing_date=request.POST.get("closing_date")
+                tournament.prize_pool=request.POST.get("prize_pool")
+                tournament.description=request.POST.get("description")
+                tournament.save()
+
+            tournament.teams.set(selected_teams)
+            tournament.referees.set(selected_referees)
+            return redirect("tournaments")
         
-        if winner:
-            tournament.name=request.POST.get("name")
-            tournament.hall=hall
-            tournament.opening_date=request.POST.get("opening_date")
-            tournament.closing_date=request.POST.get("closing_date")
-            tournament.prize_pool=request.POST.get("prize_pool")
-            tournament.description=request.POST.get("description")
-            tournament.save()
-        
-        else:
-            tournament.name=request.POST.get("name")
-            tournament.hall=hall
-            tournament.opening_date=request.POST.get("opening_date")
-            tournament.closing_date=request.POST.get("closing_date")
-            tournament.prize_pool=request.POST.get("prize_pool")
-            tournament.winner=winner
-            tournament.description=request.POST.get("description")
-            tournament.save()
-
-        tournament.teams.set(selected_teams)
-        tournament.referees.set(selected_referees)
-        return redirect("tournaments")
+        except Exception as e:
+            messages.error(request, '{}'.format(str(e)))
 
 
     context = {
             "title": title, 
             "form": form, 
             "web_title": web_title,
+            "now": now,
             "tournament": tournament,
             "teams": teams,
             "halls": halls,
-            "referees": referees
+            "referees": referees,
+            "teams_in_tournament": teams_in_tournament
         }
     return render(request, "main/form_templates/tournament_form.html", context)
 

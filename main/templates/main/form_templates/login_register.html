@@ -6,7 +6,7 @@
 {% if page == 'login' %}
 <div class="container-fluid d-flex justify-content-center mt-5">
     <div class="d-grid bg-sec rounded">
-        <div>
+        <div class="p-3 pb-0">
             <h2 class="text-center text-font">Вход</h2>
             <form class="form-control text-left bg-sec border-sec" method="POST" action="">
                 {% csrf_token %}
@@ -29,7 +29,7 @@
             </form>
         </div>
 
-        <div class="text-center bg-main mt-3 py-0 rounded-bottom">
+        <div class="text-center bg-main mt-3 py-2 rounded-bottom">
             <small class="text-font mb-0">Нямате профил?</small>
             <br>
             <a class="text-decoration-none text-font link-bg" href="{% url 'register' %}">Регистрирайте се</a>
@@ -40,23 +40,25 @@
 {% else %}
 <div class="container-fluid d-flex justify-content-center my-5">
     <div class="d-grid bg-sec rounded">
-        <h2 class="text-center text-font">Регистрация</h2>
-        <form class="form-control text-left bg-sec border-sec" method="POST" action="">
-            {% csrf_token %}
+        <div class="p-3 pb-0">
+            <h2 class="text-center text-font">Регистрация</h2>
+            <form class="form-control text-left bg-sec border-sec" method="POST" action="">
+                {% csrf_token %}
 
-            {% for field in form %}
-            <div class="form_group mb-1">
-                <label class="text-font mb-1">{{field.label}}</label>
-                {{field}}
-            </div>
-            {% endfor %}
+                {% for field in form %}
+                <div class="form_group mb-1">
+                    <label class="text-font mb-1">{{field.label}}</label>
+                    {{field}}
+                </div>
+                {% endfor %}
 
-            <div class="text-center my-3">
-                <button class="btn btn-font text-font" type="submit">Регистрация</button>
-            </div>
-        </form>
+                <div class="text-center my-3">
+                    <button class="btn btn-font text-font" type="submit">Регистрация</button>
+                </div>
+            </form>
+        </div>
 
-        <div class="text-center bg-main mt-3 py-0 rounded-bottom">
+        <div class="text-center bg-main mt-3 py-2 rounded-bottom">
             <small class="text-font mb-0">Вече имате профил?</small>
             <br>
             <a class="text-decoration-none text-font link-bg" href="{% url 'login' %}">Вход</a>

@@ -38,8 +38,8 @@
                         <div class="col-lg-6">
                             <label for="opening_date">Дата на откриване</label>
                             <input class="form-control bg-bg" type="datetime-local" required name="opening_date"
-                                value="{{tournament.opening_date|date:'Y-m-d\TH:i'}}" min="{{now|date:'Y-m-d\TH:i'}}"
-                                max="2028-01-01T23:59">
+                                value="{{tournament.opening_date|date:'Y-m-d\TH:i'}}" {% if title == 'create'%}
+                                min="{{now|date:'Y-m-d\TH:i'}}" {% endif %} max="2028-01-01T23:59">
                         </div>
                         <div class="col-lg-6">
                             <label for="closing_date">Дата на закриване</label>
@@ -51,17 +51,18 @@
 
                     <div class="d-flex justify-content-center my-2 row">
                         <div class="col-lg-6">
-                            <label for="nationality">Награден фонд</label>
+                            <label for="prize_pool">Награден фонд</label>
                             {{form.prize_pool}}
                         </div>
 
-                        {% if tournament.closing_date > now %}
+                        {% if now > tournament.closing_date %}
                         <div class="col-lg-6">
-                            <label for="nationality">Победител</label>
+                            <label for="winner">Победител</label>
                             <select name="winner" class="form-control selectpicker" data-live-search="true"
                                 data-none-selected-text="Изберете победител" data-style="bg-bg">
-                                {% for team in teams %}
-                                <option value="{{ team.name }}" {% if tournament.winner == team %}selected{% endif %}>{{ team.name }}</option>
+                                {% for team in teams_in_tournament %}
+                                <option value="{{ team.name }}" {% if tournament.winner == team %}selected{% endif %}>
+                                    {{team.name }}</option>
                                 {% endfor %}
                             </select>
                         </div>

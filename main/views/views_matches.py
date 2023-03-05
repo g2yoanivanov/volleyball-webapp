@@ -206,8 +206,8 @@ def edit_fixture(request, pk):
 
             date = request.POST.get("date")
 
-            team1_points = int(request.POST.get("team1_points"))
-            team2_points = int(request.POST.get("team2_points"))
+            team1_points = request.POST.get("team1_points")
+            team2_points = request.POST.get("team2_points")
 
             team1_won_with_25 = False
             team2_won_with_25 = False
@@ -215,6 +215,9 @@ def edit_fixture(request, pk):
             team2_won_more_25 = False
 
             if team1_points and team2_points:
+                team1_points = int(team1_points)
+                team2_points = int(team2_points)
+
                 if team1_points == 25 and 0 <= team2_points < 24:
                     team1_won_with_25 = True
 
@@ -251,8 +254,8 @@ def edit_fixture(request, pk):
 
             return redirect("fixtures")
 
-        except:
-            messages.error(request, "Възникна грешка при създаването на мач! Проверете: 'Отбор 1', 'Отбор 2', 'Турнир', 'Съдия'")
+        except Exception as e:
+            messages.error(request, '{}'.format(str(e)))
 
     context = {
         "title": title,
