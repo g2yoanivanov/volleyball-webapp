@@ -7,7 +7,7 @@
     <h1>Турнири</h1>
     <!--Searchbar-->
     <div class="col col-md-6 mx-auto">
-        <div class="w-75 text-center m-auto">
+        <div class="w-75 text-left m-auto">
             <form class="mb-3" method="GET" action="">
                 <div class="input-group">
                     <input type="text" autocomplete="off" name="q" class="form-control" placeholder="Въведете име на турнир">
@@ -51,15 +51,15 @@
 <main class="container-fluid w-75 mt-5 h-100">
     {% for tournament in tournaments %}
     <section class="row mb-3 bg-sec border-main p-3 rounded">
-        <div class="col-lg-4 d-flex align-items-center justify-content-center text-center">
+        <div class="col-lg-4 d-flex align-items-center justify-content-start">
             <a class="text-decoration-none text-font mb-0 link-main" href="{% url 'tournament_info' tournament.id %}">
-                <h5 class="">{{tournament.name}}</h5>
+                <h5>{{tournament.name}}</h5>
             </a>
         </div>
-        <div class="col-lg-4 d-flex align-items-center justify-content-center text-center">
+        <div class="col-lg-4 d-flex align-items-center justify-content-start">
             <h5 class="">Зала: {{tournament.hall.name}}, {{tournament.hall.location}}</h5>
         </div>
-        <div class="col-lg-3 d-flex align-items-center justify-content-center text-center">
+        <div class="col-lg-3 d-flex align-items-center justify-content-start">
             {% if tournament.opening_date > now %}
             <h5 class="text-bg"><small class="text-font mb-0">Откриване:</small>
                 {{tournament.opening_date|date:"d.m.Y"}}
@@ -70,9 +70,10 @@
             </h5>
             {% endif %}
         </div>
-        <div class="col-lg-1 d-flex align-items-center justify-content-center text-center">
-            <a href="{% url 'tournament_info' tournament.id %}"><button
-                    class="btn mb-0 btn-font text-decoration-none text-font link-font">Детайли</button></a>
+        <div class="col-lg-1 d-flex align-items-center justify-content-start">
+            <a href="{% url 'tournament_info' tournament.id %}">
+                <button class="btn mb-0 btn-font text-decoration-none text-font link-font">Детайли</button>
+            </a>
         </div>
     </section>
     {% endfor %}

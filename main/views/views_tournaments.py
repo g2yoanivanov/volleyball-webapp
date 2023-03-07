@@ -43,10 +43,10 @@ def tournaments(request):
         get_tournaments = get_tournaments.order_by("-opening_date")
 
     elif sort_by == "oldest":
-        get_tournaments.order_by("opening_date")
+        get_tournaments = get_tournaments.order_by("opening_date")
 
     elif sort_by == "hall":
-        get_tournaments.order_by("hall", "-opening_date")
+        get_tournaments = get_tournaments.order_by("hall", "-opening_date")
 
     show = request.GET.get("show")
     if show == "18":
