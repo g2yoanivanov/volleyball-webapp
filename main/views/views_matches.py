@@ -282,7 +282,10 @@ def delete_fixture(request, pk):
     if request.method == "POST":
         fixture.delete()
         if fixture.ticket.qr_code:
-            fixture.ticket.qr_code.storage.delete(fixture.ticket.qr_code.path)
+            image_path = os.path.abspath(os.path.join(settings.BASE_DIR, "static", "images", fixture.ticket.qr_code.name))
+            os.remove(image_path)
+
+            fixture.ticket.qr_code.storage.delete(fixture.ticket.qr_code.name)
         fixture.ticket.delete()
         return redirect("fixtures")
 

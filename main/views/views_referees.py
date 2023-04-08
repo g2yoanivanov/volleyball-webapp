@@ -146,7 +146,10 @@ def delete_referee(request, pk):
 
     if request.method == "POST":
         if referee.photo:
-            referee.photo.storage.delete(referee.photo.path)
+            image_path = os.path.abspath(os.path.join(settings.BASE_DIR, "static", "images", referee.picture.name))
+            os.remove(image_path)
+
+            referee.picture.storage.delete(referee.picture.name)
         referee.delete()
         return redirect("referees")
 

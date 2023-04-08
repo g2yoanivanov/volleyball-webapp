@@ -180,7 +180,10 @@ def delete_player(request, pk):
 
     if request.method == "POST":
         if player.photo:
-            player.photo.storage.delete(player.photo.path)
+            image_path = os.path.abspath(os.path.join(settings.BASE_DIR, "static", "images", player.picture.name))
+            os.remove(image_path)
+
+            player.picture.storage.delete(player.picture.name)
         player.delete()
         return redirect("players")
 

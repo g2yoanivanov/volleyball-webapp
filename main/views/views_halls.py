@@ -125,7 +125,10 @@ def delete_hall(request, pk):
 
     if request.method == "POST":
         if hall.picture:
-            hall.picture.storage.delete(hall.picture.path)
+            image_path = os.path.abspath(os.path.join(settings.BASE_DIR, "static", "images", hall.picture.name))
+            os.remove(image_path)
+
+            hall.picture.storage.delete(hall.picture.name)
         hall.delete()
         return redirect("halls")
 

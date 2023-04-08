@@ -143,7 +143,10 @@ def delete_team(request, pk):
 
     if request.method == "POST":
         if team.picture:
-            team.picture.storage.delete(team.picture.path)
+            image_path = os.path.abspath(os.path.join(settings.BASE_DIR, "static", "images", team.picture.name))
+            os.remove(image_path)
+
+            team.picture.storage.delete(team.picture.name)
         team.delete()
         return redirect("teams")
 

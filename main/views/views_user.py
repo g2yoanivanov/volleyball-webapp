@@ -1,6 +1,7 @@
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
+from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.db.models import Q
@@ -98,6 +99,32 @@ def register_page(request):
     context = {"form": form}
 
     return render(request, "main/form_templates/login_register.html", context)
+
+@login_required(login_url='login')
+def profile(request, pk):
+    user = User.objects.get(id=pk)
+
+    context = {"user": user}
+
+    return render(request, "main/user_profile.html", context)
+
+def delete_user(request, pk):
+    user = User.objects.get(id=pk)
+
+    if not request.user.is_staff:
+        return HttpResponse("Нямате достъп до тази страница!")
+
+    if request.method == "POST":
+        if user.profile_picture:
+            image_path = os.path.abspath(os.path.join(settings.BASE_DIR, "static", "images", user.profile_picture.name))
+            os.remove(image_path)
+
+            user.profile_picture.storage.delete(user.profile_picture.name)
+        user.delete()
+        return redirect("admin_users")
+
+    context = {"obj": user}
+    return render(request, "main/form_templates/delete.html", context)
 
 @login_required(login_url='login')
 def buy_ticket(request, pk):
