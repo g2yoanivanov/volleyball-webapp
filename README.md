@@ -1,5 +1,5 @@
 # volleyball-webapp
-Web application for information about voleyball tournaments, matches, halls, referees, teams and players with option to buy tickets for the matches
+Web application for information about volleyball tournaments, matches, halls, referees, teams and players with option to buy tickets for the matches
 
 ## Installation
 1. Go to the official [Python website](https://www.python.org/)
