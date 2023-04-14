@@ -5,6 +5,10 @@ from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.db.models import Q
+import smtplib
+from email.mime.text import MIMEText
+from email.mime.multipart import MIMEMultipart
+from email.mime.application import MIMEApplication
 
 from main.forms import *
 
@@ -108,6 +112,9 @@ def profile(request, pk):
 
     return render(request, "main/user_profile.html", context)
 
+def update_user(request, pk):
+    user = User.objects.get(id=pk)
+
 def delete_user(request, pk):
     user = User.objects.get(id=pk)
 
@@ -133,3 +140,55 @@ def buy_ticket(request, pk):
     context = {"match": fixture}
 
     return render(request, "main/buy_ticket.html", context)
+
+
+def completed(request, pk):
+    match = Match.objects.get(id=pk)
+    ticket = match.ticket_set.first()
+    user = request.user
+
+    tickets_bought = request.POST.get("quantity")
+
+    if tickets_bought is not None:
+        quantity = int(tickets_bought)
+        ticket.quantity = ticket.quantity - quantity
+        ticket.save()
+
+        email_title = "Поръчката е завършена!"
+        email_body = f"Вие успешно закупихте {quantity} билети за мача '{ticket.match.team1.name} - {ticket.match.team2.name}'! Благодарим Ви, че избрахте нас!"
+
+        send_email(email_title, email_body, user.email, ticket.qr_code.path)
+
+        return redirect('fixtures')
+    else:
+        return redirect('index')
+
+def send_email(subject, body, to_email, attachment_path):
+    smtp_server = 'smtp.gmail.com'
+    smtp_port = 587
+    smtp_username = 'yoan040707@gmail.com'
+    smtp_password = 'zryftrdtpzcqmhfr'
+
+    message = MIMEText(body)
+    message['Subject'] = subject
+    message['From'] = smtp_username
+    message['To'] = to_email
+
+    message.attach(MIMEText(body))
+
+    # Add the attachment
+    with open(attachment_path, 'rb') as f:
+        attachment = MIMEApplication(f.read(), _subtype='pdf')
+        attachment.add_header('Content-Disposition', 'attachment', filename='ticket.pdf')
+        message.attach(attachment)
+
+    smtp_conn = smtplib.SMTP(smtp_server, smtp_port)
+    smtp_conn.starttls()
+    smtp_conn.login(smtp_username, smtp_password)
+    smtp_conn.sendmail(smtp_username, to_email, message.as_string())
+    smtp_conn.quit()
+
+
+    
+
+    

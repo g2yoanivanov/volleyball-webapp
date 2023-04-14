@@ -22,55 +22,83 @@
             </div>
             <h5 class="text-center h6">Дата: {{match.date|date:"d.m.Y H:i"}}</h5>
             <h5 class="text-center h6">Зала: {{match.tournament.hall}}</h5>
-            <h5 class="text-center h6">Цена: {{match.ticket_set.first.price}}$</h5>
+            <h5 class="text-center h6">Цена на билет: <span id="ticket-price">{{ match.ticket_set.first.price }}</span>$</h5>
+            <h5 class="text-center h6">Оставащи билети: {{match.ticket_set.first.quantity}}</h5>
+
         </div>
         <div class="col-lg-1"></div>
         <div class="col-lg-4 border-main rounded p-2">
             <div class="row d-flex align-items-center">
-                    <h3 class="text-center">Метод на заплащане:</h3>
-                    <div id="paypal-button-container" class="mt-5">
+                <h3 class="text-center">Заплащане:</h3>
+                <form method="POST" class="text-center" action="{% url 'completed' match.id %}">
+                    {% csrf_token %}
+                    <div class="d-flex justify-content-center align-items-center mb-2">
+                        <label for="quantity">Брой билети:</label>
+                        <input class="w-25 form-control" type="number" id="quantity" name="quantity" min="1"
+                            max="{{ match.ticket.quantity}}" value="1">
+                    </div>
+                </form>
+                <p class="text-center">Обща цена: <span id="total-price">{{ match.ticket_set.first.price }}</span>$</p>
+                <div id="paypal-button-container" class="mt-5">
+                </div>
             </div>
         </div>
+
     </div>
 
-</div>
 
+    <!-- Include the PayPal JavaScript SDK -->
+    <script
+        src="https://www.paypal.com/sdk/js?client-id=AXBkjm5M-qJkI-F7v5UTTaiaCmD08eUqMCtRmlMxfx3WeZ0xmuL0HG9xbZgIuSCU42-bEZOPHT5Uj2Z5&currency=USD&locale=bg_BG"></script>
 
-<!-- Include the PayPal JavaScript SDK -->
-<script
-    src="https://www.paypal.com/sdk/js?client-id=AXBkjm5M-qJkI-F7v5UTTaiaCmD08eUqMCtRmlMxfx3WeZ0xmuL0HG9xbZgIuSCU42-bEZOPHT5Uj2Z5&currency=USD&locale=bg_BG"></script>
+    <script>
+        const quantityInput = document.querySelector('#quantity');
+        const ticketPriceSpan = document.querySelector('#ticket-price');
+        const totalPriceSpan = document.querySelector('#total-price');
 
-<script>
-    var total = '{{match.ticket_set.first.price}}'
+        var matchId = '{{match.id}}'
+        var url = "{% url 'completed' match.id %}"
 
-    // Render the PayPal button into #paypal-button-container
-    paypal.Buttons({
+        let totalPrice = parseFloat(ticketPriceSpan.innerText);
 
-        style: {
-            color: 'gold',
-            shape: 'rect',
-            height: 50
-        },
+        quantityInput.addEventListener('change', () => {
+            const quantity = parseInt(quantityInput.value);
+            const ticketPrice = parseFloat(ticketPriceSpan.innerText);
+            totalPrice = ticketPrice * quantity;
+            totalPriceSpan.innerText = totalPrice.toFixed(2);
+        });
 
-        // Call your server to set up the transaction
-        createOrder: function (data, actions) {
-            return actions.order.create({
-                purchase_units: [{
-                    amount: {
-                        value: total
-                    }
-                }]
-            });
-        },
+        console.log('URL:', url);
 
-        // Call your server to finalize the transaction
-        onApprove: function (data, actions) {
-            return actions.order.capture().then(function (details) {
-                alert('Transaction completed by' + details.payer.name.given_name + '!');
-            });
-        }
+        // Render the PayPal button into #paypal-button-container
+        paypal.Buttons({
 
-    }).render('#paypal-button-container');
-</script>
+            style: {
+                color: 'gold',
+                shape: 'rect',
+                height: 50
+            },
 
-{% endblock %}
+            // Call your server to set up the transaction
+            createOrder: function (data, actions) {
+                return actions.order.create({
+                    purchase_units: [{
+                        amount: {
+                            value: totalPrice
+                        }
+                    }]
+                });
+            },
+            // Call your server to finalize the transaction
+            onApprove: function (data, actions) {
+                return actions.order.capture().then(function (details) {
+                    console.log("It's working")
+                    var form = document.querySelector('form');
+                    form.submit();
+                });
+            }
+
+        }).render('#paypal-button-container');
+    </script>
+
+    {% endblock %}

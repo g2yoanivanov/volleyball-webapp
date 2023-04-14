@@ -11,7 +11,7 @@ import os
 class User(AbstractUser):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     birth_date = models.DateField(null=True, blank=True)
-    profile_picture = models.ImageField(upload_to="profile_pics", null=True, blank=True)
+    profile_picture = models.ImageField(upload_to="profile_pics", null=True, blank=True, default="/default_images/user_pic.jpeg")
 
     REQUIRED_FIELDS = []
 

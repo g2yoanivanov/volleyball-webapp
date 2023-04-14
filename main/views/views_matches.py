@@ -6,6 +6,7 @@ from django.contrib import messages
 from django.contrib.admin.views.decorators import staff_member_required
 from django.http import HttpResponse
 
+
 import random
 
 from main.forms import *
@@ -19,6 +20,8 @@ def match_info(request, pk):
     ).order_by("-date")[0:10]
 
     now = timezone.now()
+
+    user = request.user
 
     context = {"match": match, "last_matches": last_matches, "now": now}
 
