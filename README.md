@@ -11,7 +11,7 @@ If Python is installed correctly, you should see a Python prompt appear.
 
 Clone the reposotiroty
 ```bash
-git clone [repository url]
+git clone https://github.com/g2yoanivanov/volleyball-webapp
 ```
 
 Use the package manager [pip](https://pip.pypa.io/en/stable/) to install the dependencies.
