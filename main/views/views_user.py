@@ -89,6 +89,12 @@ def register_page(request):
     if request.method == "POST":
         form = MyUserCreationForm(request.POST)
 
+        get_username = request.POST.get("username")
+        try:
+            check_user = User.objects.get_or_none(username=get_username)
+        except:
+            check_user = None
+
         if form.is_valid():
             user = form.save(commit=False)
             user.username = user.username.lower()
@@ -98,7 +104,11 @@ def register_page(request):
             return redirect("index")
 
         else:
-            messages.error(request, "Настъпи грешка при регистрацията!")
+            if User.objects.filter(username=check_user.username).exists():
+                messages.error(request, "Това потребителско име вече съществува!")
+
+            else:
+                messages.error(request, "Настъпи грешка при регистрацията!")
 
     context = {"form": form}
 
