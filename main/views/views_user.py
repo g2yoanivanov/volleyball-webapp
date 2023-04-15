@@ -155,31 +155,35 @@ def completed(request, pk):
         ticket.save()
 
         email_title = "Поръчката е завършена!"
-        email_body = f"Вие успешно закупихте {quantity} билети за мача '{ticket.match.team1.name} - {ticket.match.team2.name}'! Благодарим Ви, че избрахте нас!"
+        email_body = f"""Вие успешно закупихте {quantity} билет(и) за мача '{ticket.match.team1.name} - {ticket.match.team2.name}'! Благодарим Ви, че избрахте нас!
+        
+        Дата: {ticket.match.date}
+        Локация: {ticket.match.tournament.hall}"""
 
-        send_email(email_title, email_body, user.email, ticket.qr_code.path)
+        send_email(email_title, email_body, user.email, ticket.qr_code.path, ticket)
 
         return redirect('fixtures')
     else:
         return redirect('index')
 
-def send_email(subject, body, to_email, attachment_path):
+def send_email(subject, body, to_email, attachment_path, ticket):
     smtp_server = 'smtp.gmail.com'
     smtp_port = 587
     smtp_username = 'yoan040707@gmail.com'
     smtp_password = 'zryftrdtpzcqmhfr'
 
-    message = MIMEText(body)
+    message = MIMEMultipart()
     message['Subject'] = subject
     message['From'] = smtp_username
     message['To'] = to_email
 
-    message.attach(MIMEText(body))
+    body_text = MIMEText(body, _subtype='html')
+    message.attach(body_text)
 
     # Add the attachment
     with open(attachment_path, 'rb') as f:
-        attachment = MIMEApplication(f.read(), _subtype='pdf')
-        attachment.add_header('Content-Disposition', 'attachment', filename='ticket.pdf')
+        attachment = MIMEApplication(f.read(), _subtype='image/png')
+        attachment.add_header('Content-Disposition', 'attachment', filename=f'{ticket.id}.png')
         message.attach(attachment)
 
     smtp_conn = smtplib.SMTP(smtp_server, smtp_port)
