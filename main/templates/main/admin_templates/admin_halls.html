@@ -5,16 +5,26 @@
 {% block content %}
 <main class="container-fluid text-font w-75 mt-5 h-100">
     <section class="row border-main rounded bg-sec my-5 align-items-center justify-content-center d-flex">
-        <h3 class="text-center mt-3 mb-0">Администрация</h3>
+        <div class="m-2">
+            <a class="btn-font btn rounded" href="{% url 'myadmin' %}">
+                <svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 32 32">
+                    <title>Назад</title>
+                    <path
+                        d="M13.723 2.286l-13.723 13.714 13.719 13.714 1.616-1.611-10.96-10.96h27.625v-2.286h-27.625l10.965-10.965-1.616-1.607z">
+                    </path>
+                </svg>
+            </a>
+        </div>
+        <h3 class="text-center mb-0">Администрация</h3>
         <h5 class="h6 text-center mb-5">Служител: {{request.user}}</h5>
 
         {% for hall in halls %}
         <article class="row d-flex align-items-center text-center">
             <hr class="mt-0 mb-2" style="color: var(--main-color)">
-            <div class="col-8 d-flex align-items-center justify-content-start text-center">
-                <span>{{hall}}</span>
+            <div class="col-lg-8 d-flex align-items-center justify-content-start text-center">
+                <span><strong>{{hall}}</strong></span>
             </div>
-            <div class="col-2 d-flex align-items-center justify-content-end">
+            <div class="col-lg-2 d-flex align-items-center justify-content-lg-end">
                 <a class="text-decoration-none text-font link-bg"
                     href="{% url 'edit-hall' hall.id %}">
                     <span>Детайли</span>
@@ -27,7 +37,7 @@
                 </svg>
 
             </div>
-            <div class="col-2 d-flex align-items-center justify-content-start">
+            <div class="col-lg-2 d-flex align-items-center justify-content-start">
                 <a class="text-decoration-none text-font link-bg"
                     href="{% url 'delete-hall' hall.id %}">
                     <span>Изтриване</span>
