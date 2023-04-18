@@ -6,6 +6,14 @@
 <header class="text-center">
     <h1 class="mt-5">{{tournament.name}}</h1>
     <h6>{{tournament.opening_date|date:"d.m.y (H:i)"}}</h6>
+    <a class="btn btn-main text-decoration-none link-main" href="{{request.META.HTTP_REFERER}}">
+        <svg class="svg-font" version="1.1" xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 32 32">
+            <title>Назад</title>
+            <path
+                d="M13.723 2.286l-13.723 13.714 13.719 13.714 1.616-1.611-10.96-10.96h27.625v-2.286h-27.625l10.965-10.965-1.616-1.607z">
+            </path>
+        </svg>
+    </a>
     {% if request.user.is_staff %}
     <a class="btn btn-main text-decoration-none link-main" href="{% url 'edit-tournament' tournament.id %}">
         <svg class="svg-font" enable-background="new 0 0 24 24" height="23" viewBox="0 0 23 23" width="23"

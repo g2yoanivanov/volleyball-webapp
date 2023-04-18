@@ -2,8 +2,6 @@ from django.contrib.auth.models import User
 from django.contrib.admin.views.decorators import staff_member_required
 from django.shortcuts import render, redirect
 
-import random
-
 from main.models import *
 from main.forms import *
 

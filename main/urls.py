@@ -36,27 +36,27 @@ urlpatterns = [
     path('teams/<str:pk>/', views.team_info, name='team_info'),
     path('players/<str:pk>/', views.player_info, name='player_info'),
 
-    path('halls/create/', views.create_hall, name='create-hall'),
+    path('halls-create/', views.create_hall, name='create-hall'),
     path('halls/edit/<str:pk>/', views.edit_hall, name='edit-hall'),
     path('halls/delete/<str:pk>/', views.delete_hall, name='delete-hall'),
 
-    path('referees/create/', views.create_referee, name='create-referee'),
+    path('referees-create/', views.create_referee, name='create-referee'),
     path('referees/edit/<str:pk>/', views.edit_referee, name='edit-referee'),
     path('referees/delete/<str:pk>/', views.delete_referee, name='delete-referee'),
 
-    path('players/create/', views.create_player, name='create-player'),
+    path('players-create/', views.create_player, name='create-player'),
     path('players/edit/<str:pk>/', views.edit_player, name='edit-player'),
     path('players/delete/<str:pk>/', views.delete_player, name='delete-player'),
 
-    path('teams/create/', views.create_team, name='create-team'),
+    path('teams-create/', views.create_team, name='create-team'),
     path('teams/edit/<str:pk>/', views.edit_team, name='edit-team'),
     path('teams/delete/<str:pk>/', views.delete_team, name='delete-team'),
 
-    path('fixtures/create/', views.create_fixture, name='create-fixture'),
+    path('fixtures-create/', views.create_fixture, name='create-fixture'),
     path('fixtures/edit/<str:pk>/', views.edit_fixture, name='edit-fixture'),
     path('fixtures/delete/<str:pk>/', views.delete_fixture, name='delete-fixture'),
     
-    path('tournaments/create/', views.create_tournament, name='create-tournament'),
+    path('tournaments-create/', views.create_tournament, name='create-tournament'),
     path('tournaments/edit/<str:pk>/', views.edit_tournament, name='edit-tournament'),
     path('tournaments/delete/<str:pk>/', views.delete_tournament, name='delete-tournament'),
 

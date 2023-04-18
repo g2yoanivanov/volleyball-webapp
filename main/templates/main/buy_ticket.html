@@ -7,6 +7,14 @@
 <div class="container-fluid w-75 mt-5 h-100 bg-sec rounded p-3">
     <div class="row">
         <div class="col-lg-7 border-main rounded p-2">
+            <a class="btn-font btn rounded" href="{{request.META.HTTP_REFERER}}">
+                <svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 32 32">
+                    <title>Назад</title>
+                    <path
+                        d="M13.723 2.286l-13.723 13.714 13.719 13.714 1.616-1.611-10.96-10.96h27.625v-2.286h-27.625l10.965-10.965-1.616-1.607z">
+                    </path>
+                </svg>
+            </a>
             <h2 class="text-center">Билет за:</h2>
             <div class="row">
                 <div class="col-lg-6 text-center">
@@ -22,7 +30,8 @@
             </div>
             <h5 class="text-center h6">Дата: {{match.date|date:"d.m.Y H:i"}}</h5>
             <h5 class="text-center h6">Зала: {{match.tournament.hall}}</h5>
-            <h5 class="text-center h6">Цена на билет: <span id="ticket-price">{{ match.ticket_set.first.price }}</span>$</h5>
+            <h5 class="text-center h6">Цена на билет: <span id="ticket-price">{{ match.ticket_set.first.price }}</span>$
+            </h5>
             <h5 class="text-center h6">Оставащи билети: {{match.ticket_set.first.quantity}}</h5>
 
         </div>

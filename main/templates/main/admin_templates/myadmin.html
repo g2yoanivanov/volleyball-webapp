@@ -11,10 +11,10 @@
         {% if request.user.is_superuser %}
         <article class="row d-flex align-items-center text-center">
             <hr class="mt-0 mb-2" style="color: var(--main-color)">
-            <div class="col-8 d-flex align-items-center justify-content-start text-center">
-                <span>Потребители</span>
+            <div class="col-lg-8 d-flex align-items-center justify-content-start text-center">
+                <span><strong>Потребители</strong></span>
             </div>
-            <div class="col-2 d-flex align-items-center justify-content-end">
+            <div class="col-lg-2 d-flex align-items-center justify-content-lg-end">
                 <a class="text-decoration-none text-font link-bg" href="{% url 'register' %}">
                     <span>Добави</span>
                 </a>
@@ -24,7 +24,7 @@
                 </svg>
 
             </div>
-            <div class="col-2 d-flex align-items-center justify-content-start">
+            <div class="col-lg-2 d-flex align-items-center justify-content-start">
                 <a class="text-decoration-none text-font link-bg" href="{% url 'admin_users' %}">
                     <span>Виж всички</span>
                 </a>
@@ -42,10 +42,10 @@
         <!--Tournaments-->
         <article class="row d-flex align-items-center text-center">
             <hr class="mt-0 mb-2" style="color: var(--main-color)">
-            <div class="col-8 d-flex align-items-center justify-content-start text-center">
-                <span>Турнири</span>
+            <div class="col-lg-8 d-flex align-items-center justify-content-start text-center">
+                <span><strong>Турнири</strong></span>
             </div>
-            <div class="col-2 d-flex align-items-center justify-content-end">
+            <div class="col-lg-2 d-flex align-items-center justify-content-lg-end">
                 <a class="text-decoration-none text-font link-bg" href="{% url 'create-tournament' %}">
                     <span>Добави</span>
                 </a>
@@ -54,7 +54,7 @@
                         d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2Z" />
                 </svg>
             </div>
-            <div class="col-2 d-flex align-items-center justify-content-start">
+            <div class="col-lg-2 d-flex align-items-center justify-content-start">
                 <a class="text-decoration-none text-font link-bg" href="{% url 'admin_tournaments' %}">
                     <span>Виж всички</span>
                 </a>
@@ -71,10 +71,10 @@
         <!--Matches-->
         <article class="row d-flex align-items-center text-center">
             <hr class="mt-0 mb-2" style="color: var(--main-color)">
-            <div class="col-8 d-flex align-items-center justify-content-start text-center">
-                <span>Мачове</span>
+            <div class="col-lg-8 d-flex align-items-center justify-content-start text-center">
+                <span><strong>Мачове</strong></span>
             </div>
-            <div class="col-2 d-flex align-items-center justify-content-end">
+            <div class="col-lg-2 d-flex align-items-center justify-content-lg-end">
                 <a class="text-decoration-none text-font link-bg" href="{% url 'create-fixture' %}">
                     <span>Добави</span>
                 </a>
@@ -83,7 +83,7 @@
                         d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2Z" />
                 </svg>
             </div>
-            <div class="col-2 d-flex align-items-center justify-content-start">
+            <div class="col-lg-2 d-flex align-items-center justify-content-start">
                 <a class="text-decoration-none text-font link-bg" href="{% url 'admin_matches' %}">
                     <span>Виж всички</span>
                 </a>
@@ -100,10 +100,10 @@
         <!--Players-->
         <article class="row d-flex align-items-center text-center">
             <hr class="mt-0 mb-2" style="color: var(--main-color)">
-            <div class="col-8 d-flex align-items-center justify-content-start text-center">
-                <span>Играчи</span>
+            <div class="col-lg-8 d-flex align-items-center justify-content-start text-center">
+                <span><strong>Играчи</strong></span>
             </div>
-            <div class="col-2 d-flex align-items-center justify-content-end">
+            <div class="col-lg-2 d-flex align-items-center justify-content-lg-end">
                 <a class="text-decoration-none text-font link-bg" href="{% url 'create-player' %}">
                     <span>Добави</span>
                 </a>
@@ -112,7 +112,7 @@
                         d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2Z" />
                 </svg>
             </div>
-            <div class="col-2 d-flex align-items-center justify-content-start">
+            <div class="col-lg-2 d-flex align-items-center justify-content-start">
                 <a class="text-decoration-none text-font link-bg" href="{% url 'admin_players' %}">
                     <span>Виж всички</span>
                 </a>
@@ -129,10 +129,10 @@
         <!--Teams-->
         <article class="row d-flex align-items-center text-center">
             <hr class="mt-0 mb-2" style="color: var(--main-color)">
-            <div class="col-8 d-flex align-items-center justify-content-start text-center">
-                <span>Отбори</span>
+            <div class="col-lg-8 d-flex align-items-center justify-content-start text-center">
+                <span><strong>Отбори</strong></span>
             </div>
-            <div class="col-2 d-flex align-items-center justify-content-end">
+            <div class="col-lg-2 d-flex align-items-center justify-content-lg-end">
                 <a class="text-decoration-none text-font link-bg" href="{% url 'create-team' %}">
                     <span>Добави</span>
                 </a>
@@ -141,7 +141,7 @@
                         d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2Z" />
                 </svg>
             </div>
-            <div class="col-2 d-flex align-items-center justify-content-start">
+            <div class="col-lg-2 d-flex align-items-center justify-content-start">
                 <a class="text-decoration-none text-font link-bg" href="{% url 'admin_teams' %}">
                     <span>Виж всички</span>
                 </a>
@@ -158,10 +158,10 @@
         <!--Halls-->
         <article class="row d-flex align-items-center text-center">
             <hr class="mt-0 mb-2" style="color: var(--main-color)">
-            <div class="col-8 d-flex align-items-center justify-content-start text-center">
-                <span>Зали</span>
+            <div class="col-lg-8 d-flex align-items-center justify-content-start text-center">
+                <span><strong>Зали</strong></span>
             </div>
-            <div class="col-2 d-flex align-items-center justify-content-end">
+            <div class="col-lg-2 d-flex align-items-center justify-content-lg-end">
                 <a class="text-decoration-none text-font link-bg" href="{% url 'create-hall' %}">
                     <span>Добави</span>
                 </a>
@@ -170,7 +170,7 @@
                         d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2Z" />
                 </svg>
             </div>
-            <div class="col-2 d-flex align-items-center justify-content-start">
+            <div class="col-lg-2 d-flex align-items-center justify-content-start">
                 <a class="text-decoration-none text-font link-bg" href="{% url 'admin_halls' %}">
                     <span>Виж всички</span>
                 </a>
@@ -187,10 +187,10 @@
         <!--Referees-->
         <article class="row d-flex align-items-center text-center">
             <hr class="mt-0 mb-2" style="color: var(--main-color)">
-            <div class="col-8 d-flex align-items-center justify-content-start text-center">
-                <span>Съдии</span>
+            <div class="col-lg-8 d-flex align-items-center justify-content-start text-center">
+                <span><strong>Съдии</strong></span>
             </div>
-            <div class="col-2 d-flex align-items-center justify-content-end">
+            <div class="col-lg-2 d-flex align-items-center justify-content-lg-end">
                 <a class="text-decoration-none text-font link-bg" href="{% url 'create-referee' %}">
                     <span>Добави</span>
                 </a>
@@ -199,7 +199,7 @@
                         d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2Z" />
                 </svg>
             </div>
-            <div class="col-2 d-flex align-items-center justify-content-start">
+            <div class="col-lg-2 d-flex align-items-center justify-content-start">
                 <a class="text-decoration-none text-font link-bg" href="{% url 'admin_referees' %}">
                     <span>Виж всички</span>
                 </a>

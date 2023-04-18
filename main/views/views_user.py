@@ -5,7 +5,9 @@ from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.db.models import Q
+
 import smtplib
+import os
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 from email.mime.application import MIMEApplication
@@ -165,7 +167,7 @@ def completed(request, pk):
         ticket.save()
 
         email_title = "Поръчката е завършена!"
-        email_body = f"""Вие успешно закупихте {quantity} билет(и) за мача '{ticket.match.team1.name} - {ticket.match.team2.name}'! Благодарим Ви, че избрахте нас!
+        email_body = f"""Вие успешно закупихте {quantity} билет(а) за мача '{ticket.match.team1.name} - {ticket.match.team2.name}'! Благодарим Ви, че избрахте нас!
         
         Дата: {ticket.match.date}
         Локация: {ticket.match.tournament.hall}"""
@@ -180,7 +182,7 @@ def send_email(subject, body, to_email, attachment_path, ticket):
     smtp_server = 'smtp.gmail.com'
     smtp_port = 587
     smtp_username = 'yoan040707@gmail.com'
-    smtp_password = 'zryftrdtpzcqmhfr'
+    smtp_password = 'doovonblclvzkrmf'
 
     message = MIMEMultipart()
     message['Subject'] = subject
