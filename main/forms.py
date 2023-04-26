@@ -238,3 +238,38 @@ class TournamentForm(forms.ModelForm):
             "closing_date": forms.DateTimeInput(attrs={"class": "form-control bg-bg"}),
             "description": forms.Textarea(attrs={"class": "form-control bg-bg"}),
         }
+
+class MyUserUpdateForm(forms.ModelForm):
+    username = forms.CharField(
+        label="Потребителско име",
+        max_length=150,
+        help_text="",
+        widget=forms.TextInput(attrs={"class": "form-control bg-bg", "autocomplete": "off"}),
+    )
+    
+    class Meta:
+        model = User
+        fields = ["username",
+            "email",
+            "first_name",
+            "last_name",
+            "birth_date",
+            "profile_picture"
+            ]
+        
+        labels = {
+            "username": "Потребителско име",
+            "email": "Ел. поща",
+            "first_name": "Име",
+            "last_name": "Фамилия",
+            "birth_date": "Дата на раждане",
+            "profile_picture": "Профилна снимка"
+        }
+
+        widgets = {
+            "email": forms.TextInput(attrs={"class": "form-control bg-bg", "autocomplete": "email"}),
+            "first_name": forms.TextInput(attrs={"class": "form-control bg-bg", "autocomplete": "off"}),
+            "last_name": forms.TextInput(attrs={"class": "form-control bg-bg", "autocomplete": "off"}),
+            "birth_date": forms.DateInput(attrs={"class": "form-control bg-bg"}),
+            "profile_picture" : forms.FileInput(attrs={"class": "form-control bg-bg"})
+        }

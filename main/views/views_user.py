@@ -1,9 +1,11 @@
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
+from django.utils import timezone
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
+from django.contrib.admin.views.decorators import staff_member_required
 from django.db.models import Q
 
 import smtplib
@@ -126,7 +128,43 @@ def profile(request, pk):
 
 def update_user(request, pk):
     user = User.objects.get(id=pk)
+    form = MyUserUpdateForm(instance=user)
+    now = timezone.now()
 
+    if not request.user.is_staff:
+        return HttpResponse("Нямате достъп до тази страница!")
+
+    if request.method == "POST":
+        try:
+            profile_picture = request.FILES.get("profile_picture")
+
+            user.username = request.POST.get("username")
+            user.first_name = request.POST.get("first_name")
+            user.last_name = request.POST.get("last_name")
+            user.birth_date = request.POST.get("birth_date")
+            user.email = request.POST.get("email")
+            if profile_picture:
+                user.profile_picture = profile_picture
+
+            user.save()
+            return redirect("profile", pk=user.id)
+        except:
+            check_user = User.objects.filter(username=request.POST.get("username")).first()
+            if check_user is not None:
+                messages.error(request, "Това потребителско име вече съществува!")
+            else:
+                messages.error(request, "Настъпи грешка при редактирането на профил!")
+
+    context = {
+        "user": user,
+        "form": form,
+        "now": now,
+    }
+        
+    return render(request, "main/user_profile_edit.html", context)
+
+
+@staff_member_required
 def delete_user(request, pk):
     user = User.objects.get(id=pk)
 

@@ -1,7 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.core.validators import MaxValueValidator, MinValueValidator
-from django.urls import reverse
 from django.conf import settings
 
 import uuid
@@ -95,12 +94,14 @@ class Tournament(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     name = models.CharField(max_length=64, null=False, blank=False)
     hall = models.ForeignKey(Hall, on_delete=models.SET_NULL, null=True, blank=True)
-    prize_pool = models.DecimalField(decimal_places=2, max_digits=10, validators=[MinValueValidator(100)], null=True, blank = True)
+    prize_pool = models.DecimalField(decimal_places=2, max_digits=10, 
+    validators=[MinValueValidator(100)], null=True, blank = True)
     opening_date = models.DateTimeField(null=True, blank=True)
     closing_date = models.DateTimeField(null=True, blank=True)
     teams = models.ManyToManyField(Team, related_name='tournaments')
     referees = models.ManyToManyField(Referee, related_name='tournaments')
-    winner = models.ForeignKey(Team, on_delete=models.SET_NULL, null=True, blank=True, related_name='winner')
+    winner = models.ForeignKey(Team, on_delete=models.SET_NULL, null=True, blank=True,
+    related_name='winner')
     description = models.TextField(null=True, blank=True)
 
     class Meta:
@@ -112,13 +113,17 @@ class Tournament(models.Model):
 
 class Match(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    team1 = models.ForeignKey(Team, on_delete=models.CASCADE, null=False, blank=False, related_name='team1')
-    team2 = models.ForeignKey(Team, on_delete=models.CASCADE, null=False, blank=False, related_name='team2')
+    team1 = models.ForeignKey(Team, on_delete=models.CASCADE, null=False, blank=False, 
+    related_name='team1')
+    team2 = models.ForeignKey(Team, on_delete=models.CASCADE, null=False, blank=False, 
+    related_name='team2')
     tournament = models.ForeignKey(Tournament, on_delete=models.CASCADE, null=False, blank=False)
     date = models.DateTimeField(null=True, blank=True)
     referee = models.ForeignKey(Referee, on_delete=models.SET_NULL, null=True, blank=True)
-    team1_points = models.PositiveSmallIntegerField(validators=[MaxValueValidator(200), MinValueValidator(0)], null=True, blank=True)
-    team2_points = models.PositiveSmallIntegerField(validators=[MaxValueValidator(200), MinValueValidator(0)], null=True, blank=True)
+    team1_points = models.PositiveSmallIntegerField(validators=[MaxValueValidator(200), 
+    MinValueValidator(0)], null=True, blank=True)
+    team2_points = models.PositiveSmallIntegerField(validators=[MaxValueValidator(200), 
+    MinValueValidator(0)], null=True, blank=True)
 
     class Meta:
         verbose_name_plural = 'Matches'
@@ -132,7 +137,8 @@ class Ticket(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     match = models.ForeignKey(Match, on_delete=models.CASCADE, null=False, blank=False)
     hall = models.ForeignKey(Hall, on_delete=models.CASCADE, null=False, blank=False)
-    price = models.DecimalField(decimal_places=2, max_digits=5, validators=[MinValueValidator(5)], null=False, blank=False)
+    price = models.DecimalField(decimal_places=2, max_digits=5, 
+                        validators=[MinValueValidator(5)], null=False, blank=False)
     quantity = models.PositiveIntegerField(null=False, blank=False)
     qr_code = models.ImageField(upload_to="qr_codes", null=False, blank=False)
 
@@ -148,13 +154,11 @@ class Ticket(models.Model):
         qr.make(fit=True)
 
         img = qr.make_image(fill_color="black", back_color="white")
-
         filename = f"{self.id}.png"
         filepath = os.path.join(settings.MEDIA_ROOT, "qr_codes", filename)
         img.save(filepath)
 
         self.qr_code.name = f"qr_codes/{filename}"
-
         super().save(*args, **kwargs)
 
     def __str__(self):

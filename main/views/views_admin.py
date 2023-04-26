@@ -1,5 +1,6 @@
 from django.contrib.auth.models import User
 from django.contrib.admin.views.decorators import staff_member_required
+from django.contrib.auth.decorators import user_passes_test
 from django.shortcuts import render, redirect
 
 from main.models import *
@@ -11,6 +12,7 @@ def myadmin(request):
     return render(request, "main/admin_templates/myadmin.html")
 
 
+@user_passes_test(lambda u: u.is_superuser)
 def add_staff(request, pk):
     user = User.objects.get(id=pk)
     user.is_staff = True
@@ -18,6 +20,7 @@ def add_staff(request, pk):
     return redirect("admin_users")
 
 
+@user_passes_test(lambda u: u.is_superuser)
 def remove_staff(request, pk):
     user = User.objects.get(id=pk)
     user.is_staff = False

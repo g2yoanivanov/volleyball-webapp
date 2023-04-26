@@ -21,6 +21,7 @@ urlpatterns = [
     path('register/', views.register_page, name='register'),
     path("delete-user/<str:pk>", views.delete_user, name="delete-user"),
     path('profile/<str:pk>/', views.profile, name="profile"),
+    path('user-update/<str:pk>', views.update_user, name="user-update"),
     path('ticket/buy/<str:pk>/', views.buy_ticket, name="buy_ticket"),
 
     path('tournaments/', views.tournaments, name='tournaments'),

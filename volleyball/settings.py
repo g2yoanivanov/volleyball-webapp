@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'crispy_forms'
 ]
 
+
 AUTH_USER_MODEL = 'main.User'
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
