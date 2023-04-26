@@ -15,14 +15,26 @@ Web application for information about volleyball tournaments, matches, halls, re
 git clone https://github.com/g2yoanivanov/volleyball-webapp
 ```
 
-3. Use the package manager [pip](https://pip.pypa.io/en/stable/) to install the dependencies.
+3. Create a virtual environment and then activate it
 ```bash
-pip install -r requirements.txt
+python -m venv env
+```
+```bash
+env\Scripts\activate
+```
+
+4. Use the package manager [pip](https://pip.pypa.io/en/stable/) to install the dependencies.
+```bash
+pip install django
+pip install django-crispy-forms
+pip install Pillow
+pip install qrcode
 ```
 
 ## How to start the server
 1. Get the database up to date:
 ```bash
+python manage.py makemigrations
 python manage.py migrate
 ```
 
