@@ -38,7 +38,12 @@ python manage.py makemigrations
 python manage.py migrate
 ```
 
-2. Navigate to the project's location and in the CMD write:
+2. Create superuser
+```bash
+python manage.py createsuper
+```
+
+3. Navigate to the project's location and in the CMD write:
 ```bash
 python manage.py runserver
 ```
