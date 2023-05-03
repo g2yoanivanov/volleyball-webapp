@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block title %}Успешна поръчка!{% endblock %}
+
+{% block content %}
+<main class="container-fluid bg-sec w-75 rounded my-5 text-center">
+    <h1 class="text-center">Вашата поръчка е завършена!</h1>
+    <h3 class="text-center">Моля проверете пощата си за допълнително информация!</h3>
+
+    <a class="btn btn-main mt-3" href="{% url 'index' %}">Начална страница</a><br>
+    <a class="btn btn-main my-3" href="{% url 'fixtures' %}">Предстоящи мачове</a>
+</main>
+{% endblock %}

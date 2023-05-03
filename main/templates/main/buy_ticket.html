@@ -28,12 +28,57 @@
                     <img width="150px" height="150px" src="{{match.team2.picture.url}}" />
                 </div>
             </div>
-            <h5 class="text-center h6">Дата: {{match.date|date:"d.m.Y H:i"}}</h5>
-            <h5 class="text-center h6">Зала: {{match.tournament.hall}}</h5>
-            <h5 class="text-center h6">Цена на билет: <span id="ticket-price">{{ match.ticket_set.first.price }}</span>$
-            </h5>
-            <h5 class="text-center h6">Оставащи билети: {{match.ticket_set.first.quantity}}</h5>
-
+            <div class="row d-flex align-items-center justify-content-center">
+                <h3 class="px-4 mt-4">Информация:</h3>
+                <div class="row">
+                    <div class="col-4 d-flex">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="mx-lg-2"
+                            viewBox="0 0 16 16">
+                            <path
+                                d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5zM1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4H1z" />
+                        </svg>
+                        <h5 class="h6">Дата на срещата:</h5>
+                    </div>
+                    <div class="col-lg-8">
+                        <h5 class="h6">{{match.date|date:"d.m.Yг. H:i"}}</h5>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-4 d-flex">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512" width="16" height="16"
+                            class="mx-lg-2">
+                            <path
+                                d="M48 0C21.5 0 0 21.5 0 48V464c0 26.5 21.5 48 48 48h96V432c0-26.5 21.5-48 48-48s48 21.5 48 48v80h96c26.5 0 48-21.5 48-48V48c0-26.5-21.5-48-48-48H48zM64 240c0-8.8 7.2-16 16-16h32c8.8 0 16 7.2 16 16v32c0 8.8-7.2 16-16 16H80c-8.8 0-16-7.2-16-16V240zm112-16h32c8.8 0 16 7.2 16 16v32c0 8.8-7.2 16-16 16H176c-8.8 0-16-7.2-16-16V240c0-8.8 7.2-16 16-16zm80 16c0-8.8 7.2-16 16-16h32c8.8 0 16 7.2 16 16v32c0 8.8-7.2 16-16 16H272c-8.8 0-16-7.2-16-16V240zM80 96h32c8.8 0 16 7.2 16 16v32c0 8.8-7.2 16-16 16H80c-8.8 0-16-7.2-16-16V112c0-8.8 7.2-16 16-16zm80 16c0-8.8 7.2-16 16-16h32c8.8 0 16 7.2 16 16v32c0 8.8-7.2 16-16 16H176c-8.8 0-16-7.2-16-16V112zM272 96h32c8.8 0 16 7.2 16 16v32c0 8.8-7.2 16-16 16H272c-8.8 0-16-7.2-16-16V112c0-8.8 7.2-16 16-16z" />
+                        </svg>
+                        <h5 class="h6">Зала на срещата:</h5>
+                    </div>
+                    <div class="col-lg-8">
+                        <h5 class="h6">{{match.tournament.hall.name}}, {{match.tournament.hall.location}}</h5>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-4 d-flex">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="16px" height="16px" class="mx-lg-2"><path d="M512 80c0 18-14.3 34.6-38.4 48c-29.1 16.1-72.5 27.5-122.3 30.9c-3.7-1.8-7.4-3.5-11.3-5C300.6 137.4 248.2 128 192 128c-8.3 0-16.4 .2-24.5 .6l-1.1-.6C142.3 114.6 128 98 128 80c0-44.2 86-80 192-80S512 35.8 512 80zM160.7 161.1c10.2-.7 20.7-1.1 31.3-1.1c62.2 0 117.4 12.3 152.5 31.4C369.3 204.9 384 221.7 384 240c0 4-.7 7.9-2.1 11.7c-4.6 13.2-17 25.3-35 35.5c0 0 0 0 0 0c-.1 .1-.3 .1-.4 .2l0 0 0 0c-.3 .2-.6 .3-.9 .5c-35 19.4-90.8 32-153.6 32c-59.6 0-112.9-11.3-148.2-29.1c-1.9-.9-3.7-1.9-5.5-2.9C14.3 274.6 0 258 0 240c0-34.8 53.4-64.5 128-75.4c10.5-1.5 21.4-2.7 32.7-3.5zM416 240c0-21.9-10.6-39.9-24.1-53.4c28.3-4.4 54.2-11.4 76.2-20.5c16.3-6.8 31.5-15.2 43.9-25.5V176c0 19.3-16.5 37.1-43.8 50.9c-14.6 7.4-32.4 13.7-52.4 18.5c.1-1.8 .2-3.5 .2-5.3zm-32 96c0 18-14.3 34.6-38.4 48c-1.8 1-3.6 1.9-5.5 2.9C304.9 404.7 251.6 416 192 416c-62.8 0-118.6-12.6-153.6-32C14.3 370.6 0 354 0 336V300.6c12.5 10.3 27.6 18.7 43.9 25.5C83.4 342.6 135.8 352 192 352s108.6-9.4 148.1-25.9c7.8-3.2 15.3-6.9 22.4-10.9c6.1-3.4 11.8-7.2 17.2-11.2c1.5-1.1 2.9-2.3 4.3-3.4V304v5.7V336zm32 0V304 278.1c19-4.2 36.5-9.5 52.1-16c16.3-6.8 31.5-15.2 43.9-25.5V272c0 10.5-5 21-14.9 30.9c-16.3 16.3-45 29.7-81.3 38.4c.1-1.7 .2-3.5 .2-5.3zM192 448c56.2 0 108.6-9.4 148.1-25.9c16.3-6.8 31.5-15.2 43.9-25.5V432c0 44.2-86 80-192 80S0 476.2 0 432V396.6c12.5 10.3 27.6 18.7 43.9 25.5C83.4 438.6 135.8 448 192 448z"/></svg>
+                        <h5 class="h6">Цена на билет:</h5>
+                    </div>
+                    <div class="col-lg-8">
+                        <h5 class="h6"><span id="ticket-price">{{ match.ticket_set.first.price }}</span>$</h5>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-4 d-flex">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" width="16" height="16"
+                            class="mx-lg-2">
+                            <path
+                                d="M64 64C28.7 64 0 92.7 0 128v64c0 8.8 7.4 15.7 15.7 18.6C34.5 217.1 48 235 48 256s-13.5 38.9-32.3 45.4C7.4 304.3 0 311.2 0 320v64c0 35.3 28.7 64 64 64H512c35.3 0 64-28.7 64-64V320c0-8.8-7.4-15.7-15.7-18.6C541.5 294.9 528 277 528 256s13.5-38.9 32.3-45.4c8.3-2.9 15.7-9.8 15.7-18.6V128c0-35.3-28.7-64-64-64H64zm64 112l0 160c0 8.8 7.2 16 16 16H432c8.8 0 16-7.2 16-16V176c0-8.8-7.2-16-16-16H144c-8.8 0-16 7.2-16 16zM96 160c0-17.7 14.3-32 32-32H448c17.7 0 32 14.3 32 32V352c0 17.7-14.3 32-32 32H128c-17.7 0-32-14.3-32-32V160z" />
+                        </svg>
+                        <h5 class="h6">Оставащи билети:</h5>
+                    </div>
+                    <div class="col-lg-8">
+                        <h5 class="h6">{{match.ticket_set.first.quantity}}</h5>
+                    </div>
+                </div>
+            </div>
         </div>
         <div class="col-lg-1"></div>
         <div class="col-lg-4 border-main rounded p-2">
@@ -77,7 +122,6 @@
             totalPriceSpan.innerText = totalPrice.toFixed(2);
         });
 
-        console.log('URL:', url);
 
         // Render the PayPal button into #paypal-button-container
         paypal.Buttons({
@@ -101,7 +145,6 @@
             // Call your server to finalize the transaction
             onApprove: function (data, actions) {
                 return actions.order.capture().then(function (details) {
-                    console.log("It's working")
                     var form = document.querySelector('form');
                     form.submit();
                 });

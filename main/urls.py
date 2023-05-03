@@ -62,4 +62,5 @@ urlpatterns = [
     path('tournaments/delete/<str:pk>/', views.delete_tournament, name='delete-tournament'),
 
     path('ticket/buy/completed/<str:pk>', views.completed, name='completed'),
+    path('ticket/buy/finished', views.finished, name='finished')
 ]

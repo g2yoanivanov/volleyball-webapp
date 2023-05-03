@@ -10,10 +10,12 @@
             <hr class="mt-0" style="color: var(--main-color)">
             <img class="mb-3 rounded" width="260px" height="260px" src="{{user.profile_picture.url}}" />
 
+            {% if user.id == request.user.id %}
             <div class="my-2">
                 <a class="btn btn-font mt-3 text-decoration-none text-font link-font"
                     href="{% url 'user-update' user.id %}">Редактирай профил</a>
             </div>
+            {% endif %}
         </div>
         <div class="col-lg-8 bg-sec text-left border-main rounded pt-3">
             <div class="d-flex row">

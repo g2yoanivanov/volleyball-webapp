@@ -212,9 +212,12 @@ def completed(request, pk):
 
         send_email(email_title, email_body, user.email, ticket.qr_code.path, ticket)
 
-        return redirect('fixtures')
+        return redirect('finished')
     else:
         return redirect('index')
+    
+def finished(request):
+    return render(request, "main/completed.html")
 
 def send_email(subject, body, to_email, attachment_path, ticket):
     smtp_server = 'smtp.gmail.com'
