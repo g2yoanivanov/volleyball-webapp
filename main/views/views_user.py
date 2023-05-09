@@ -118,13 +118,15 @@ def register_page(request):
 
     return render(request, "main/form_templates/login_register.html", context)
 
-@login_required(login_url='login')
+
+@login_required(login_url="login")
 def profile(request, pk):
     user = User.objects.get(id=pk)
 
     context = {"user": user}
 
     return render(request, "main/user_profile.html", context)
+
 
 def update_user(request, pk):
     user = User.objects.get(id=pk)
@@ -149,7 +151,9 @@ def update_user(request, pk):
             user.save()
             return redirect("profile", pk=user.id)
         except:
-            check_user = User.objects.filter(username=request.POST.get("username")).first()
+            check_user = User.objects.filter(
+                username=request.POST.get("username")
+            ).first()
             if check_user is not None:
                 messages.error(request, "Това потребителско име вече съществува!")
             else:
@@ -160,7 +164,7 @@ def update_user(request, pk):
         "form": form,
         "now": now,
     }
-        
+
     return render(request, "main/user_profile_edit.html", context)
 
 
@@ -173,7 +177,11 @@ def delete_user(request, pk):
 
     if request.method == "POST":
         if user.profile_picture:
-            image_path = os.path.abspath(os.path.join(settings.BASE_DIR, "static", "images", user.profile_picture.name))
+            image_path = os.path.abspath(
+                os.path.join(
+                    settings.BASE_DIR, "static", "images", user.profile_picture.name
+                )
+            )
             os.remove(image_path)
 
             user.profile_picture.storage.delete(user.profile_picture.name)
@@ -183,11 +191,13 @@ def delete_user(request, pk):
     context = {"obj": user}
     return render(request, "main/form_templates/delete.html", context)
 
-@login_required(login_url='login')
+
+@login_required(login_url="login")
 def buy_ticket(request, pk):
     fixture = Match.objects.get(id=pk)
+    now = timezone.now()
 
-    context = {"match": fixture}
+    context = {"match": fixture, "now": now}
 
     return render(request, "main/buy_ticket.html", context)
 
@@ -212,31 +222,35 @@ def completed(request, pk):
 
         send_email(email_title, email_body, user.email, ticket.qr_code.path, ticket)
 
-        return redirect('finished')
+        return redirect("finished")
     else:
-        return redirect('index')
-    
+        return redirect("index")
+
+
 def finished(request):
     return render(request, "main/completed.html")
 
+
 def send_email(subject, body, to_email, attachment_path, ticket):
-    smtp_server = 'smtp.gmail.com'
+    smtp_server = "smtp.gmail.com"
     smtp_port = 587
-    smtp_username = 'yoan040707@gmail.com'
-    smtp_password = 'doovonblclvzkrmf'
+    smtp_username = "yoan040707@gmail.com"
+    smtp_password = "doovonblclvzkrmf"
 
     message = MIMEMultipart()
-    message['Subject'] = subject
-    message['From'] = smtp_username
-    message['To'] = to_email
+    message["Subject"] = subject
+    message["From"] = smtp_username
+    message["To"] = to_email
 
-    body_text = MIMEText(body, _subtype='html')
+    body_text = MIMEText(body, _subtype="html")
     message.attach(body_text)
 
     # Add the attachment
-    with open(attachment_path, 'rb') as f:
-        attachment = MIMEApplication(f.read(), _subtype='image/png')
-        attachment.add_header('Content-Disposition', 'attachment', filename=f'{ticket.id}.png')
+    with open(attachment_path, "rb") as f:
+        attachment = MIMEApplication(f.read(), _subtype="image/png")
+        attachment.add_header(
+            "Content-Disposition", "attachment", filename=f"{ticket.id}.png"
+        )
         message.attach(attachment)
 
     smtp_conn = smtplib.SMTP(smtp_server, smtp_port)
@@ -244,8 +258,3 @@ def send_email(subject, body, to_email, attachment_path, ticket):
     smtp_conn.login(smtp_username, smtp_password)
     smtp_conn.sendmail(smtp_username, to_email, message.as_string())
     smtp_conn.quit()
-
-
-    
-
-    

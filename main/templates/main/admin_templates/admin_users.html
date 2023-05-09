@@ -26,14 +26,16 @@
             </div>
             {% if request.user.is_superuser %}
             <div class="col-lg-3 d-flex align-items-center justify-content-lg-end">
-                {% if user.is_staff %}
+                {% if user.is_staff and not user.is_superuser %}
                 <a class="text-decoration-none text-font link-bg" href="{% url 'remove_staff' user.id %}">
                     <span>Премахни служител</span>
                 </a>
-                {% else %}
+                {% elif not user.is_staff and not user.is_superuser %}
                 <a class="text-decoration-none text-font link-bg" href="{% url 'add_staff' user.id %}">
                     <span>Направи служител</span>
                 </a>
+                {% else %}
+                <a5>Админ</a5>
                 {% endif %}
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="mx-1"
                     viewBox="0 0 16 16">

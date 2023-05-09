@@ -28,10 +28,10 @@
                         </div>
                         <div class="col-lg-6">
                             <label for="tournament_name">Турнир*</label>
-                            <select name="tournament" class="form-control selectpicker" data-live-search="true"
+                            <select name="tournament" id="tournament" class="form-control selectpicker" data-live-search="true"
                                 data-none-selected-text="Изберете турнир" data-style="bg-bg">
-                                {% for tournament in tournaments%}
-                                <option value="{{tournament.name}}">{{tournament.name}}</option>
+                                {% for tournament in tournaments %}
+                                <option value="{{ tournament.name }}">{{ tournament.name }}</option>
                                 {% endfor %}
                             </select>
                         </div>
@@ -40,20 +40,20 @@
                     <div class="d-flex justify-content-center my-2 row">
                         <div class="col-lg-6">
                             <label for="team1_name">Отбор 1*</label>
-                            <select name="team1" class="form-control selectpicker" data-live-search="true"
+                            <select name="team1" id="team1" class="form-control selectpicker" data-live-search="true"
                                 data-none-selected-text="Изберете отбор" data-style="bg-bg">
                                 {% for team in teams %}
-                                <option value="{{ team.name }}" {% if match.team1 == team %}selected{% endif %}>{{ team.name }}</option>
+                                <option value="{{ team.name }}">{{ team.name }}</option>
                                 {% endfor %}
                             </select>
                         </div>
 
                         <div class="col-lg-6">
                             <label for="team2_name">Отбор 2*</label>
-                            <select name="team2" class="form-control selectpicker" data-live-search="true"
+                            <select name="team2" id="team2" class="form-control selectpicker" data-live-search="true"
                                 data-none-selected-text="Изберете отбор" data-style="bg-bg">
                                 {% for team in teams %}
-                                <option value="{{ team.name }}" {% if match.team2 == team %}selected{% endif %}>{{ team.name }}</option>
+                                <option value="{{ team.name }}">{{ team.name }}</option>
                                 {% endfor %}
                             </select>
                         </div>
