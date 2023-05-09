@@ -91,6 +91,11 @@
                         <h5 class="h6">{{match.ticket_set.first.quantity}}</h5>
                     </div>
                 </div>
+                <div class="row">
+                    <div class="col justify-content-start">
+                        <a href="{% url 'edit-ticket' match.ticket_set.first.id %}" class="btn btn-main w-25">Редактиране</a>
+                    </div>
+                </div>
             </div>
         </div>
         <div class="col-lg-1"></div>

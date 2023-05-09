@@ -273,6 +273,27 @@ def edit_fixture(request, pk):
 
     return render(request, "main/form_templates/match_form.html", context)
 
+@staff_member_required()
+def edit_ticket(request, pk):
+    ticket = Ticket.objects.get(id=pk)
+
+    if not request.user.is_staff:
+        return HttpResponse("Нямате достъп до тази страница!")
+
+    if request.method == "POST":
+        try:
+            ticket.price = request.POST.get("price")
+            ticket.quantity = request.POST.get("quantity")
+            ticket.save()
+
+            return redirect('fixtures')
+
+        except Exception as e:
+            messages.error(request, '{}'.format(str(e)))
+
+    context = {"ticket": ticket}
+
+    return render(request, 'main/form_templates/ticket_price_form.html', context)
 
 # Delete
 @staff_member_required

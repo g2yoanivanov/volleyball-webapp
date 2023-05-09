@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+{% block title %}{{web_title}}{% endblock %}
+
+{% block content %}
+<main>
+    <div class="container-fluid d-flex justify-content-center my-5">
+        <div class="d-grid bg-sec rounded">
+            <div class="p-2">
+                <h2 class="text-center text-font">Редактиране</h2>
+                <form class="form-control text-left bg-sec border-sec" method="POST" action=""
+                    enctype="multipart/form-data">
+                    {% csrf_token %}
+
+                    <div class="d-flex justify-content-center my-2 row">
+                        <div class="col-12">
+                            <label for="price">Цена на билет*</label>
+                            <input class="form-control bg-bg" type="number" required name="price"
+                                value="{{ticket.price}}" min="5" max="120">
+                        </div>
+                        <div class="col-12">
+                            <label for="quantity">Брой билети*</label>
+                            <input class="form-control bg-bg" type="number" required name="quantity"
+                                value="{{ticket.quantity}}" min="1" max="{{ticket.hall.max_seats}}">
+                        </div>
+                    </div>
+                    <div class="mt-3">
+                        <a class="btn btn-main" href="{{request.META.HTTP_REFERER}}">Отказ</a>
+                        <button class="btn btn-font" type="submit">Редактирай</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</main>
+{% endblock %}
