@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+
+{% block title %}Нямате достъп!{% endblock %}
+
+{% block content %}
+<header class="text-font justify-content-center text-center mt-5">
+    <h1>Нямате достъп</h1>
+    <h2>до тази страница</h2>
+    <a href="{% url 'index' %}" class="btn btn-font my-2">Начална страница</a>
+</header>
+{% endblock %}

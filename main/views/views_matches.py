@@ -107,7 +107,7 @@ def fixtures(request):
 
 
 # Create
-@staff_member_required
+@staff_member_required(login_url='access')
 def create_fixture(request):
     title = "create"
     web_title = "Създаване на мач"
@@ -173,7 +173,7 @@ def create_fixture(request):
 
 
 # Update
-@staff_member_required
+@staff_member_required(login_url='access')
 def edit_fixture(request, pk):
     title = "edit"
     web_title = "Редактиране на мач"
@@ -273,7 +273,7 @@ def edit_fixture(request, pk):
 
     return render(request, "main/form_templates/match_form.html", context)
 
-@staff_member_required()
+@staff_member_required(login_url='access')
 def edit_ticket(request, pk):
     ticket = Ticket.objects.get(id=pk)
 
@@ -296,7 +296,7 @@ def edit_ticket(request, pk):
     return render(request, 'main/form_templates/ticket_price_form.html', context)
 
 # Delete
-@staff_member_required
+@staff_member_required(login_url='access')
 def delete_fixture(request, pk):
     fixture = Match.objects.get(id=pk)
 

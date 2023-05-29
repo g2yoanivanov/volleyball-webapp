@@ -93,18 +93,14 @@ def edit_hall(request, pk):
         try:
             picture = request.FILES.get("picture")
 
+            hall.name=request.POST.get("name")
+            hall.location=request.POST.get("location")
+            hall.max_seats=request.POST.get("max_seats")
+
             if picture: 
-                hall.name=request.POST.get("name")
-                hall.location=request.POST.get("location")
-                hall.max_seats=request.POST.get("max_seats")
                 hall.picture=picture
-                hall.save()
-            
-            else:
-                hall.name=request.POST.get("name")
-                hall.location=request.POST.get("location")
-                hall.max_seats=request.POST.get("max_seats")
-                hall.save()
+
+            hall.save()
             
             return redirect("halls")
 

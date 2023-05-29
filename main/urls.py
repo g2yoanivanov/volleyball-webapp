@@ -64,4 +64,6 @@ urlpatterns = [
     path('ticket/buy/completed/<str:pk>/', views.completed, name='completed'),
     path('ticket/buy/finished/', views.finished, name='finished'),
     path('ticket/edit/<str:pk>/', views.edit_ticket, name='edit-ticket'),
+
+    path('access-denied', views.access, name='access')
 ]

@@ -67,7 +67,7 @@ def players(request):
 
 
 # Create
-@staff_member_required
+@staff_member_required(login_url='access')
 def create_player(request):
     title = "create"
     web_title = "Създаване на играч"
@@ -110,7 +110,7 @@ def create_player(request):
 
 
 # Update
-@staff_member_required
+@staff_member_required(login_url='access')
 def edit_player(request, pk):
     title = "edit"
     web_title = "Редактиране на играч"
@@ -171,7 +171,7 @@ def edit_player(request, pk):
 
 
 # Delete
-@staff_member_required
+@staff_member_required(login_url='access')
 def delete_player(request, pk):
     player = Player.objects.get(id=pk)
 

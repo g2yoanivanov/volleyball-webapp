@@ -49,7 +49,7 @@ def referees(request):
 
 
 # Create
-@staff_member_required
+@staff_member_required(login_url='access')
 def create_referee(request):
     title = "create"
     web_title = "Създаване на съдия"
@@ -91,7 +91,7 @@ def create_referee(request):
 
 
 # Update
-@staff_member_required
+@staff_member_required(login_url='access')
 def edit_referee(request, pk):
     title = "edit"
     web_title = "Редактиране на съдия"
@@ -137,7 +137,7 @@ def edit_referee(request, pk):
 
 
 # Delete
-@staff_member_required
+@staff_member_required(login_url='access')
 def delete_referee(request, pk):
     referee = Referee.objects.get(id=pk)
 

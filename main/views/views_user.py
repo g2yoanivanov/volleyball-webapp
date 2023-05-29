@@ -168,7 +168,7 @@ def update_user(request, pk):
     return render(request, "main/user_profile_edit.html", context)
 
 
-@staff_member_required
+@staff_member_required(login_url='access')
 def delete_user(request, pk):
     user = User.objects.get(id=pk)
 
@@ -230,6 +230,9 @@ def completed(request, pk):
 def finished(request):
     return render(request, "main/completed.html")
 
+
+def access(request):
+    return render(request, "main/access.html")
 
 def send_email(subject, body, to_email, attachment_path, ticket):
     smtp_server = "smtp.gmail.com"

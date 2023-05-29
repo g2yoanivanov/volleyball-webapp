@@ -70,7 +70,7 @@ def tournaments(request):
 
 
 # Create
-@staff_member_required
+@staff_member_required(login_url='access')
 def create_tournament(request):
     title = "create"
     web_title = "Създаване на турнир"
@@ -122,7 +122,7 @@ def create_tournament(request):
 
 
 # Update
-@staff_member_required
+@staff_member_required(login_url='access')
 def edit_tournament(request, pk):
     title = "edit"
     web_title = "Редактиране на турнир"
@@ -198,7 +198,7 @@ def edit_tournament(request, pk):
 
 
 # Delete
-@staff_member_required
+@staff_member_required(login_url='access')
 def delete_tournament(request, pk):
     tournament = Tournament.objects.get(id=pk)
 

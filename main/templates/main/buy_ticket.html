@@ -161,7 +161,7 @@
                     }]
                 });
             },
-            // Call your server to finalize the transaction
+            
             onApprove: function (data, actions) {
                 return actions.order.capture().then(function (details) {
                     var form = document.querySelector('form');

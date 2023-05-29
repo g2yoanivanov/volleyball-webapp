@@ -62,7 +62,7 @@ def teams(request):
 
 
 # Create
-@staff_member_required
+@staff_member_required(login_url='access')
 def create_team(request):
     title = "create"
     web_title = "Създаване на отбор"
@@ -91,7 +91,7 @@ def create_team(request):
 
 
 # Update
-@staff_member_required
+@staff_member_required(login_url='access')
 def edit_team(request, pk):
     title = "edit"
     web_title = "Редактиране на отбор"
@@ -134,7 +134,7 @@ def edit_team(request, pk):
 
 
 # Delete
-@staff_member_required
+@staff_member_required(login_url='access')
 def delete_team(request, pk):
     team = Team.objects.get(id=pk)
 

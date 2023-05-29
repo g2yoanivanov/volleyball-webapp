@@ -7,7 +7,7 @@ from main.models import *
 from main.forms import *
 
 
-@staff_member_required
+@staff_member_required(login_url='access')
 def myadmin(request):
     return render(request, "main/admin_templates/myadmin.html")
 
@@ -28,7 +28,7 @@ def remove_staff(request, pk):
     return redirect("admin_users")
 
 
-@staff_member_required
+@staff_member_required(login_url='access')
 def admin_users(request):
     users = User.objects.all()
 
@@ -37,7 +37,7 @@ def admin_users(request):
     return render(request, "main/admin_templates/admin_users.html", context)
 
 
-@staff_member_required
+@staff_member_required(login_url='access')
 def admin_tournaments(request):
     tournaments = Tournament.objects.all()
 
@@ -46,7 +46,7 @@ def admin_tournaments(request):
     return render(request, "main/admin_templates/admin_tournaments.html", context)
 
 
-@staff_member_required
+@staff_member_required(login_url='access')
 def admin_matches(request):
     matches = Match.objects.all()
 
@@ -55,7 +55,7 @@ def admin_matches(request):
     return render(request, "main/admin_templates/admin_matches.html", context)
 
 
-@staff_member_required
+@staff_member_required(login_url='access')
 def admin_players(request):
     players = Player.objects.all()
 
@@ -64,7 +64,7 @@ def admin_players(request):
     return render(request, "main/admin_templates/admin_players.html", context)
 
 
-@staff_member_required
+@staff_member_required(login_url='access')
 def admin_teams(request):
     teams = Team.objects.all()
 
@@ -73,7 +73,7 @@ def admin_teams(request):
     return render(request, "main/admin_templates/admin_teams.html", context)
 
 
-@staff_member_required
+@staff_member_required(login_url='access')
 def admin_halls(request):
     halls = Hall.objects.all()
 
@@ -82,7 +82,7 @@ def admin_halls(request):
     return render(request, "main/admin_templates/admin_halls.html", context)
 
 
-@staff_member_required
+@staff_member_required(login_url='access')
 def admin_referees(request):
     referees = Referee.objects.all()
 
