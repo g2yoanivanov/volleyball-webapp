@@ -222,9 +222,8 @@ def completed(request, pk):
 
         send_email(email_title, email_body, user.email, ticket.qr_code.path, ticket)
 
-        return redirect("finished")
-    else:
-        return redirect("index")
+
+    return redirect("index")
 
 
 def finished(request):

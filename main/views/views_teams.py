@@ -72,7 +72,7 @@ def create_team(request):
         try:
             picture = request.FILES.get("picture")
 
-            Hall.objects.create(
+            Team.objects.create(
                 name=request.POST.get("name"),
                 coach=request.POST.get("coach"),
                 location=request.POST.get("location"),

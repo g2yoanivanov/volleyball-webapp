@@ -60,9 +60,12 @@
             <h5 class="">Зала: {{tournament.hall.name}}, {{tournament.hall.location}}</h5>
         </div>
         <div class="col-lg-3 d-flex align-items-center justify-content-start">
-            {% if tournament.opening_date > now %}
+            {% if tournament.closing_date > now %}
             <h5 class="text-bg"><small class="text-font mb-0">Откриване:</small>
                 {{tournament.opening_date|date:"d.m.Y"}}
+            </h5>
+            <h5 class="text-bg"><small class="text-font mb-0">Закриване:</small>
+                {{tournament.closing_date|date:"d.m.Y"}}
             </h5>
             {% else %}
             <h5 class="text-bg"><small class="text-font mb-0">Победител:</small>
