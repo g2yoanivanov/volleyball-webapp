@@ -21,36 +21,42 @@
 
                     <div class="d-flex justify-content-center my-2 row">
                         <div class="col-lg-6">
-                            {{form.first_name|as_crispy_field}}
+                            {{form.first_name.label}}
+                            {{form.first_name}}
                         </div>
                         <div class="col-lg-6">
-                            {{form.last_name|as_crispy_field}}
+                            {{form.last_name.label}}
+                            {{form.last_name}}
                         </div>
                     </div>
 
                     <div class="d-flex justify-content-center my-2 row">
                         <div class="col-lg-6">
-                            <label for="birth_date">Рождена дата*</label>
+                            <label for="birth_date">Рождена дата</label>
                             <input class="form-control bg-bg" type="date" required name="birth_date"
                                 value="{{player.birth_date|date:'Y-m-d'}}" min="1960-01-01" max="{{now|date:'Y-m-d'}}">
                         </div>
                         <div class="col-lg-6">
-                            {{form.height|as_crispy_field}}
+                            {{form.height.label}} (в метри)
+                            {{form.height}}
                         </div>
                     </div>
 
                     <div class="d-flex justify-content-center my-2 row">
                         <div class="col-lg-6">
-                            {{form.nationality|as_crispy_field}}
+                            {{form.nationality.label}}
+                            {{form.nationality}}
                         </div>
                         <div class="col-lg-6">
-                            {{form.photo|as_crispy_field}}
+                            {{form.photo.label}}
+                            {{form.photo}}
                         </div>
                     </div>
 
                     <div class="d-flex justify-content-center my-2 row">
                         <div class="col-lg-6">
-                            {{form.position|as_crispy_field}}
+                            {{form.position.label}}
+                            {{form.position}}
                         </div>
                         <div class="col-lg-6">
                             <label for="team_name">Отбор*</label>
@@ -64,7 +70,8 @@
                     </div>
 
                     <div>
-                        {{form.description|as_crispy_field}}
+                        {{form.description.label}}
+                        {{form.description}}
                     </div>
 
                     <div class="mt-3">

@@ -128,7 +128,7 @@ class PlayerForm(ModelForm):
             "birth_date": forms.DateInput(attrs={"class": "form-control bg-bg"}),
             "nationality": forms.TextInput(attrs={"class": "form-control bg-bg", "autocomplete": "off"}),
             "height": forms.NumberInput(attrs={"class": "form-control bg-bg", "min": "1", "max": "3", "autocomplete": "off"}),
-            "photo": forms.FileInput(attrs={"class": "form-control bg-bg"}),
+            "photo": forms.FileInput(attrs={"class": "form-control bg-bg", "required": True}),
             "description": forms.Textarea(attrs={"class": "form-control bg-bg", "autocomplete": "off"}),
         }
 

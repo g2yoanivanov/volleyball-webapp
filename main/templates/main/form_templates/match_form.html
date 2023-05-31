@@ -21,13 +21,13 @@
 
                     <div class="d-flex justify-content-center my-2 row">
                         <div class="col-lg-6">
-                            <label for="birth_date">Дата*</label>
+                            <label for="birth_date">Дата</label>
                             <input class="form-control bg-bg" type="datetime-local" required name="date"
                                 value="{{match.date|date:'Y-m-d\TH:i'}}" {% if title == "create" %}
                                 min="{{now|date:'Y-m-d\TH:i'}}" {% endif %} max="2027-12-31T23:59">
                         </div>
                         <div class="col-lg-6">
-                            <label for="tournament_name">Турнир*</label>
+                            <label for="tournament_name">Турнир</label>
                             <select name="tournament" id="tournament" class="form-control selectpicker" data-live-search="true"
                                 data-none-selected-text="Изберете турнир" data-style="bg-bg">
                                 {% for tournament in tournaments %}
@@ -39,7 +39,7 @@
 
                     <div class="d-flex justify-content-center my-2 row">
                         <div class="col-lg-6">
-                            <label for="team1_name">Отбор 1*</label>
+                            <label for="team1_name">Отбор 1</label>
                             <select name="team1" id="team1" class="form-control selectpicker" data-live-search="true"
                                 data-none-selected-text="Изберете отбор" data-style="bg-bg">
                                 {% for team in teams %}
@@ -49,7 +49,7 @@
                         </div>
 
                         <div class="col-lg-6">
-                            <label for="team2_name">Отбор 2*</label>
+                            <label for="team2_name">Отбор 2</label>
                             <select name="team2" id="team2" class="form-control selectpicker" data-live-search="true"
                                 data-none-selected-text="Изберете отбор" data-style="bg-bg">
                                 {% for team in teams %}
@@ -61,7 +61,7 @@
 
                     <div class="d-flex justify-content-center my-2 row">
                         <div class="col-lg-6">
-                            <label for="referee_name">Съдия*</label>
+                            <label for="referee_name">Съдия</label>
                             <select name="referee" class="form-control selectpicker" data-live-search="true"
                                 data-none-selected-text="Изберете отбор" data-style="bg-bg">
                                 {% for referee in referees %}
@@ -76,10 +76,12 @@
                     {% if title == 'edit' and now > match.date %}
                     <div class="d-flex justify-content-center my-2 row">
                         <div class="col-lg-6">
-                            {{form.team1_points|as_crispy_field}}
+                            {{form.team1_points.label}}
+                            {{form.team1_points}}
                         </div>
                         <div class="col-lg-6">
-                            {{form.team2_points|as_crispy_field}}
+                            {{form.team2_points.label}}
+                            {{form.team2_points}}
                         </div>
                     </div>
                     {% endif %}

@@ -21,30 +21,35 @@
 
                     <div class="d-flex justify-content-center my-2 row">
                         <div class="col-lg-6">
-                            {{form.name|as_crispy_field}}
+                            {{form.name.label}}
+                            {{form.name}}
                         </div>
                         <div class="col-lg-6">
-                            {{form.coach|as_crispy_field}}
+                            {{form.coach.label}}
+                            {{form.coach}}
                         </div>
                     </div>
 
                     <div class="d-flex justify-content-center my-2 row">
                         <div class="col-lg-6">
-                            <label for="founded_in">Дата на основаване*</label>
+                            <label for="founded_in">Дата на основаване</label>
                             <input class="form-control bg-bg" type="date" required name="founded_in"
                                 value="{{team.founded_in|date:'Y-m-d'}}" min="1800-01-01" max="{{now|date:'Y-m-d'}}">
                         </div>
                         <div class="col-lg-6">
-                            {{form.location|as_crispy_field}}
+                            {{form.location.label}}
+                            {{form.location}}
                         </div>
                     </div>
 
                     <div>
-                        {{form.picture|as_crispy_field}}
+                        {{form.picture.label}}
+                        {{form.picture}}
                     </div>
 
                     <div>
-                        {{form.description|as_crispy_field}}
+                        {{form.description.label}}
+                        {{form.description}}
                     </div>
 
                     <div class="mt-3">

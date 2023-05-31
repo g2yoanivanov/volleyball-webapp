@@ -21,19 +21,23 @@
 
                     <div class="d-flex justify-content-center my-2 row">
                         <div class="col-lg-6">
-                            {{form.name|as_crispy_field}}
+                            {{form.name.label}}
+                            {{form.name}}
                         </div>
                         <div class="col-lg-6">
-                            {{form.location|as_crispy_field}}
+                            {{form.location.label}}
+                            {{form.location}}
                         </div>
                     </div>
 
                     <div class="d-flex justify-content-center my-2 row">
                         <div class="col-lg-6">
-                            {{form.max_seats|as_crispy_field}}
+                            {{form.max_seats.label}}
+                            {{form.max_seats}}
                         </div>
                         <div class="col-lg-6">
-                            {{form.picture|as_crispy_field}}
+                            {{form.picture.label}}
+                            {{form.picture}}
                         </div>
                     </div>
 
